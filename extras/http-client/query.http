@@ -1,0 +1,135 @@
+### Suche mit vorhandener Kunde-ID als admin
+GRAPHQL {{baseUrl}}/graphql
+
+query {
+  kunde(id: "00000000-0000-0000-0000-000000000001") {
+    nachname
+  }
+}
+
+### Suche mit nicht-vorhandener Kunde-ID als admin
+GRAPHQL {{baseUrl}}/graphql
+
+query {
+  kunde(id: "ffffffff-ffff-ffff-ffff-ffffffffffff") {
+    nachname
+  }
+}
+
+### Suche mit vorhandener Kunde-ID als admin
+GRAPHQL {{baseUrl}}/graphql
+
+query {
+  kunde(id: "00000000-0000-0000-0000-000000000001") {
+    nachname
+    email
+    kategorie
+    hasNewsletter
+    geburtsdatum
+    homepage
+    geschlecht
+    familienstand
+    interessen
+    umsatz {
+      betrag
+      waehrung
+    }
+    adresse {
+      plz
+      ort
+    }
+  }
+}
+
+### Suche alle Kunden als admin
+GRAPHQL {{baseUrl}}/graphql
+
+query {
+  kunden {
+    id
+    nachname
+    kategorie
+    hasNewsletter
+    geburtsdatum
+    homepage
+    geschlecht
+    familienstand
+    interessen
+    umsatz {
+      betrag
+      waehrung
+    }
+    adresse {
+      plz
+      ort
+    }
+  }
+}
+
+### Suche Kunde mit der Emailadresse als admin
+GRAPHQL {{baseUrl}}/graphql
+
+query {
+  kunden(input: {email: "admin@acme.com"}) {
+    id
+    nachname
+    kategorie
+    hasNewsletter
+    geburtsdatum
+    homepage
+    geschlecht
+    familienstand
+    interessen
+    umsatz {
+      betrag
+      waehrung
+    }
+    adresse {
+      plz
+      ort
+    }
+  }
+}
+
+### Suche Kunde mit nicht-vorhandener Emailadresse als admin
+GRAPHQL {{baseUrl}}/graphql
+
+query {
+  kunden(input: {email: "nicht.vorhanden@acme.com"}) {
+    id
+  }
+}
+
+### Suche Kunden mit dem Nachnamen als admin
+GRAPHQL {{baseUrl}}/graphql
+
+query {
+  kunden(input: {nachname: "a"}) {
+    id
+    nachname
+    email
+    kategorie
+    hasNewsletter
+    geburtsdatum
+    homepage
+    geschlecht
+    familienstand
+    interessen
+    umsatz {
+      betrag
+      waehrung
+    }
+    adresse {
+      plz
+      ort
+    }
+  }
+}
+### Suche Kunden mit nicht-vorhandenem Nachnamen als admin
+GRAPHQL {{baseUrl}}/graphql
+
+query {
+  kunden(input: {nachname: "Nichtvorhanden"}) {
+    id
+  }
+}

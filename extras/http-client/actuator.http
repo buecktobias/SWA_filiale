@@ -1,0 +1,39 @@
+# https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html
+
+### Uebersicht
+GET {{baseUrl}}/actuator
+Authorization: Basic {{userAdmin}} {{password}}
+
+### Verwaltungs-Info
+GET {{baseUrl}}/actuator/info
+Authorization: Basic {{userAdmin}} {{password}}
+
+###  Mapping von HTTP-Requests, z.B.   GET && /
+GET {{baseUrl}}/actuator/mappings
+Authorization: Basic {{userAdmin}} {{password}}
+
+### Spring Beans
+GET {{baseUrl}}/actuator/beans
+Authorization: Basic {{userAdmin}} {{password}}
+
+### Umgebung und Properties
+GET {{baseUrl}}/actuator/env
+Authorization: Basic {{userAdmin}} {{password}}
+
+### Laeuft der Server in gutem Zustand ?
+GET {{baseUrl}}/actuator/health
+
+### Liveness
+GET {{baseUrl}}/actuator/health/liveness
+Authorization: Basic {{userAdmin}} {{password}}
+
+### Readiness
+GET {{baseUrl}}/actuator/health/readiness
+Authorization: Basic {{userAdmin}} {{password}}
+
+### Shutdown
+POST {{baseUrl}}/actuator/shutdown
+Authorization: Basic {{userAdmin}} {{password}}
+Content-Type: application/json
+
+###
