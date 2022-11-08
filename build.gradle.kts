@@ -198,7 +198,11 @@ dependencies {
     implementation(platform(libs.springBootBom))
     // spring-boot-starter-parent als "Parent POM"
     implementation(platform(libs.springdocOpenapiBom))
+    compileOnly("org.projectlombok:lombok:1.18.24");
+    annotationProcessor("org.projectlombok:lombok:1.18.24");
 
+    testCompileOnly("org.projectlombok:lombok:1.18.24");
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.24");
     // "Starters" enthalten sinnvolle Abhaengigkeiten, die man i.a. benoetigt
     // spring-boot-starter beinhaltet Spring Boot mit Actuator sowie spring-boot-starter-logging mit Logback
     implementation("org.springframework.boot:spring-boot-starter")
@@ -286,10 +290,10 @@ dependencies {
 // }
 
 sweeney {
-    enforce(mapOf("type" to "gradle", "expect" to "[7.6,7.6]"))
+    enforce(mapOf("type" to "gradle", "expect" to "[7.5,7.7]"))
     // https://www.java.com/releases
     // https://devcenter.heroku.com/articles/java-support#specifying-a-java-version
-    enforce(mapOf("type" to "jdk", "expect" to "[18.0.2,19]"))
+    enforce(mapOf("type" to "jdk", "expect" to "[17,19]"))
     validate()
 }
 
@@ -297,9 +301,9 @@ tasks.compileJava {
     // https://docs.gradle.org/current/dsl/org.gradle.api.tasks.compile.JavaCompile.html
     // https://docs.gradle.org/current/dsl/org.gradle.api.tasks.compile.CompileOptions.html
     // https://dzone.com/articles/gradle-goodness-enabling-preview-features-for-java
-    options.isDeprecation = true
-    options.compilerArgs.add("-Xlint:unchecked")
-    options.compilerArgs.add("--enable-preview")
+//    options.isDeprecation = true
+//    options.compilerArgs.add("-Xlint:unchecked")
+//    options.compilerArgs.add("--enable-preview")
     //options.compilerArgs.add("-Xlint:preview")
     // ohne sourceCompatiblity und targetCompatibility:
     //options.release.set(18)
@@ -355,7 +359,7 @@ tasks.named<BootBuildImage>("bootBuildImage") {
             // https://github.com/paketo-buildpacks/bellsoft-liberica/releases
             // https://paketo.io/docs/howto/java/#use-an-alternative-jvm
             // default: 11
-            "BP_JVM_VERSION" to "19.0.0",
+            "BP_JVM_VERSION" to "17.0.0",
             // https://github.com/paketo-buildpacks/bellsoft-liberica#configuration
             // https://github.com/paketo-buildpacks/spring-boot: Default=50 bei WebFlux statt 250
             // "BPL_JVM_THREAD_COUNT" to "250",

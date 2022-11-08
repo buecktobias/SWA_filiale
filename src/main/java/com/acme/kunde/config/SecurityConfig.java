@@ -16,9 +16,6 @@
  */
 package com.acme.kunde.config;
 
-import java.util.List;
-import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
-import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -26,11 +23,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import static com.acme.kunde.security.Rolle.ACTUATOR;
-import static com.acme.kunde.security.Rolle.ADMIN;
-import static com.acme.kunde.security.Rolle.KUNDE;
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
+
+import java.util.List;
+
+import static com.acme.kunde.security.Rolle.*;
 import static org.springframework.security.crypto.factory.PasswordEncoderFactories.createDelegatingPasswordEncoder;
 
 /**
@@ -51,14 +47,14 @@ interface SecurityConfig {
     default SecurityFilterChain securityWebFilterChainFn(final HttpSecurity http) throws Exception {
         return http
             .authorizeHttpRequests()
-            .requestMatchers(POST, "/").permitAll()
-            .requestMatchers(POST, "/graphql").permitAll()
-            .requestMatchers(GET, "/graphiql").permitAll()
-            .requestMatchers(POST, "/error").permitAll()
-            .requestMatchers("/", "/*").hasRole(ADMIN.name())
-            .requestMatchers(EndpointRequest.to(HealthEndpoint.class)).permitAll()
-            .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole(ACTUATOR.name())
-            .anyRequest().authenticated()
+//            .requestMatchers(POST, "/").permitAll()
+//            .requestMatchers(POST, "/graphql").permitAll()
+//            .requestMatchers(GET, "/graphiql").permitAll()
+//            .requestMatchers(POST, "/error").permitAll()
+//            .requestMatchers("/", "/*").hasRole(ADMIN.name())
+//            .requestMatchers(EndpointRequest.to(HealthEndpoint.class)).permitAll()
+//            .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole(ACTUATOR.name())
+//            .anyRequest().authenticated()
             .and()
             .httpBasic()
             .and()

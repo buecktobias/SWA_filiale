@@ -20,7 +20,6 @@ import com.acme.kunde.service.KundeReadService;
 import com.acme.kunde.service.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +53,6 @@ import static org.springframework.http.ResponseEntity.ok;
  */
 @RestController
 @RequestMapping("/")
-@Tag(name = "Kunde API")
 @RequiredArgsConstructor
 @Slf4j
 final class KundeGetController {

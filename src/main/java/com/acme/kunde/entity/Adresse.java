@@ -16,8 +16,6 @@
  */
 package com.acme.kunde.entity;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,8 +42,6 @@ public class Adresse {
      * @param plz Die Postleitzahl als String
      * @return Die Postleitzahl als String
      */
-    @NotEmpty
-    @Pattern(regexp = PLZ_PATTERN)
     private String plz;
 
     /**
@@ -53,6 +49,5 @@ public class Adresse {
      * @param ort Der Ort als String
      * @return Der Ort als String
      */
-    @NotEmpty
     private String ort;
 }
