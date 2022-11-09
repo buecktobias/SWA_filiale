@@ -2,7 +2,7 @@
 POST {{baseUrl}}
 Content-Type: application/json
 
-< data/kunde-neu.json
+< data/filiale-neu.json
 
 > {%
     client.test('Einen neuen Kunden anlegen: Created', () => {
@@ -29,7 +29,7 @@ Content-Type: application/json
 POST {{baseUrl}}
 Content-Type: application/json
 
-< data/kunde-neu-email-exists.json
+< data/filiale-neu-email-exists.json
 
 > {%
     client.test('Einen neuen Kunden mit bereits existierender Emailadresse anlegen: Unprocessable Entity (422)', () => {
@@ -54,7 +54,7 @@ Content-Type: application/json
 POST {{baseUrl}}
 Content-Type: application/json
 
-< data/kunde-neu-invalid.json
+< data/filiale-neu-invalid.json
 
 > {%
     client.test('Einen neuen Kunden mit ungueltigen Daten anlegen: Unprocessable Entity (422)', () => {
@@ -82,7 +82,7 @@ Content-Type: application/json
 POST {{baseUrl}}
 Content-Type: application/json
 
-< data/kunde-neu-invalid-types.json
+< data/filiale-neu-invalid-types.json
 
 > {%
     client.test('Einen neuen Kunden mit fehlerhaften Datentypen anlegen: Bad Request (400)', () => {

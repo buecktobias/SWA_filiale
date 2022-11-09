@@ -17,7 +17,7 @@
 package com.acme.filiale.service;
 
 import com.acme.filiale.entity.Adresse;
-import com.acme.filiale.entity.Kunde;
+import com.acme.filiale.entity.Filiale;
 import com.acme.filiale.entity.Umsatz;
 import com.acme.filiale.repository.FilialenRepository;
 import jakarta.validation.Validation;
@@ -97,7 +97,7 @@ class FilialeWriteServiceTest {
             .plz(args.get(5, String.class))
             .ort(args.get(6, String.class))
             .build();
-        final var kunde = Kunde
+        final var kunde = Filiale
             .builder()
             .id(null)
             .name(args.get(0, String.class))

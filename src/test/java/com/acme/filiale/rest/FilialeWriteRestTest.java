@@ -56,10 +56,10 @@ import static com.acme.filiale.rest.FilialeGetController.ID_PATTERN;
 import static com.acme.filiale.rest.patch.PatchOperationType.ADD;
 import static com.acme.filiale.rest.patch.PatchOperationType.REMOVE;
 import static com.acme.filiale.rest.patch.PatchOperationType.REPLACE;
-import static com.acme.filiale.rest.KundeGetRestTest.HOST;
-import static com.acme.filiale.rest.KundeGetRestTest.PASSWORD;
-import static com.acme.filiale.rest.KundeGetRestTest.SCHEMA;
-import static com.acme.filiale.rest.KundeGetRestTest.USER_ADMIN;
+import static com.acme.filiale.rest.FilialeGetRestTest.HOST;
+import static com.acme.filiale.rest.FilialeGetRestTest.PASSWORD;
+import static com.acme.filiale.rest.FilialeGetRestTest.SCHEMA;
+import static com.acme.filiale.rest.FilialeGetRestTest.USER_ADMIN;
 import static java.math.BigDecimal.ONE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.condition.JRE.JAVA_18;
@@ -80,7 +80,7 @@ import static org.springframework.web.reactive.function.client.ExchangeFilterFun
 @ActiveProfiles(DEV)
 @EnabledForJreRange(min = JAVA_18, max = JAVA_19)
 @SuppressWarnings("WriteTag")
-class KundeWriteRestTest {
+class FilialeWriteRestTest {
     private static final String ID_UPDATE_PUT = "00000000-0000-0000-0000-000000000030";
     private static final String ID_UPDATE_PATCH = "00000000-0000-0000-0000-000000000040";
     private static final String ID_DELETE = "00000000-0000-0000-0000-000000000050";
@@ -112,7 +112,7 @@ class KundeWriteRestTest {
     @InjectSoftAssertions
     private SoftAssertions softly;
 
-    KundeWriteRestTest(@LocalServerPort final int port, final ApplicationContext ctx) {
+    FilialeWriteRestTest(@LocalServerPort final int port, final ApplicationContext ctx) {
         final var writeController = ctx.getBean(FilialeWriteController.class);
         assertThat(writeController).isNotNull();
 

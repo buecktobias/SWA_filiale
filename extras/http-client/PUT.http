@@ -3,7 +3,7 @@ PUT {{baseUrl}}/00000000-0000-0000-0000-000000000030
 Content-Type: application/json
 Authorization: Basic {{userAdmin}} {{password}}
 
-< data/kunde-30-put.json
+< data/filiale-30-put.json
 
 > {%
     client.test('Einen Kunden mittels PUT aktualisieren: No Content (204)', () => {
@@ -22,7 +22,7 @@ PUT {{baseUrl}}/ffffffff-ffff-ffff-ffff-ffffffffffff
 Content-Type: application/json
 Authorization: Basic {{userAdmin}} {{password}}
 
-< data/kunde-30-put.json
+< data/filiale-30-put.json
 
 > {%
     client.test('Einen Kunden mittels PUT aktualisieren: Not Found (404)', () => {
@@ -41,7 +41,7 @@ PUT {{baseUrl}}/00000000-0000-0000-0000-000000000030
 Content-Type: application/json
 Authorization: Basic {{userAdmin}} {{password}}
 
-< data/kunde-30-put-email-exists.json
+< data/filiale-30-put-email-exists.json
 
 > {%
     client.test('Einen Kunden mittels PUT aktualisieren und Email existiert: Unprocessable Entity (422)', () => {
@@ -68,7 +68,7 @@ PUT {{baseUrl}}/00000000-0000-0000-0000-000000000030
 Content-Type: application/json
 Authorization: Basic {{userAdmin}} {{password}}
 
-< data/kunde-30-put-invalid.json
+< data/filiale-30-put-invalid.json
 
 > {%
     client.test('Einen Kunden mittels PUT und ungueltigen Daten aktualisieren: Unprocessable Entity (422)', () => {

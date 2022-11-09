@@ -18,21 +18,11 @@ package com.acme.filiale.entity;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.hibernate.validator.constraints.UniqueElements;
+import lombok.*;
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -48,7 +38,7 @@ import java.util.UUID;
 @Setter
 @ToString
 @SuppressWarnings({"ClassFanOutComplexity", "JavadocDeclaration", "RequireEmptyLineBeforeBlockTagGroup"})
-public class Kunde {
+public class Filiale {
     /**
      * Kleinster Wert für eine Kategorie.
      */
@@ -61,6 +51,7 @@ public class Kunde {
 
     /**
      * Die ID der Filiale
+     *
      * @param id Die ID.
      * @return Die ID.
      */
@@ -69,6 +60,7 @@ public class Kunde {
 
     /**
      * Der Name der Filiale.
+     *
      * @param nachname Der Name.
      * @return Der Name.
      */
@@ -77,6 +69,7 @@ public class Kunde {
 
     /**
      * Die Emailadresse der Filiale.
+     *
      * @param email Die Emailadresse.
      * @return Die Emailadresse.
      */
@@ -85,12 +78,14 @@ public class Kunde {
     private String email;
     /**
      * Die URL zur Homepage der Filiale.
+     *
      * @param homepage Die URL zur Homepage.
      * @return Die URL zur Homepage.
      */
     private URL homepage;
     /**
      * Der Umsatz der Filiale.
+     *
      * @param umsatz Der Umsatz.
      * @return Der Umsatz.
      */
@@ -99,6 +94,7 @@ public class Kunde {
 
     /**
      * Die Adresse der Filiale.
+     *
      * @param adresse Die Adresse.
      * @return Die Adresse.
      */

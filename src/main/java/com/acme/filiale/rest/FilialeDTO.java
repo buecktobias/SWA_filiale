@@ -17,7 +17,7 @@
 package com.acme.filiale.rest;
 
 import com.acme.filiale.entity.Adresse;
-import com.acme.filiale.entity.Kunde;
+import com.acme.filiale.entity.Filiale;
 import com.acme.filiale.entity.Umsatz;
 import java.net.URL;
 
@@ -44,8 +44,8 @@ record FilialeDTO(
      *
      * @return Kundeobjekt für den Anwendungskern
      */
-    Kunde toKunde() {
-        return Kunde
+    Filiale toKunde() {
+        return Filiale
             .builder()
             .id(null)
             .name(name)

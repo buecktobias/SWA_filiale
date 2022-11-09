@@ -16,7 +16,7 @@
  */
 package com.acme.filiale.service;
 
-import com.acme.filiale.entity.Kunde;
+import com.acme.filiale.entity.Filiale;
 import com.acme.filiale.repository.FilialenRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.Validator;
@@ -45,25 +45,25 @@ public final class FilialeWriteService {
     /**
      * Einen neuen Kunden anlegen.
      *
-     * @param kunde Das Objekt des neu anzulegenden Kunden.
+     * @param filiale Das Objekt des neu anzulegenden Kunden.
      * @return Der neu angelegte Kunden mit generierter ID
      * @throws ConstraintViolationsException Falls mindestens ein Constraint verletzt ist.
      * @throws EmailExistsException Es gibt bereits einen Kunden mit der Emailadresse.
      */
-    public Kunde create(@Valid final Kunde kunde) {
-        log.debug("create: {}", kunde);
+    public Filiale create(@Valid final Filiale filiale) {
+        log.debug("create: {}", filiale);
 
-        final var violations = validator.validate(kunde);
+        final var violations = validator.validate(filiale);
         if (!violations.isEmpty()) {
             log.debug("create: violations={}", violations);
             throw new ConstraintViolationsException(violations);
         }
 
-        if (repo.isEmailExisting(kunde.getEmail())) {
-            throw new EmailExistsException(kunde.getEmail());
+        if (repo.isEmailExisting(filiale.getEmail())) {
+            throw new EmailExistsException(filiale.getEmail());
         }
 
-        final var kundeDB = repo.create(kunde);
+        final var kundeDB = repo.create(filiale);
         log.debug("create: {}", kundeDB);
         return kundeDB;
     }
@@ -71,17 +71,17 @@ public final class FilialeWriteService {
     /**
      * Einen vorhandenen Kunden aktualisieren.
      *
-     * @param kunde Das Objekt mit den neuen Daten (ohne ID)
+     * @param filiale Das Objekt mit den neuen Daten (ohne ID)
      * @param id ID des zu aktualisierenden Kunden
      * @throws ConstraintViolationsException Falls mindestens ein Constraint verletzt ist.
      * @throws NotFoundException Kein Kunde zur ID vorhanden.
      * @throws EmailExistsException Es gibt bereits einen Kunden mit der Emailadresse.
      */
-    public void update(final Kunde kunde, final UUID id) {
-        log.debug("update: {}", kunde);
+    public void update(final Filiale filiale, final UUID id) {
+        log.debug("update: {}", filiale);
         log.debug("update: id={}", id);
 
-        final var violations = validator.validate(kunde);
+        final var violations = validator.validate(filiale);
         if (!violations.isEmpty()) {
             log.debug("update: violations={}", violations);
             throw new ConstraintViolationsException(violations);
@@ -92,7 +92,7 @@ public final class FilialeWriteService {
             throw new NotFoundException(id);
         }
 
-        final var email = kunde.getEmail();
+        final var email = filiale.getEmail();
         final var kundeDb = kundeDbOptional.get();
         // Ist die neue Email bei einem *ANDEREN* Kunden vorhanden?
         if (!Objects.equals(email, kundeDb.getEmail()) && repo.isEmailExisting(email)) {
@@ -100,8 +100,8 @@ public final class FilialeWriteService {
             throw new EmailExistsException(email);
         }
 
-        kunde.setId(id);
-        repo.update(kunde);
+        filiale.setId(id);
+        repo.update(filiale);
     }
 
     /**

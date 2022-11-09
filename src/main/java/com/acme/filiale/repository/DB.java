@@ -17,7 +17,7 @@
 package com.acme.filiale.repository;
 
 import com.acme.filiale.entity.Adresse;
-import com.acme.filiale.entity.Kunde;
+import com.acme.filiale.entity.Filiale;
 import com.acme.filiale.entity.Umsatz;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
@@ -52,19 +52,19 @@ final class DB {
      * Liste der Kunden zur Emulation der DB.
      */
     @SuppressWarnings("StaticCollection")
-    static final List<Kunde> KUNDEN = getKunden();
+    static final List<Filiale> KUNDEN = getKunden();
 
     private DB() {
     }
 
     @SneakyThrows(MalformedURLException.class)
     @SuppressWarnings({"FeatureEnvy", "TrailingComment"})
-    private static List<Kunde> getKunden() {
+    private static List<Filiale> getKunden() {
         final var currencyGermany = Currency.getInstance(GERMANY);
         // Helper-Methoden ab Java 9: List.of(), Set.of, Map.of, Stream.of
         return Stream.of(
             // admin
-            Kunde.builder()
+            Filiale.builder()
                 .id(UUID.fromString("00000000-0000-0000-0000-000000000000"))
                 .name("Admin")
                 .email("admin@acme.com")
@@ -79,7 +79,7 @@ final class DB {
                 .adresse(Adresse.builder().plz("00000").ort("Aachen").build())
                 .build(),
             // HTTP GET
-            Kunde.builder()
+            Filiale.builder()
                 .id(UUID.fromString("00000000-0000-0000-0000-000000000001"))
                 .name("Alpha") //NOSONAR
                 .email("alpha@acme.de")
@@ -93,7 +93,7 @@ final class DB {
                 .interessen(List.of(SPORT, LESEN))
                 .adresse(Adresse.builder().plz("11111").ort("Augsburg").build())
                 .build(),
-            Kunde.builder()
+            Filiale.builder()
                 .id(UUID.fromString("00000000-0000-0000-0000-000000000002"))
                 .name("Alpha")
                 .email("alpha@acme.edu")
@@ -108,7 +108,7 @@ final class DB {
                 .adresse(Adresse.builder().plz("22222").ort("Aalen").build())
                 .build(),
             // HTTP PUT
-            Kunde.builder()
+            Filiale.builder()
                 .id(UUID.fromString("00000000-0000-0000-0000-000000000030"))
                 .name("Alpha")
                 .email("alpha@acme.ch")
@@ -123,7 +123,7 @@ final class DB {
                 .adresse(Adresse.builder().plz("33333").ort("Ahlen").build())
                 .build(),
             // HTTP PATCH
-            Kunde.builder()
+            Filiale.builder()
                 .id(UUID.fromString("00000000-0000-0000-0000-000000000040"))
                 .name("Delta")
                 .email("delta@acme.uk")
@@ -138,7 +138,7 @@ final class DB {
                 .adresse(Adresse.builder().plz("44444").ort("Dortmund").build())
                 .build(),
             // HTTP DELETE
-            Kunde.builder()
+            Filiale.builder()
                 .id(UUID.fromString("00000000-0000-0000-0000-000000000050"))
                 .name("Epsilon")
                 .email("epsilon@acme.jp")
@@ -153,7 +153,7 @@ final class DB {
                 .adresse(Adresse.builder().plz("55555").ort("Essen").build())
                 .build(),
             // zur freien Verfuegung
-            Kunde.builder()
+            Filiale.builder()
                 .id(UUID.fromString("00000000-0000-0000-0000-000000000060"))
                 .name("Phi")
                 .email("phi@acme.cn")

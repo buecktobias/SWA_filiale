@@ -20,7 +20,7 @@ actor Gast
 actor Kunde
 actor Admin
 
-rectangle kunde {
+rectangle filiale {
     Gast --> (registrieren)
     Kunde --> (Kunde suchen)
     Kunde --> (Kunde ändern)

@@ -16,7 +16,7 @@
  */
 package com.acme.filiale.service;
 
-import com.acme.filiale.entity.Kunde;
+import com.acme.filiale.entity.Filiale;
 import com.acme.filiale.repository.FilialenRepository;
 import java.util.Collections;
 import java.util.Map;
@@ -47,7 +47,7 @@ import static org.junit.jupiter.api.parallel.ExecutionMode.CONCURRENT;
 @EnabledForJreRange(min = JAVA_18, max = JAVA_19)
 @ExtendWith(SoftAssertionsExtension.class)
 @SuppressWarnings("WriteTag")
-class KundeReadServiceTest {
+class FilialeReadServiceTest {
     private static final String ID_VORHANDEN = "00000000-0000-0000-0000-000000000001";
     private static final String ID_NICHT_VORHANDEN = "ffffffff-ffff-ffff-ffff-ffffffffffff";
     private static final String NACHNAME = "Alpha";
@@ -95,7 +95,7 @@ class KundeReadServiceTest {
         // then
         softly.assertThat(kunden).isNotEmpty();
         kunden.stream()
-            .map(Kunde::getName)
+            .map(Filiale::getName)
             .forEach(nachnameTmp -> softly.assertThat(nachnameTmp).isEqualTo(nachname));
     }
 

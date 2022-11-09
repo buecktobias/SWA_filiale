@@ -36,7 +36,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.reactive.function.client.WebClient;
 import static com.acme.filiale.config.dev.DevConfig.DEV;
 import static com.acme.filiale.entity.Adresse.PLZ_PATTERN;
-import static com.acme.filiale.entity.Kunde.NACHNAME_PATTERN;
+import static com.acme.filiale.entity.Filiale.NACHNAME_PATTERN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.condition.JRE.JAVA_18;
 import static org.junit.jupiter.api.condition.JRE.JAVA_19;
@@ -51,7 +51,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @ActiveProfiles(DEV)
 @EnabledForJreRange(min = JAVA_18, max = JAVA_19)
 @SuppressWarnings({"WriteTag", "MissingJavadoc"})
-class KundeQueryTest {
+class FilialeQueryTest {
     static final String SCHEMA = "http";
     static final String HOST = "localhost";
     static final String ID_PATTERN =
@@ -62,7 +62,7 @@ class KundeQueryTest {
     @InjectSoftAssertions
     private SoftAssertions softly;
 
-    KundeQueryTest(@LocalServerPort final int port, final ApplicationContext ctx) {
+    FilialeQueryTest(@LocalServerPort final int port, final ApplicationContext ctx) {
         final var getController = ctx.getBean(KundeQueryController.class);
         assertThat(getController).isNotNull();
 
@@ -251,7 +251,7 @@ class KundeQueryTest {
             // given
             final var query = """
                 {
-                    kunde(id: "00000000-0000-0000-0000-000000000001") {
+                    filiale(id: "00000000-0000-0000-0000-000000000001") {
                         nachname
                         email
                         adresse {
@@ -272,17 +272,17 @@ class KundeQueryTest {
             softly.assertThat(response.isValid()).isTrue();
             softly.assertThat(response.getErrors()).isEmpty();
 
-            final var nachname = response.field("kunde.nachname").toEntity(String.class);
+            final var nachname = response.field("filiale.nachname").toEntity(String.class);
             softly.assertThat(nachname)
                 .isNotEmpty()
                 .matches(NACHNAME_PATTERN);
 
-            final var email = response.field("kunde.email").toEntity(String.class);
+            final var email = response.field("filiale.email").toEntity(String.class);
             softly.assertThat(email)
                 .isNotEmpty()
                 .contains("@");
 
-            final var plz = response.field("kunde.adresse.plz").toEntity(String.class);
+            final var plz = response.field("filiale.adresse.plz").toEntity(String.class);
             softly.assertThat(plz)
                 .isNotEmpty()
                 .matches(PLZ_PATTERN);
@@ -294,7 +294,7 @@ class KundeQueryTest {
             // given
             final var query = """
                 {
-                    kunde(id: "ffffffff-ffff-ffff-ffff-ffffffffffff") {
+                    filiale(id: "ffffffff-ffff-ffff-ffff-ffffffffffff") {
                         nachname
                     }
                 }

@@ -17,7 +17,7 @@
 package com.acme.filiale.rest;
 
 import com.acme.filiale.entity.Adresse;
-import com.acme.filiale.entity.Kunde;
+import com.acme.filiale.entity.Filiale;
 import com.acme.filiale.entity.Umsatz;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.EqualsAndHashCode;
@@ -54,11 +54,11 @@ final class FilialenModel extends RepresentationModel<FilialenModel> {
     private final Umsatz umsatz;
     private final Adresse adresse;
 
-    FilialenModel(final Kunde kunde) {
-        name = kunde.getName();
-        email = kunde.getEmail();
-        homepage = kunde.getHomepage();
-        umsatz = kunde.getUmsatz();
-        adresse = kunde.getAdresse();
+    FilialenModel(final Filiale filiale) {
+        name = filiale.getName();
+        email = filiale.getEmail();
+        homepage = filiale.getHomepage();
+        umsatz = filiale.getUmsatz();
+        adresse = filiale.getAdresse();
     }
 }

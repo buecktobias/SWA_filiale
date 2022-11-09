@@ -16,7 +16,7 @@
  */
 package com.acme.filiale.service;
 
-import com.acme.filiale.entity.Kunde;
+import com.acme.filiale.entity.Filiale;
 import jakarta.validation.ConstraintViolation;
 import java.util.Collection;
 import lombok.Getter;
@@ -31,11 +31,11 @@ public class ConstraintViolationsException extends RuntimeException {
     /**
      * Die verletzten Constraints.
      */
-    private final Collection<ConstraintViolation<Kunde>> violations;
+    private final Collection<ConstraintViolation<Filiale>> violations;
 
     ConstraintViolationsException(
         @SuppressWarnings("ParameterHidesMemberVariable")
-        final Collection<ConstraintViolation<Kunde>> violations
+        final Collection<ConstraintViolation<Filiale>> violations
     ) {
         super("Constraints sind verletzt");
         this.violations = violations;

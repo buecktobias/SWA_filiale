@@ -217,7 +217,7 @@ Eine weitverbreitete Namenskonvention für ein Docker-Image ist
 Docker-Image mit folgendem Kommando erstellen.
 
 ```powershell
-    docker buildx build --tag juergenzimmermann/kunde:1.0.0-dockerfile .
+    docker buildx build --tag juergenzimmermann/filiale:1.0.0-dockerfile .
 ```
 
 Wenn das Image gebaut wird, kann ggf. noch die Option `--no-cache` angegeben
@@ -263,16 +263,16 @@ nachfolgende Kommando aufruft:
       --env TZ=Europe/Berlin `
       --env SPRING_PROFILES_ACTIVE=dev `
       --env APPLICATION_LOGLEVEL=trace `
-      --mount 'type=bind,source=C:\Zimmermann\volumes\kunde-v1,destination=/tmp' `
-      --memory 1024m --cpus 1 --hostname kunde `
-      --name kunde --rm juergenzimmermann/kunde:1.0.0-dockerfile
+      --mount 'type=bind,source=C:\Zimmermann\volumes\filiale-v1,destination=/tmp' `
+      --memory 1024m --cpus 1 --hostname filiale `
+      --name filiale --rm juergenzimmermann/filiale:1.0.0-dockerfile
 ```
 
 Jetzt läuft der Microservice als Docker-Container mit `HTTPS`, wobei auch der
-Container-interne Port 8080 des Microservice "kunde" als Port 8080 für
+Container-interne Port 8080 des Microservice "filiale" als Port 8080 für
 localhost freigegeben wurde. Die Log-Datei `application.log` befindet sich im
 Container im Verzeichnis `/tmp`, das durch Mounting im
-Windows-Verzeichnis `C:\Zimmermann\volumes\kunde-v1` zugreifbar ist.
+Windows-Verzeichnis `C:\Zimmermann\volumes\filiale-v1` zugreifbar ist.
 
 Mit dem _HTTP Client_ von IntelliJ IDEA können nun HTTP-Requests (GET, POST,
 PUT, PATCH, DELETE) abgeschickt werden.
@@ -294,7 +294,7 @@ weiteren PowerShell herunterfahren:
     docker compose up
 
     # In einer 2. PowerShell:
-    docker compose exec kunde bash
+    docker compose exec filiale bash
         ps -ef
         env
         ls -l /layers
@@ -308,7 +308,7 @@ Statt eine PowerShell zu verwenden, kann man Docker Compose auch direkt in
 IntelliJ aufrufen, indem man über das Kontextmenü ("rechte Maustaste") den
 Unterpunkt _Run 'docker-compose.yaml:...'_ aufruft. Im Tool-Window _Services_
 sieht man dann unterhalb von _Docker_ den Eintrag _Docker-compose: kunde_ mit
-dem Service _kunde_. Sobald man `/kunde` auswählt, kann man Folgendes inspizieren:
+dem Service _kunde_. Sobald man `/filiale` auswählt, kann man Folgendes inspizieren:
 - Log
 - Properties
 - Environment Variables
@@ -332,7 +332,7 @@ Während der Task `bootBuildImage` werden für die "Buildpacks" von Paketo
 Docker-Images und auch einige Archive von Github heruntergeladen.
 
 Mit dem folgenden Kommando kann man dann einen Docker-Container mit dem Image
-`juergenzimmermann/kunde` starten (s.o.).
+`juergenzimmermann/filiale` starten (s.o.).
 
 ```powershell
     cd extras
@@ -351,7 +351,7 @@ Image konfiguriert und aufgebaut ist. Die Ausgabe erfolgt im Format `JSON`,
 z.B.:
 
 ```powershell
-    docker inspect juergenzimmermann/kunde:1.0.0
+    docker inspect juergenzimmermann/filiale:1.0.0
 ```
 
 #### pack inspect
@@ -360,7 +360,7 @@ Wenn ein Docker-Image mit Buildpacks gebaut wurde, kann man mit folgendem
 Kommando inspizieren, mit welchen Software-Paketen es gebaut wurde:
 
 ```PowerSkell
-    pack inspect juergenzimmermann/kunde:1.0.0
+    pack inspect juergenzimmermann/filiale:1.0.0
 ```
 
 #### dive
@@ -369,7 +369,7 @@ Mit _dive_ kann man ein Docker-Image und die einzelnen Layer inspizieren, z.B.:
 
 ```powershell
     cd \Zimmermann\dive
-    .\dive juergenzimmermann/kunde:1.0.0
+    .\dive juergenzimmermann/filiale:1.0.0
 ```
 
 #### Tool Window "Services" von IntelliJ IDEA
@@ -384,14 +384,14 @@ Mit `docker save` kann man ein Docker Image im Format `tar` abspeichern und
 dann ggf. kopieren:
 
 ```powershell
-    docker save juergenzimmermann/kunde:1.0.0 > kunde.tar
+    docker save juergenzimmermann/filiale:1.0.0 > filiale.tar
 ```
 
 Mit `docker load` kann man anschließend ein Image aus dem Format `tar`
 wiederherstellen:
 
 ```powershell
-    docker load < kunde.tar
+    docker load < filiale.tar
 ```
 
 ---
@@ -401,7 +401,7 @@ wiederherstellen:
 ### WICHTIG: Schreibrechte für die Logdatei
 
 Wenn die Anwendung in Kubernetes läuft, ist die Log-Datei `application.log` im
-Verzeichnis `C:\Zimmermann\volumes\kunde-v1`. Das bedeutet auch zwangsläufig,
+Verzeichnis `C:\Zimmermann\volumes\filiale-v1`. Das bedeutet auch zwangsläufig,
 dass diese Datei durch den _Linux-User_ vom (Kubernetes-) Pod angelegt und
 geschrieben wird, wozu die erforderlichen Berechtigungen in Windows gegeben
 sein müssen.
@@ -470,7 +470,7 @@ bzw. Konfigurationsdatei für _Configmap_, _Service_ und _Deployment_ ist
 Die Installation in Kubernetes erfolgt durch das nachfolgende Kommando, sodass
 der Microservice dann innerhalb von Kubernetes mit `HTTPS` läuft. Dabei wird
 die Logdatei im internen Verzeichnis `/var/log/spring` angelegt, welches  durch
-_Mounting_ dem Windows-Verzeichnis `C:\Zimmermann\volumes\kunde-v1` entspricht
+_Mounting_ dem Windows-Verzeichnis `C:\Zimmermann\volumes\filiale-v1` entspricht
 und mit _Schreibberechtigung_ existieren muss, z.B. für die  Benutzergruppen
 `Authentifizierte Benutzer` und `Benutzer`.
 
@@ -496,7 +496,7 @@ Wenn weitere Replica-Server im laufenden Betrieb erforderlich sind, kann man
 das Deployment folgendermaßen skalieren:
 
 ```powershell
-    kubectl scale deployment/kunde-v1 --replicas 2 --namespace acme
+    kubectl scale deployment/filiale-v1 --replicas 2 --namespace acme
 ```
 
 ### Deinstallieren des Microservice
@@ -524,14 +524,14 @@ ein Docker-Image erstellen:
     .\gradlew bootBuildImage
 ```
 
-Das _Helm-Chart_ heißt `kunde` und ist deshalb in einem gleichnamigen Verzeichnis,
+Das _Helm-Chart_ heißt `filiale` und ist deshalb in einem gleichnamigen Verzeichnis,
 das zur besseren Strukturierung unterhalb von `extras` ist. Die Metadaten sind
 in der Datei `Chart.yaml` und die einzelnen Manifest-Dateien sind im
 Unterverzeichis `templates` im Format YAML. In diesen Dateien gibt es Platzhalter
 ("templates") mit der Syntax der Programmiersprache Go. Die Defaultwerte für diese
 Platzhalter sind in der Datei `values.yaml` und können beim Installieren
 durch weitere YAML-Dateien überschrieben werden. Im unten stehenden Beispiel
-wird so ein _Helm-Service_ mit dem _Release-Namen_ `kunde` mit dem Helm-Chart aus dem
+wird so ein _Helm-Service_ mit dem _Release-Namen_ `filiale` mit dem Helm-Chart aus dem
 aktuellen Verzeicnis in Kubernetes installiert. Dabei muss die Umgebungsvariable
 `HELM_NAMESPACE` auf den Wert `acme` gesetzt sein.
 
@@ -539,15 +539,15 @@ aktuellen Verzeicnis in Kubernetes installiert. Dabei muss die Umgebungsvariable
     # Ueberpruefen, ob die Umgebungsvariable HELM_NAMESPACE gesetzt ist:
     Write-Output $env:HELM_NAMESPACE
 
-    cd extras\kunde
+    cd extras\filiale
     helm lint --strict .
     helm-docs
 
     # einfacher: helmfile oder Skaffold (s.u.)
-    helm install kunde . -f values.yaml -f dev.yaml --dry-run
-    helm install kunde . -f values.yaml -f dev.yaml
+    helm install filiale . -f values.yaml -f dev.yaml --dry-run
+    helm install filiale . -f values.yaml -f dev.yaml
     helm list
-    helm status kunde
+    helm status filiale
 ```
 
 Die Option `--dry-run` bewirkt, dass keine Installation durchgeführt wird, sondern
@@ -556,14 +556,14 @@ enthalten ist.
 
 Das Deployment ist dabei so realisiert, dass `TLS` und `HTTP2` zur Vereinfachung
 deaktiviert sind. Außerdem wird die Logdatei im internen Verzeichnis `/tmp` angelegt,
-welches durch _Mounting_ dem Windows-Verzeichnis `C:\Zimmermann\volumes\kunde-v1`
+welches durch _Mounting_ dem Windows-Verzeichnis `C:\Zimmermann\volumes\filiale-v1`
 entspricht und mit _Schreibberechtigung_ existieren muss.
 
 Später kann das Helm-Chart mit dem Release-Namen _kunde_ auch deinstalliert werden:
 
 ```powershell
-    cd extras\kunde
-    helm uninstall kunde
+    cd extras\filiale
+    helm uninstall filiale
 ```
 
 ### Installation mit helmfile und Port Forwarding
@@ -572,9 +572,9 @@ Später kann das Helm-Chart mit dem Release-Namen _kunde_ auch deinstalliert wer
     helmfile apply
 
     helm list
-    helm status kunde
+    helm status filiale
 
-    kubectl describe svc/kunde -n acme
+    kubectl describe svc/filiale -n acme
     # in Lens: Network > Endpoints
     kubectl get ep -n acme
 
@@ -598,7 +598,7 @@ Name _kunde_ aufgerufen wird. Alternativ kann auch das Skript `port-forward.ps1`
 aufgerufen werden.
 
 ```powershell
-    kubectl port-forward svc/kunde 8080 -n acme
+    kubectl port-forward svc/filiale 8080 -n acme
 ```
 
 Nach dem Port-Forwarding kann man z.B. mit dem _HTTP Client_ von IntelliJ auf
@@ -623,12 +623,12 @@ Mit _cURL_ lautet der Aufruf:
 
 Ein _Ingress Controller_ ist zuständig für das _Traffic Management_ bzw. Routing
 der eingehenden Requests zu den Kubernetes Services. Ein solcher Ingress Controller
-wurde durch `extras\kunde\templates\ingress.yaml` installiert und kann von
+wurde durch `extras\filiale\templates\ingress.yaml` installiert und kann von
 außen z.B. folgendermaßen aufgerufen werden, falls der eigentliche Kommunikationsendpunkt
 in Kubernetes verfügbar ist.
 
 ```powershell
-    # ca. 2. Min. warten, bis der Endpoint bei kunde verfuegbar ist (in Lens: Network > Endpoints)
+    # ca. 2. Min. warten, bis der Endpoint bei filiale verfuegbar ist (in Lens: Network > Endpoints)
     kubectl get ep -n acme
 
     $secpasswd = ConvertTo-SecureString p -AsPlainText -Force
@@ -643,7 +643,7 @@ in Kubernetes verfügbar ist.
 
     # GraphQL mit Invoke-WebRequest:
     $response = Invoke-WebRequest https://kubernetes.docker.internal/kunden/graphql `
-        -Method Post -Body '{"query": "query { kunde(id: \"00000000-0000-0000-0000-000000000001\") { nachname } }"}' `
+        -Method Post -Body '{"query": "query { filiale(id: \"00000000-0000-0000-0000-000000000001\") { nachname } }"}' `
         -ContentType 'application/json' `
         -SslProtocol Tls13 -HttpVersion 2 -SkipCertificateCheck `
         -Authentication Basic -Credential $credential
@@ -653,7 +653,7 @@ in Kubernetes verfügbar ist.
     curl --verbose --user admin:p --tlsv1.3 --http2 --insecure https://kubernetes.docker.internal/kunden/00000000-0000-0000-0000-000000000001
 
     # GraphQL mit cURL:
-    curl --verbose --data '{"query": "query { kunde(id: \"00000000-0000-0000-0000-000000000001\") { nachname } }"}' `
+    curl --verbose --data '{"query": "query { filiale(id: \"00000000-0000-0000-0000-000000000001\") { nachname } }"}' `
         --header 'Content-Type: application/json' `
         --tlsv1.3 --insecure `
         --user admin:p `
@@ -686,9 +686,9 @@ Das Deployment wird mit Skaffold nun folgendermaßen durchgeführt und kann mit
     skaffold dev
 
     helm list
-    helm status kunde
+    helm status filiale
 
-    kubectl describe svc/kunde -n acme
+    kubectl describe svc/filiale -n acme
     # in Lens: Network > Endpoints
     kubectl get ep -n acme
 
@@ -696,7 +696,7 @@ Das Deployment wird mit Skaffold nun folgendermaßen durchgeführt und kann mit
     skaffold delete
 ```
 
-Bis der Endpoint für den Service "kunde" verfügbar ist, muss man ggf. ein
+Bis der Endpoint für den Service "filiale" verfügbar ist, muss man ggf. ein
 bisschen warten. Aufgrund der Einstellungen für _Liveness_ und _Readiness_
 kann es einige Minuten dauern, bis in der PowerShell angezeigt wird, dass die
 Installation erfolgreich war. Mit [Lens](#Lens) oder [Octant](#Octant) kann man
@@ -791,7 +791,7 @@ kann man das _Services Tool Window_ öffnen. Dort sieht man den Eintrag für
 _docker-desktop_ und kann über das Icon _Namespace_ am linken Rand vom
 Default-Namespace auf den Namespace "acme" umschalten. Danach kann man über
 die Unterpunkte _Workloads_ und _Pods_ zu einem laufenden Pod, z.B.
-`kunde-1234567890-12345`, navigieren und diesen mit der linken Maustaste
+`filiale-1234567890-12345`, navigieren und diesen mit der linken Maustaste
 selektieren. Nun kann man z.B. über die Icons _Download Log_ oder _Run Shell_
 die Log-Einträge inspizieren oder eine Shell öffnen. Alternativ kann man beim
 Pod auch das Kontextmenü bzw. die rechte Maustaste benutzen.

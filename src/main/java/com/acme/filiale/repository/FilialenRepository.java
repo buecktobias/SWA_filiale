@@ -16,7 +16,7 @@
  */
 package com.acme.filiale.repository;
 
-import com.acme.filiale.entity.Kunde;
+import com.acme.filiale.entity.Filiale;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -50,7 +50,7 @@ public final class FilialenRepository {
      * @param id Die Id der gesuchten Filiale
      * @return Optional mit der gefundenen Filiale oder leeres Optional
      */
-    public Optional<Kunde> findById(final UUID id) {
+    public Optional<Filiale> findById(final UUID id) {
         log.debug("findById: id={}", id);
         final var result = KUNDEN.stream()
             .filter(kunde -> Objects.equals(kunde.getId(), id))
@@ -67,7 +67,7 @@ public final class FilialenRepository {
      * @return Gefundene Kunden oder leere Collection.
      */
     @SuppressWarnings({"ReturnCount", "JavadocLinkAsPlainText"})
-    public @NonNull Collection<Kunde> find(final Map<String, String> suchkriterien) {
+    public @NonNull Collection<Filiale> find(final Map<String, String> suchkriterien) {
         log.debug("find: suchkriterien={}", suchkriterien);
 
         if (suchkriterien.isEmpty()) {
@@ -97,7 +97,7 @@ public final class FilialenRepository {
      *
      * @return Alle Kunden
      */
-    public @NonNull Collection<Kunde> findAll() {
+    public @NonNull Collection<Filiale> findAll() {
         return KUNDEN;
     }
 
@@ -107,7 +107,7 @@ public final class FilialenRepository {
      * @param email Emailadresse für die Suche
      * @return Gefundener Kunde oder leeres Optional
      */
-    public Optional<Kunde> findByEmail(final String email) {
+    public Optional<Filiale> findByEmail(final String email) {
         log.debug("findByEmail: {}", email);
         final var result = KUNDEN.stream()
             .filter(kunde -> Objects.equals(kunde.getEmail(), email))
@@ -137,7 +137,7 @@ public final class FilialenRepository {
      * @param name Der (Teil-) Name der gesuchten Filiale
      * @return Die gefundenen Filialen oder eine leere Collection
      */
-    public @NonNull Collection<Kunde> findByName(final CharSequence name) {
+    public @NonNull Collection<Filiale> findByName(final CharSequence name) {
         log.debug("findByName: name={}", name);
         final var kunden = KUNDEN.stream()
             .filter(kunde -> kunde.getName().contains(name))
@@ -155,7 +155,7 @@ public final class FilialenRepository {
     public @NonNull Collection<String> findNachnamenByPrefix(final @NonNull String prefix) {
         log.debug("findByNachname: prefix={}", prefix);
         final var nachnamen = KUNDEN.stream()
-            .map(Kunde::getName)
+            .map(Filiale::getName)
             .filter(nachname -> nachname.startsWith(prefix))
             .distinct()
             .collect(Collectors.toList());
@@ -166,34 +166,34 @@ public final class FilialenRepository {
     /**
      * Einen neuen Kunden anlegen.
      *
-     * @param kunde Das Objekt des neu anzulegenden Kunden.
+     * @param filiale Das Objekt des neu anzulegenden Kunden.
      * @return Der neu angelegte Kunde mit generierter ID
      */
-    public @NonNull Kunde create(final @NonNull Kunde kunde) {
-        log.debug("create: {}", kunde);
-        kunde.setId(randomUUID());
-        KUNDEN.add(kunde);
-        log.debug("create: {}", kunde);
-        return kunde;
+    public @NonNull Filiale create(final @NonNull Filiale filiale) {
+        log.debug("create: {}", filiale);
+        filiale.setId(randomUUID());
+        KUNDEN.add(filiale);
+        log.debug("create: {}", filiale);
+        return filiale;
     }
 
     /**
      * Einen vorhandenen Kunden aktualisieren.
      *
-     * @param kunde Das Objekt mit den neuen Daten
+     * @param filiale Das Objekt mit den neuen Daten
      */
-    public void update(final @NonNull Kunde kunde) {
-        log.debug("update: {}", kunde);
+    public void update(final @NonNull Filiale filiale) {
+        log.debug("update: {}", filiale);
         final OptionalInt index = IntStream
             .range(0, KUNDEN.size())
-            .filter(i -> Objects.equals(KUNDEN.get(i).getId(), kunde.getId()))
+            .filter(i -> Objects.equals(KUNDEN.get(i).getId(), filiale.getId()))
             .findFirst();
         log.trace("update: index={}", index);
         if (index.isEmpty()) {
             return;
         }
-        KUNDEN.set(index.getAsInt(), kunde);
-        log.debug("update: {}", kunde);
+        KUNDEN.set(index.getAsInt(), filiale);
+        log.debug("update: {}", filiale);
     }
 
     /**

@@ -24,7 +24,7 @@ Authorization: Basic {{userAdmin}} {{password}}
         const kunden = body._embedded.kunden;
         client.assert(Array.isArray(kunden), `body: ${JSON.stringify(body)}`);
         client.assert(kunden.length > 0, `kunden: ${JSON.stringify(kunden)}`);
-        kunden.map(kunde => kunde.nachname)
+        kunden.map(filiale => filiale.nachname)
             .forEach(nachname => client.assert(nachname.includes('Alpha'), `kunden: ${JSON.stringify(kunden)}`));
     });
 %}
@@ -68,8 +68,8 @@ Authorization: Basic {{userAdmin}} {{password}}
         const kunden = body._embedded.kunden;
         client.assert(Array.isArray(kunden), `body: ${JSON.stringify(body)}`);
         client.assert(kunden.length === 1);
-        const kunde = kunden[0];
-        client.assert(kunde.email === 'admin@acme.com', `body: ${JSON.stringify(body)}`);
+        const filiale = kunden[0];
+        client.assert(filiale.email === 'admin@acme.com', `body: ${JSON.stringify(body)}`);
     });
 %}
 

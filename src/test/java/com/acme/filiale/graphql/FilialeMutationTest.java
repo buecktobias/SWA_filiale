@@ -35,9 +35,9 @@ import org.springframework.graphql.execution.ErrorType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.reactive.function.client.WebClient;
 import static com.acme.filiale.config.dev.DevConfig.DEV;
-import static com.acme.filiale.graphql.KundeQueryTest.HOST;
-import static com.acme.filiale.graphql.KundeQueryTest.ID_PATTERN;
-import static com.acme.filiale.graphql.KundeQueryTest.SCHEMA;
+import static com.acme.filiale.graphql.FilialeQueryTest.HOST;
+import static com.acme.filiale.graphql.FilialeQueryTest.ID_PATTERN;
+import static com.acme.filiale.graphql.FilialeQueryTest.SCHEMA;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.condition.JRE.JAVA_18;
 import static org.junit.jupiter.api.condition.JRE.JAVA_19;
@@ -52,13 +52,13 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @ActiveProfiles(DEV)
 @EnabledForJreRange(min = JAVA_18, max = JAVA_19)
 @SuppressWarnings("WriteTag")
-class KundeMutationTest {
+class FilialeMutationTest {
     private final HttpGraphQlClient client;
 
     @InjectSoftAssertions
     private SoftAssertions softly;
 
-    KundeMutationTest(@LocalServerPort final int port, final ApplicationContext ctx) {
+    FilialeMutationTest(@LocalServerPort final int port, final ApplicationContext ctx) {
         final var getController = ctx.getBean(KundeMutationController.class);
         assertThat(getController).isNotNull();
 

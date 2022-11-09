@@ -41,7 +41,7 @@ import org.springframework.web.reactive.function.client.support.WebClientAdapter
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import reactor.core.publisher.Mono;
 import static com.acme.filiale.config.dev.DevConfig.DEV;
-import static com.acme.filiale.entity.Kunde.NACHNAME_PATTERN;
+import static com.acme.filiale.entity.Filiale.NACHNAME_PATTERN;
 import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.condition.JRE.JAVA_18;
@@ -60,7 +60,7 @@ import static org.springframework.web.reactive.function.client.ExchangeFilterFun
 @ActiveProfiles(DEV)
 @EnabledForJreRange(min = JAVA_18, max = JAVA_19)
 @SuppressWarnings("WriteTag")
-class KundeGetRestTest {
+class FilialeGetRestTest {
     static final String SCHEMA = "http";
     static final String HOST = "localhost";
     static final String USER_ADMIN = "admin";
@@ -81,7 +81,7 @@ class KundeGetRestTest {
     @InjectSoftAssertions
     private SoftAssertions softly;
 
-    KundeGetRestTest(@LocalServerPort final int port, final ApplicationContext ctx) {
+    FilialeGetRestTest(@LocalServerPort final int port, final ApplicationContext ctx) {
         final var getController = ctx.getBean(FilialeGetController.class);
         assertThat(getController).isNotNull();
 

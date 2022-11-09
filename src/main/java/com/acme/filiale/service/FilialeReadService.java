@@ -16,7 +16,7 @@
  */
 package com.acme.filiale.service;
 
-import com.acme.filiale.entity.Kunde;
+import com.acme.filiale.entity.Filiale;
 import com.acme.filiale.repository.FilialenRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +47,7 @@ public final class FilialeReadService {
      * @return Der gefundene Kunde
      * @throws NotFoundException Falls kein Kunde gefunden wurde
      */
-    public @NonNull Kunde findById(final UUID id) {
+    public @NonNull Filiale findById(final UUID id) {
         log.debug("findById: id={}", id);
         final var kunde = repo.findById(id)
             .orElseThrow(() -> new NotFoundException(id));
@@ -63,7 +63,7 @@ public final class FilialeReadService {
      * @throws NotFoundException Falls keine Kunden gefunden wurden
      */
     @SuppressWarnings({"ReturnCount", "NestedIfDepth"})
-    public Collection<Kunde> find(final Map<String, String> suchkriterien) {
+    public Collection<Filiale> find(final Map<String, String> suchkriterien) {
         log.debug("find: suchkriterien={}", suchkriterien);
 
         if (suchkriterien.isEmpty()) {

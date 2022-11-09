@@ -30,8 +30,8 @@ package com.acme.filiale {
 
     package service #DDDDDD {
         class KundeWriteService << control >> << @Service >> {
-            + create(kunde: Kunde): Kunde
-            + update(kunde: Kunde, id: UUID)
+            + create(filiale: Kunde): Kunde
+            + update(filiale: Kunde, id: UUID)
             + deleteById(id: UUID)
         }
 
