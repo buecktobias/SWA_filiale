@@ -1,7 +1,7 @@
 
 ### Suche mit vorhandenem Namen
 GET {{baseUrl}}?name=Alpha
-Accept: application/hal+json
+Accept: application/json
 Authorization: Basic {{userAdmin}} {{password}}
 
 > {%
@@ -10,9 +10,9 @@ Authorization: Basic {{userAdmin}} {{password}}
         client.assert(status === 200, `Falscher Statuscode: ${status}`);
     });
 
-    client.test('GET mit vorhandenem Namen: application/hal+json', () => {
+    client.test('GET mit vorhandenem Namen: application/json', () => {
         const mimeType = response.contentType.mimeType;
-        client.assert(mimeType === 'application/hal+json', `Falscher MIME-Typ: ${mimeType}`);
+        client.assert(mimeType === 'application/json', `Falscher MIME-Typ: ${mimeType}`);
     });
 
     client.test('GET mit vorhandenem Namen: body mit Daten', () => {
@@ -20,7 +20,7 @@ Authorization: Basic {{userAdmin}} {{password}}
         client.log(JSON.stringify(body))
         client.assert(typeof body === 'object', `body: ${JSON.stringify(body)}`);
         // TODO Optional Chaining
-        const filialen = body._embedded.filiale;
+        const filialen = body;
         client.assert(Array.isArray(filialen), `body: ${JSON.stringify(body)}`);
         client.assert(filialen.length > 0, `kunden: ${JSON.stringify(filialen)}`);
         filialen.map(filiale => filiale.name)
@@ -30,7 +30,7 @@ Authorization: Basic {{userAdmin}} {{password}}
 
 ### Suche mit nicht-vorhandenem Nachnamen
 GET {{baseUrl}}?name=Nichtvorhanden
-Accept: application/hal+json
+Accept: application/json
 Authorization: Basic {{userAdmin}} {{password}}
 
 > {%
@@ -47,7 +47,7 @@ Authorization: Basic {{userAdmin}} {{password}}
 
 ### Suche mit vorhandener Email (mit URL Encoding)
 GET {{baseUrl}}?email=admin%40acme.com
-Accept: application/hal+json
+Accept: application/json
 Authorization: Basic {{userAdmin}} {{password}}
 
 > {%
@@ -56,15 +56,15 @@ Authorization: Basic {{userAdmin}} {{password}}
         client.assert(status === 200, `Falscher Statuscode: ${status}`);
     });
 
-    client.test('GET mit vorhandener Email: application/hal+json', () => {
+    client.test('GET mit vorhandener Email: application/json', () => {
         const mimeType = response.contentType.mimeType;
-        client.assert(mimeType === 'application/hal+json', `Falscher MIME-Typ: ${mimeType}`);
+        client.assert(mimeType === 'application/json', `Falscher MIME-Typ: ${mimeType}`);
     });
 
     client.test('GET mit vorhandener Email: body mit Daten', () => {
         const body = response.body;
         client.assert(typeof body === 'object', `body: ${JSON.stringify(body)}`);
-        const kunden = body._embedded.kunden;
+        const kunden = body;
         client.assert(Array.isArray(kunden), `body: ${JSON.stringify(body)}`);
         client.assert(kunden.length === 1);
         const filiale = kunden[0];
@@ -74,7 +74,7 @@ Authorization: Basic {{userAdmin}} {{password}}
 
 ### Suche mit nicht-vorhandener Email
 GET {{baseUrl}}?email=nicht%40vorhanden.com
-Accept: application/hal+json
+Accept: application/json
 Authorization: Basic {{userAdmin}} {{password}}
 
 > {%

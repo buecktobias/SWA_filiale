@@ -1,6 +1,6 @@
 ### Suche mit vorhandener Filialen-ID
 GET {{baseUrl}}/00000000-0000-0000-0000-000000000001
-Accept: application/hal+json
+Accept: application/json
 Authorization: Basic {{userAdmin}} {{password}}
 
 > {%

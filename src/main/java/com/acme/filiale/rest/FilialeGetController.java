@@ -8,24 +8,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.LinkRelation;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static com.acme.filiale.rest.UriHelper.getBaseUri;
-import static org.springframework.hateoas.MediaTypes.HAL_JSON_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.ResponseEntity.notFound;
 import static org.springframework.http.ResponseEntity.ok;
@@ -59,14 +51,15 @@ final class FilialeGetController {
 
     // https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-ann-methods
     // https://localhost:8080/swagger-ui.html
+
     /**
      * Suche anhand der Kunde-ID als Pfad-Parameter.
      *
-     * @param id ID des zu suchenden Kunden
+     * @param id      ID des zu suchenden Kunden
      * @param request Das Request-Objekt, um Links für HATEOAS zu erstellen.
      * @return Ein Response mit dem Statuscode 200 und dem gefundenen Kunden mit Atom-Links oder Statuscode 404.
      */
-    @GetMapping(path = "{id:" + ID_PATTERN + "}", produces = HAL_JSON_VALUE)
+    @GetMapping(path = "{id:" + ID_PATTERN + "}", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Suche mit der Filialen-ID", tags = "Suchen")
     @ApiResponse(responseCode = "200", description = "Kunde gefunden")
     @ApiResponse(responseCode = "404", description = "Kunde nicht gefunden")
@@ -96,7 +89,7 @@ final class FilialeGetController {
      * Suche mit diversen Suchkriterien als Query-Parameter.
      *
      * @param suchkriterien Query-Parameter als Map.
-     * @param request Das Request-Objekt, um Links für HATEOAS zu erstellen.
+     * @param request       Das Request-Objekt, um Links für HATEOAS zu erstellen.
      * @return Ein Response mit dem Statuscode 200 und den gefundenen Kunden als CollectionModel oder Statuscode 404.
      */
     @GetMapping(produces = APPLICATION_JSON_VALUE)
