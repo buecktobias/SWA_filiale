@@ -83,7 +83,7 @@ final class KundeWriteController {
     /**
      * Einen neuen Kunde-Datensatz anlegen.
      *
-     * @param kundeDTO Das Kundenobjekt aus dem eingegangenen Request-Body.
+     * @param filialeDTO Das Kundenobjekt aus dem eingegangenen Request-Body.
      * @param request Das Request-Objekt, um `Location` im Response-Header zu erstellen.
      * @return Response mit Statuscode 201 einschließlich Location-Header oder Statuscode 422 falls Constraints verletzt
      *      sind oder die Emailadresse bereits existiert oder Statuscode 400 falls syntaktische Fehler im Request-Body
@@ -97,12 +97,12 @@ final class KundeWriteController {
     @ApiResponse(responseCode = "422", description = "Ungültige Werte oder Email vorhanden")
     @SuppressWarnings("TrailingComment")
     ResponseEntity<Void> create(
-        @RequestBody final KundeDTO kundeDTO,
+        @RequestBody final FilialeDTO filialeDTO,
         final HttpServletRequest request
     ) throws URISyntaxException {
-        log.debug("create: {}", kundeDTO);
+        log.debug("create: {}", filialeDTO);
 
-        final var kunde = service.create(kundeDTO.toKunde());
+        final var kunde = service.create(filialeDTO.toKunde());
         final var baseUri = getBaseUri(request);
         final var location = new URI(baseUri + "/" + kunde.getId()); //NOSONAR
         return created(location).build();
@@ -112,7 +112,7 @@ final class KundeWriteController {
      * Einen vorhandenen Kunde-Datensatz überschreiben.
      *
      * @param id ID des zu aktualisierenden Kunden.
-     * @param kundeDTO Das Kundenobjekt aus dem eingegangenen Request-Body.
+     * @param filialeDTO Das Kundenobjekt aus dem eingegangenen Request-Body.
      * @return Response mit Statuscode 204 oder Statuscode 422, falls Constraints verletzt sind oder
      *      der JSON-Datensatz syntaktisch nicht korrekt ist oder falls die Emailadresse bereits existiert oder
      *      Statuscode 400 falls syntaktische Fehler im Request-Body vorliegen.
@@ -125,10 +125,10 @@ final class KundeWriteController {
     @ApiResponse(responseCode = "422", description = "Ungültige Werte oder Email vorhanden")
     ResponseEntity<Void> update(
         @PathVariable final UUID id,
-        @RequestBody final KundeDTO kundeDTO
+        @RequestBody final FilialeDTO filialeDTO
     ) {
-        log.debug("update: id={}, {}", id, kundeDTO);
-        service.update(kundeDTO.toKunde(), id);
+        log.debug("update: id={}, {}", id, filialeDTO);
+        service.update(filialeDTO.toKunde(), id);
         return noContent().build();
     }
 

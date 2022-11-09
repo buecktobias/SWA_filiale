@@ -47,14 +47,7 @@ interface SecurityConfig {
     default SecurityFilterChain securityWebFilterChainFn(final HttpSecurity http) throws Exception {
         return http
             .authorizeHttpRequests()
-//            .requestMatchers(POST, "/").permitAll()
-//            .requestMatchers(POST, "/graphql").permitAll()
-//            .requestMatchers(GET, "/graphiql").permitAll()
-//            .requestMatchers(POST, "/error").permitAll()
-//            .requestMatchers("/", "/*").hasRole(ADMIN.name())
-//            .requestMatchers(EndpointRequest.to(HealthEndpoint.class)).permitAll()
-//            .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole(ACTUATOR.name())
-//            .anyRequest().authenticated()
+            .anyRequest().permitAll()
             .and()
             .httpBasic()
             .and()

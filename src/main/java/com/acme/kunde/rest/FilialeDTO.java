@@ -27,33 +27,20 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * ValueObject für das Neuanlegen und Ändern eines neuen Kunden. Beim Lesen wird die Klasse KundeModel für die Ausgabe
+ * ValueObject für das Neuanlegen und Ändern einer neuen Filiale. Beim Lesen wird die Klasse FilialeModel für die Ausgabe
  * verwendet.
  *
- * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
- * @param nachname Gültiger Nachname eines Kunden, d.h. mit einem geeigneten Muster.
- * @param email Email eines Kunden.
- * @param kategorie Kategorie eines Kunden mit eingeschränkten Werten.
- * @param hasNewsletter Flag, ob es ein Newsletter-Abo gibt.
- * @param geburtsdatum Das Geburtsdatum eines Kunden.
- * @param homepage Die Homepage eines Kunden.
- * @param geschlecht Das Geschlecht eines Kunden.
- * @param familienstand Der Familienstand eines Kunden.
- * @param interessen Die Interessen eines Kunden.
- * @param umsatz Der Umsatz eines Kunden.
- * @param adresse Die Adresse eines Kunden.
+ * @param name Gültiger Nachname eines Kunden, d.h. mit einem geeigneten Muster.
+ * @param email Email der Filiale.
+ * @param homepage Die Homepage der Filiale.
+ * @param umsatz Der Umsatz der Filiale.
+ * @param adresse Die Adresse der Filiale.
  */
 @SuppressWarnings("RecordComponentNumber")
-record KundeDTO(
-    String nachname,
+record FilialeDTO(
+    String name,
     String email,
-    int kategorie,
-    boolean hasNewsletter,
-    LocalDate geburtsdatum,
     URL homepage,
-    GeschlechtType geschlecht,
-    FamilienstandType familienstand,
-    List<InteresseType> interessen,
     Umsatz umsatz,
     Adresse adresse
 ) {
@@ -66,15 +53,9 @@ record KundeDTO(
         return Kunde
             .builder()
             .id(null)
-            .nachname(nachname)
+            .nachname(name)
             .email(email)
-            .kategorie(kategorie)
-            .hasNewsletter(hasNewsletter)
-            .geburtsdatum(geburtsdatum)
             .homepage(homepage)
-            .geschlecht(geschlecht)
-            .familienstand(familienstand)
-            .interessen(interessen)
             .umsatz(umsatz)
             .adresse(adresse)
             .build();
