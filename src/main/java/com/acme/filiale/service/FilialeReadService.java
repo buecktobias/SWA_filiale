@@ -71,13 +71,13 @@ public final class FilialeReadService {
         }
 
         if (suchkriterien.size() == 1) {
-            final var nachname = suchkriterien.get("nachname");
-            if (nachname != null) {
-                final var kunden = repo.findByName(nachname);
+            final var name = suchkriterien.get("name");
+            if (name != null) {
+                final var kunden = repo.findByName(name);
                 if (kunden.isEmpty()) {
                     throw new NotFoundException(suchkriterien);
                 }
-                log.debug("find (nachname): {}", kunden);
+                log.debug("find (name): {}", kunden);
                 return kunden;
             }
 
@@ -102,11 +102,11 @@ public final class FilialeReadService {
     }
 
     /**
-     * Abfrage, welche Nachnamen es zu einem Präfix gibt.
+     * Abfrage, welche Namen es zu einem Präfix gibt.
      *
      * @param prefix Nachname-Präfix.
-     * @return Die passenden Nachnamen.
-     * @throws NotFoundException Falls keine Nachnamen gefunden wurden.
+     * @return Die passenden Name.
+     * @throws NotFoundException Falls kein Name gefunden wurden.
      */
     public Collection<String> findNameByPrefix(final String prefix) {
         final var name = repo.findNamenByPrefix(prefix);

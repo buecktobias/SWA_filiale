@@ -53,7 +53,7 @@ class FilialeReadServiceTest {
     private static final String NACHNAME = "Alpha";
 
     private final FilialenRepository repo = new FilialenRepository();
-    private final KundeReadService service = new KundeReadService(repo);
+    private final FilialeReadService service = new FilialeReadService(repo);
 
     @InjectSoftAssertions
     private SoftAssertions softly;

@@ -17,15 +17,10 @@
 package com.acme.filiale.rest;
 
 import com.jayway.jsonpath.JsonPath;
-import java.util.Map;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.EnabledForJreRange;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,15 +28,17 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.ApplicationContext;
-import org.springframework.hateoas.mediatype.hal.HalLinkDiscoverer;
 import org.springframework.hateoas.client.LinkDiscoverer;
+import org.springframework.hateoas.mediatype.hal.HalLinkDiscoverer;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.support.WebClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import reactor.core.publisher.Mono;
+
+import java.util.Map;
+
 import static com.acme.filiale.config.dev.DevConfig.DEV;
-import static com.acme.filiale.entity.Filiale.NACHNAME_PATTERN;
 import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.condition.JRE.JAVA_18;
@@ -174,7 +171,6 @@ class FilialeGetRestTest {
 
             final var nachnamePath = "$.nachname";
             final String nachname = JsonPath.read(body, nachnamePath);
-            softly.assertThat(nachname).matches(NACHNAME_PATTERN);
 
             final var emailPath = "$.email";
             final String email = JsonPath.read(body, emailPath);

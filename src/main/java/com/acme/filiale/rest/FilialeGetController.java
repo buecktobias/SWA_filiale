@@ -1,21 +1,6 @@
-/*
- * Copyright (C) 2022 - present Juergen Zimmermann, Hochschule Karlsruhe
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.acme.filiale.rest;
 
+import com.acme.filiale.entity.Filiale;
 import com.acme.filiale.service.FilialeReadService;
 import com.acme.filiale.service.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -64,10 +50,10 @@ final class FilialeGetController {
         "[\\dA-Fa-f]{8}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{12}";
 
     /**
-     * Pfad, um Nachnamen abzufragen.
+     * Pfad, um Namen abzufragen.
      */
     @SuppressWarnings("TrailingComment")
-    static final String NACHNAME_PATH = "/nachname"; //NOSONAR
+    static final String NAMEN_PATH = "/name";
 
     private final FilialeReadService service;
 
@@ -113,28 +99,18 @@ final class FilialeGetController {
      * @param request Das Request-Objekt, um Links für HATEOAS zu erstellen.
      * @return Ein Response mit dem Statuscode 200 und den gefundenen Kunden als CollectionModel oder Statuscode 404.
      */
-    @GetMapping(produces = HAL_JSON_VALUE)
+    @GetMapping(produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Suche mit Suchkriterien", tags = "Suchen")
     @ApiResponse(responseCode = "200", description = "CollectionModel mid den Kunden")
     @ApiResponse(responseCode = "404", description = "Keine Kunden gefunden")
-    ResponseEntity<CollectionModel<FilialenModel>> find(
+    Collection<Filiale> find(
         @RequestParam final Map<String, String> suchkriterien,
         final HttpServletRequest request
     ) {
         log.debug("find: suchkriterien={}", suchkriterien);
-
-        final var baseUri = getBaseUri(request);
-        final var models = service.find(suchkriterien)
-            .stream()
-            .map(kunde -> {
-                final var model = new FilialenModel(kunde);
-                final var selfLink = Link.of(baseUri + "/" + kunde.getId());
-                model.add(selfLink);
-                return model;
-            })
-            .collect(Collectors.toList());
+        final var models = service.find(suchkriterien);
         log.debug("find: {}", models);
-        return ok(CollectionModel.of(models));
+        return models;
     }
 
     /**
@@ -143,12 +119,12 @@ final class FilialeGetController {
      * @param prefix Nachname-Präfix als Pfadvariable.
      * @return Die passenden Nachnamen oder Statuscode 404, falls es keine gibt.
      */
-    @GetMapping(path = NACHNAME_PATH + "/{prefix}", produces = APPLICATION_JSON_VALUE)
-    ResponseEntity<String> findNachnamenByPrefix(@PathVariable final String prefix) {
-        log.debug("findNachnamenByPrefix: {}", prefix);
-        final var nachnamen = service.findNameByPrefix(prefix);
-        log.debug("findNachnamenByPrefix: {}", nachnamen);
-        return ok(nachnamen.toString());
+    @GetMapping(path = NAMEN_PATH + "/{prefix}", produces = APPLICATION_JSON_VALUE)
+    ResponseEntity<String> findNameByPrefix(@PathVariable final String prefix) {
+        log.debug("findNameByPrefix: {}", prefix);
+        final var name = service.findNameByPrefix(prefix);
+        log.debug("findNameByPrefix: {}", name);
+        return ok(name.toString());
     }
 
     @ExceptionHandler(NotFoundException.class)

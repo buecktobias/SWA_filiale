@@ -62,7 +62,7 @@ final class DB {
                     .build(),
                 Filiale.builder()
                     .id(UUID.fromString("00000000-0000-0000-0000-000000000001"))
-                    .name("Alpha") //NOSONAR
+                    .name("Alpha")
                     .email("alpha@acme.de")
                     .homepage(new URL("https://www.acme.de"))
                     .umsatz(Umsatz.builder().betrag(new BigDecimal("10")).waehrung(currencyGermany).build())
