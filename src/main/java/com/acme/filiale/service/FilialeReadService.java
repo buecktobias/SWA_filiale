@@ -108,11 +108,11 @@ public final class FilialeReadService {
      * @return Die passenden Nachnamen.
      * @throws NotFoundException Falls keine Nachnamen gefunden wurden.
      */
-    public Collection<String> findNachnamenByPrefix(final String prefix) {
-        final var nachnamen = repo.findNachnamenByPrefix(prefix);
-        if (nachnamen.isEmpty()) {
+    public Collection<String> findNameByPrefix(final String prefix) {
+        final var name = repo.findNamenByPrefix(prefix);
+        if (name.isEmpty()) {
             throw new NotFoundException();
         }
-        return nachnamen;
+        return name;
     }
 }

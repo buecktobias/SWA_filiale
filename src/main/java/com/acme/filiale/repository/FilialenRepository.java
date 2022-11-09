@@ -32,7 +32,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.acme.filiale.repository.DB.KUNDEN;
+import static com.acme.filiale.repository.DB.FILIALEN;
 import static java.util.UUID.randomUUID;
 
 /**
@@ -52,7 +52,7 @@ public final class FilialenRepository {
      */
     public Optional<Filiale> findById(final UUID id) {
         log.debug("findById: id={}", id);
-        final var result = KUNDEN.stream()
+        final var result = FILIALEN.stream()
             .filter(kunde -> Objects.equals(kunde.getId(), id))
             .findFirst();
         log.debug("findById: {}", result);
@@ -74,7 +74,6 @@ public final class FilialenRepository {
             return findAll();
         }
 
-        // for-Schleife statt Higher-order Function "forEach" wegen return
         for (final var entry : suchkriterien.entrySet()) {
             switch (entry.getKey()) {
                 case "email" -> {
@@ -98,7 +97,7 @@ public final class FilialenRepository {
      * @return Alle Kunden
      */
     public @NonNull Collection<Filiale> findAll() {
-        return KUNDEN;
+        return FILIALEN;
     }
 
     /**
@@ -109,22 +108,22 @@ public final class FilialenRepository {
      */
     public Optional<Filiale> findByEmail(final String email) {
         log.debug("findByEmail: {}", email);
-        final var result = KUNDEN.stream()
-            .filter(kunde -> Objects.equals(kunde.getEmail(), email))
+        final var result = FILIALEN.stream()
+            .filter(filiale -> Objects.equals(filiale.getEmail(), email))
             .findFirst();
         log.debug("findByEmail: {}", result);
         return result;
     }
 
     /**
-     * Abfrage, ob es einen Kunden mit gegebener Emailadresse gibt.
+     * Abfrage, ob es eine Filiale mit gegebener Emailadresse gibt.
      *
      * @param email Emailadresse für die Suche
      * @return true, falls es einen solchen Kunden gibt, sonst false
      */
     public boolean isEmailExisting(final String email) {
         log.debug("isEmailExisting: email={}", email);
-        final var count = KUNDEN.stream()
+        final var count = FILIALEN.stream()
             .filter(kunde -> Objects.equals(kunde.getEmail(), email))
             .count();
         log.debug("isEmailExisting: count={}", count);
@@ -139,11 +138,11 @@ public final class FilialenRepository {
      */
     public @NonNull Collection<Filiale> findByName(final CharSequence name) {
         log.debug("findByName: name={}", name);
-        final var kunden = KUNDEN.stream()
+        final var filialen = FILIALEN.stream()
             .filter(kunde -> kunde.getName().contains(name))
             .collect(Collectors.toList());
-        log.debug("findByNachname: kunden={}", kunden);
-        return kunden;
+        log.debug("findByNachname: filialen={}", filialen);
+        return filialen;
     }
 
     /**
@@ -152,9 +151,9 @@ public final class FilialenRepository {
      * @param prefix Nachname-Präfix.
      * @return Die passenden Nachnamen oder eine leere Collection.
      */
-    public @NonNull Collection<String> findNachnamenByPrefix(final @NonNull String prefix) {
+    public @NonNull Collection<String> findNamenByPrefix(final @NonNull String prefix) {
         log.debug("findByNachname: prefix={}", prefix);
-        final var nachnamen = KUNDEN.stream()
+        final var nachnamen = FILIALEN.stream()
             .map(Filiale::getName)
             .filter(nachname -> nachname.startsWith(prefix))
             .distinct()
@@ -172,7 +171,7 @@ public final class FilialenRepository {
     public @NonNull Filiale create(final @NonNull Filiale filiale) {
         log.debug("create: {}", filiale);
         filiale.setId(randomUUID());
-        KUNDEN.add(filiale);
+        FILIALEN.add(filiale);
         log.debug("create: {}", filiale);
         return filiale;
     }
@@ -185,14 +184,14 @@ public final class FilialenRepository {
     public void update(final @NonNull Filiale filiale) {
         log.debug("update: {}", filiale);
         final OptionalInt index = IntStream
-            .range(0, KUNDEN.size())
-            .filter(i -> Objects.equals(KUNDEN.get(i).getId(), filiale.getId()))
+            .range(0, FILIALEN.size())
+            .filter(i -> Objects.equals(FILIALEN.get(i).getId(), filiale.getId()))
             .findFirst();
         log.trace("update: index={}", index);
         if (index.isEmpty()) {
             return;
         }
-        KUNDEN.set(index.getAsInt(), filiale);
+        FILIALEN.set(index.getAsInt(), filiale);
         log.debug("update: {}", filiale);
     }
 
@@ -204,11 +203,11 @@ public final class FilialenRepository {
     public void deleteById(final UUID id) {
         log.debug("deleteById: id={}", id);
         final OptionalInt index = IntStream
-            .range(0, KUNDEN.size())
-            .filter(i -> Objects.equals(KUNDEN.get(i).getId(), id))
+            .range(0, FILIALEN.size())
+            .filter(i -> Objects.equals(FILIALEN.get(i).getId(), id))
             .findFirst();
         log.trace("deleteById: index={}", index);
-        index.ifPresent(KUNDEN::remove);
-        log.debug("deleteById: #KUNDEN={}", KUNDEN.size());
+        index.ifPresent(FILIALEN::remove);
+        log.debug("deleteById: #KUNDEN={}", FILIALEN.size());
     }
 }

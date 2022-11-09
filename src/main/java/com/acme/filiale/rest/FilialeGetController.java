@@ -146,7 +146,7 @@ final class FilialeGetController {
     @GetMapping(path = NACHNAME_PATH + "/{prefix}", produces = APPLICATION_JSON_VALUE)
     ResponseEntity<String> findNachnamenByPrefix(@PathVariable final String prefix) {
         log.debug("findNachnamenByPrefix: {}", prefix);
-        final var nachnamen = service.findNachnamenByPrefix(prefix);
+        final var nachnamen = service.findNameByPrefix(prefix);
         log.debug("findNachnamenByPrefix: {}", nachnamen);
         return ok(nachnamen.toString());
     }
