@@ -37,7 +37,7 @@ package java {
     UUID .[hidden].> LocalDate
 }
 
-package com.acme.kunde.entity #DDDDDD {
+package com.acme.filiale.entity #DDDDDD {
     class Umsatz {
         betrag: BigDecimal
         waehrung: Currency

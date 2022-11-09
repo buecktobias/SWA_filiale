@@ -22,7 +22,7 @@ package java.util {
     class UUID
 }
 
-package com.acme.kunde {
+package com.acme.filiale {
     package entity {
         class Kunde << entity >>
 

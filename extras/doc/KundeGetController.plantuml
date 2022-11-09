@@ -42,7 +42,7 @@ package java.util {
     class UUID
 }
 
-package com.acme.kunde {
+package com.acme.filiale {
     package service {
         class KundeReadService << control >> << @Service >>
     }

@@ -16,7 +16,7 @@
 
 skinparam classAttributeIconSize 0
 
-package com.acme.kunde {
+package com.acme.filiale {
     package java.util {
         class UUID
     }

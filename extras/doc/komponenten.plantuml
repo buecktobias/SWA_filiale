@@ -16,7 +16,7 @@
 
 left to right direction
 
-package com.acme.kunde #DDDDDD {
+package com.acme.filiale #DDDDDD {
     package rest <<boundary>> #FFFFFF {
         [@RestController\nKundeReadController] as KundeReadController
     }
