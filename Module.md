@@ -1,3 +1,3 @@
-# Module Kunde
+# Module filia
 
-Das ist die API-Dokumentation zum Microservice _kunde_.
+Das ist die API-Dokumentation zum Microservice _filiale_.

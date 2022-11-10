@@ -18,8 +18,8 @@
 #           helmfile destroy
 
 releases:
-  - name: kunde
+  - name: filiale
     namespace: acme
-    chart: extras/kunde
-    values: [extras/kunde/dev.yaml]
+    chart: extras/filiale
+    values: [extras/filiale/dev.yaml]
     #wait: true

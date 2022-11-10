@@ -1,17 +1,3 @@
-# Copyright (C) 2022 - present Juergen Zimmermann, Hochschule Karlsruhe
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # "." am Anfang bezeichnet den Top-Level Namensraum bei Helm
 
@@ -19,7 +5,7 @@ apiVersion: apps/v1
 # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#deployment-v1-apps
 kind: Deployment
 metadata:
-  name: {{ include "kunde.fullname" . }}
+  name: {{ include "filiale.fullname" . }}
   # Kennzeichen bzw. Markierung
   # https://kubernetes.io/docs/concepts/overview/working-with-objects/labels
   # https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels
@@ -27,15 +13,15 @@ metadata:
   labels:
     # https://helm.sh/docs/chart_template_guide/function_list
     # nindent rueckt um eine bestimmte Anzahl ("n") Zeichen ein
-    {{- include "kunde.labels" . | nindent 4 }}
+    {{- include "filiale.labels" . | nindent 4 }}
 spec:
   # https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#selector
   selector:
     # Labels, mit denen z.B. ein Service einen Pod (zu diesem Deployment) identifizieren kann
-    # z.B. fuer:   kubectl delete deployment --selector app=kunde,version=2.0.0 --namespace acme
+    # z.B. fuer:   kubectl delete deployment --selector app=filiale,version=2.0.0 --namespace acme
     # i.a. gleicher Wert wie in template.metadata.labels
     matchLabels:
-      {{- include "kunde.selectorLabels" . | nindent 6 }}
+      {{- include "filiale.selectorLabels" . | nindent 6 }}
   # Anzahl laufender Pods fuer das Template zu diesem Deployment (s.u.) -> ReplicaSet
   replicas: {{ .Values.replicaCount }}
   # https://kubernetes.io/docs/concepts/workloads/pods/#pod-templates
@@ -44,7 +30,7 @@ spec:
     metadata:
       # Labels fuer einen Pod (NICHT fuer dieses Deployment), der durch dieses Deployment installiert wurde
       labels:
-        {{- include "kunde.labels" . | nindent 8 }}
+        {{- include "filiale.labels" . | nindent 8 }}
     # Spezifikation fuer jeden Pod
     spec:
       containers:
@@ -58,7 +44,7 @@ spec:
           envFrom:
             # https://kubernetes.io/docs/concepts/configuration/configmap
             - configMapRef:
-                name: {{ include "kunde.fullname" . }}
+                name: {{ include "filiale.fullname" . }}
           ports:
             - containerPort: {{ .Values.deployment.containerPort }}
               name: http
@@ -139,14 +125,14 @@ spec:
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           volumeMounts:
             - mountPath: /tmp
-              name: log-{{ include "kunde.name" . }}{{ .Values.versionSuffix }}
+              name: log-{{ include "filiale.name" . }}{{ .Values.versionSuffix }}
       volumes:
-        - name: log-{{ include "kunde.name" . }}{{ .Values.versionSuffix }}
+        - name: log-{{ include "filiale.name" . }}{{ .Values.versionSuffix }}
           # https://kubernetes.io/docs/concepts/storage/volumes/#hostpath
           hostPath:
-            path: /run/desktop/mnt/host/c/Zimmermann/volumes/{{ include "kunde.name" . }}{{ .Values.versionSuffix }}
+            path: /run/desktop/mnt/host/c/Zimmermann/volumes/{{ include "filiale.name" . }}{{ .Values.versionSuffix }}
             type: Directory
           # https://kubernetes.io/docs/concepts/storage/volumes/#emptydir
           #emptyDir: {}
-      serviceAccountName: {{ include "kunde.fullname" . }}
+      serviceAccountName: {{ include "filiale.fullname" . }}
       automountServiceAccountToken: false

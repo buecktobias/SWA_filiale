@@ -43,7 +43,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ include "kunde.fullname" . }}
+                name: {{ include "filiale.fullname" . }}
                 port:
                   name: http-svc
                   #number: 8080

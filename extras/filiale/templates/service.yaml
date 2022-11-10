@@ -22,15 +22,15 @@ metadata:
   # https://helm.sh/docs/chart_template_guide/functions_and_pipelines
   # https://godoc.org/text/template
   # https://masterminds.github.io/sprig
-  name: {{ include "kunde.fullname" . }}
+  name: {{ include "filiale.fullname" . }}
   labels:
     # https://helm.sh/docs/chart_template_guide/function_list
     # nindent rueckt um eine bestimmte Anzahl ("n") Zeichen ein
-    {{- include "kunde.labels" . | nindent 4 }}
+    {{- include "filiale.labels" . | nindent 4 }}
 spec:
   # Selektion der Pods fuer eingehende Requests
   selector:
-    {{- include "kunde.selectorLabels" . | nindent 4 }}
+    {{- include "filiale.selectorLabels" . | nindent 4 }}
   ports:
     - port: {{ .Values.servicePort }}
       name: http-svc

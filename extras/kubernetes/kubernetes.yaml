@@ -56,9 +56,9 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: kunde
+  name: filiale
   labels:
-    account: kunde
+    account: filiale
 automountServiceAccountToken: false
 
 ---
@@ -66,7 +66,7 @@ automountServiceAccountToken: false
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kunde
+  name: filiale
   namespace: acme
 data:
   # Key-Value-Paare (hier: fuer die Umgebungsvariable)
@@ -83,15 +83,15 @@ data:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: kunde
+  name: filiale
   namespace: acme
 spec:
   # Spezifikation, auf welche Pods die NetworkPolicy angewendet wird
   podSelector:
     matchLabels:
-      app: kunde
-      app.kubernetes.io/name: kunde
-      app.kubernetes.io/instance: kunde
+      app: filiale
+      app.kubernetes.io/name: filiale
+      app.kubernetes.io/instance: filiale
   policyTypes: [Ingress, Egress]
 
 ---
@@ -100,11 +100,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: kunde
+  name: filiale
   labels:
-    app: kunde
-    app.kubernetes.io/name: kunde
-    app.kubernetes.io/instance: kunde
+    app: filiale
+    app.kubernetes.io/name: filiale
+    app.kubernetes.io/instance: filiale
     app.kubernetes.io/version: 1.0.0
     app.kubernetes.io/managed-by: kubectl
     app.kubernetes.io/component: microservice
@@ -112,9 +112,9 @@ metadata:
 spec:
   # Selektion der Pods fuer eingehende Requests
   selector:
-    app: kunde
-    app.kubernetes.io/name: kunde
-    app.kubernetes.io/instance: kunde
+    app: filiale
+    app.kubernetes.io/name: filiale
+    app.kubernetes.io/instance: filiale
   ports:
     - port: 8080
       name: http-service
@@ -152,11 +152,11 @@ spec:
           # (.*) wird abgebildet auf $2 (d.h. 2. Pfad-Segment), z.B.
           #   kubernetes.docker.internal/kunden wird zu kubernetes.docker.internal:8080/api
           #   kubernetes.docker.internal/kunden/123 wird zu kubernetes.docker.internal:8080/api/123
-          - path: /kunden(/|$)(.*)
+          - path: /filialen(/|$)(.*)
             pathType: Prefix
             backend:
               service:
-                name: kunde
+                name: filiale
                 port:
                   name: http-svc
                   #number: 8080
@@ -170,14 +170,14 @@ apiVersion: apps/v1
 kind: Deployment
 # Beschreibung des Deplyoments ("Metadaten")
 metadata:
-  name: kunde
+  name: filiale
   # Kennzeichen bzw. Markierung
   # https://kubernetes.io/docs/concepts/overview/working-with-objects/labels
   # https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels
   labels:
-    app: kunde
-    app.kubernetes.io/name: kunde
-    app.kubernetes.io/instance: kunde
+    app: filiale
+    app.kubernetes.io/name: filiale
+    app.kubernetes.io/instance: filiale
     app.kubernetes.io/version: 1.0.0
     app.kubernetes.io/managed-by: kubectl
     app.kubernetes.io/component: microservice
@@ -190,9 +190,9 @@ spec:
     # z.B. fuer:   kubectl delete deployment --selector app=kunde --namespace acme
     # i.a. gleicher Wert wie in template.metadata.labels
     matchLabels:
-      app: kunde
-      app.kubernetes.io/name: kunde
-      app.kubernetes.io/instance: kunde
+      app: filiale
+      app.kubernetes.io/name: filiale
+      app.kubernetes.io/instance: filiale
   # Anzahl laufender Pods fuer das Template zu diesem Deployment (s.u.)
   replicas: 1
   # https://kubernetes.io/docs/concepts/workloads/pods/#pod-templates
@@ -201,9 +201,9 @@ spec:
     metadata:
       # Labels fuer einen Pod (NICHT fuer dieses Deployment), der durch dieses Deployment installiert wurde
       labels:
-        app: kunde
-        app.kubernetes.io/name: kunde
-        app.kubernetes.io/instance: kunde
+        app: filiale
+        app.kubernetes.io/name: filiale
+        app.kubernetes.io/instance: filiale
         app.kubernetes.io/version: 1.0.0
         app.kubernetes.io/managed-by: kubectl
         app.kubernetes.io/component: microservice
@@ -216,13 +216,13 @@ spec:
         - image: juergenzimmermann/kunde:1.0.0
           # default
           imagePullPolicy: IfNotPresent
-          name: kunde
+          name: filiale
           # https://kubernetes.io/docs/tasks/inject-data-application/define-interdependent-environment-variables
           # https://opensource.com/article/19/6/introduction-kubernetes-secrets-and-configmaps
           envFrom:
             # https://kubernetes.io/docs/concepts/configuration/configmap
             - configMapRef:
-                name: kunde
+                name: filiale
           ports:
             - containerPort: 8080
               name: http
@@ -307,13 +307,13 @@ spec:
           volumeMounts:
             - mountPath: /tmp
               name: log-kunde-v1
-      serviceAccountName: kunde
+      serviceAccountName: filiale
       automountServiceAccountToken: false
       volumes:
         - name: log-kunde-v1
           # https://kubernetes.io/docs/concepts/storage/volumes/#hostpath
           hostPath:
-            path: /run/desktop/mnt/host/c/Zimmermann/volumes/kunde-v1
+            path: /run/desktop/mnt/host/c/Zimmermann/volumes/filiale-v1
             type: Directory
           # https://kubernetes.io/docs/concepts/storage/volumes/#emptydir
           #emptyDir: {}
@@ -323,11 +323,11 @@ spec:
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: kunde
+  name: filiale
   labels:
-    app: kunde
-    app.kubernetes.io/name: kunde
-    app.kubernetes.io/instance: kunde
+    app: filiale
+    app.kubernetes.io/name: filiale
+    app.kubernetes.io/instance: filiale
     app.kubernetes.io/version: 1.0.0
     app.kubernetes.io/managed-by: kubectl
     app.kubernetes.io/component: microservice
