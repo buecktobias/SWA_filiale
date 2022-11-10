@@ -28,13 +28,12 @@ import java.util.List;
 
 import static com.acme.filiale.security.Rolle.ACTUATOR;
 import static com.acme.filiale.security.Rolle.ADMIN;
-import static com.acme.filiale.security.Rolle.KUNDE;
+import static com.acme.filiale.security.Rolle.FILIALE;
 import static org.springframework.security.crypto.factory.PasswordEncoderFactories.createDelegatingPasswordEncoder;
 
 /**
  * Security-Konfiguration.
  *
- * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
 // https://github.com/spring-projects/spring-security/tree/master/samples
 interface SecurityConfig {
@@ -83,11 +82,11 @@ interface SecurityConfig {
         final var users = List.of(
             User.withUsername("admin")
                 .password(password)
-                .roles(ADMIN.name(), KUNDE.name(), ACTUATOR.name())
+                .roles(ADMIN.name(), FILIALE.name(), ACTUATOR.name())
                 .build(),
             User.withUsername("alpha")
                 .password(password)
-                .roles(KUNDE.name())
+                .roles(FILIALE.name())
                 .build()
         );
 

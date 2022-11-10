@@ -16,6 +16,6 @@
  */
 
 /**
- * REST-Schnittstelle für Kunden.
+ * REST-Schnittstelle für filialen.
  */
 package com.acme.filiale.rest;

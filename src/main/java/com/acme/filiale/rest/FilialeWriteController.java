@@ -68,7 +68,7 @@ import static org.springframework.http.ResponseEntity.notFound;
  */
 @RestController
 @RequestMapping("/")
-@Tag(name = "Kunde API")
+@Tag(name = "filiale API")
 @RequiredArgsConstructor
 @Slf4j
 @SuppressWarnings("ClassFanOutComplexity")
@@ -81,9 +81,9 @@ final class FilialeWriteController {
     private final FilialePatcher patcher;
 
     /**
-     * Einen neuen Kunde-Datensatz anlegen.
+     * Einen neuen filiale-Datensatz anlegen.
      *
-     * @param filialeDTO Das Kundenobjekt aus dem eingegangenen Request-Body.
+     * @param filialeDTO Das filialenobjekt aus dem eingegangenen Request-Body.
      * @param request Das Request-Objekt, um `Location` im Response-Header zu erstellen.
      * @return Response mit Statuscode 201 einschließlich Location-Header oder Statuscode 422 falls Constraints verletzt
      *      sind oder die Emailadresse bereits existiert oder Statuscode 400 falls syntaktische Fehler im Request-Body
@@ -91,8 +91,8 @@ final class FilialeWriteController {
      * @throws URISyntaxException falls die URI im Request-Objekt nicht korrekt wäre
      */
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Einen neuen Kunden anlegen", tags = "Neuanlegen")
-    @ApiResponse(responseCode = "201", description = "Kunde neu angelegt")
+    @Operation(summary = "Einen neuen filialen anlegen", tags = "Neuanlegen")
+    @ApiResponse(responseCode = "201", description = "filiale neu angelegt")
     @ApiResponse(responseCode = "400", description = "Syntaktische Fehler im Request-Body")
     @ApiResponse(responseCode = "422", description = "Ungültige Werte oder Email vorhanden")
     @SuppressWarnings("TrailingComment")
@@ -102,60 +102,60 @@ final class FilialeWriteController {
     ) throws URISyntaxException {
         log.debug("create: {}", filialeDTO);
 
-        final var kunde = writeService.create(filialeDTO.toKunde());
+        final var filiale = writeService.create(filialeDTO.tofiliale());
         final var baseUri = getBaseUri(request);
-        final var location = new URI(baseUri + "/" + kunde.getId()); //NOSONAR
+        final var location = new URI(baseUri + "/" + filiale.getId()); //NOSONAR
         return created(location).build();
     }
 
     /**
-     * Einen vorhandenen Kunde-Datensatz überschreiben.
+     * Einen vorhandenen filiale-Datensatz überschreiben.
      *
-     * @param id ID des zu aktualisierenden Kunden.
-     * @param filialeDTO Das Kundenobjekt aus dem eingegangenen Request-Body.
+     * @param id ID des zu aktualisierenden filialen.
+     * @param filialeDTO Das filialenobjekt aus dem eingegangenen Request-Body.
      * @return Response mit Statuscode 204 oder Statuscode 422, falls Constraints verletzt sind oder
      *      der JSON-Datensatz syntaktisch nicht korrekt ist oder falls die Emailadresse bereits existiert oder
      *      Statuscode 400 falls syntaktische Fehler im Request-Body vorliegen.
      */
     @PutMapping(path = "{id:" + ID_PATTERN + "}", consumes = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Einen Kunden mit neuen Werten aktualisieren", tags = "Aktualisieren")
+    @Operation(summary = "Einen filialen mit neuen Werten aktualisieren", tags = "Aktualisieren")
     @ApiResponse(responseCode = "204", description = "Aktualisiert")
     @ApiResponse(responseCode = "400", description = "Syntaktische Fehler im Request-Body")
-    @ApiResponse(responseCode = "404", description = "Kunde nicht vorhanden")
+    @ApiResponse(responseCode = "404", description = "filiale nicht vorhanden")
     @ApiResponse(responseCode = "422", description = "Ungültige Werte oder Email vorhanden")
     ResponseEntity<Void> update(
         @PathVariable final UUID id,
         @RequestBody final FilialeDTO filialeDTO
     ) {
         log.debug("update: id={}, {}", id, filialeDTO);
-        writeService.update(filialeDTO.toKunde(), id);
+        writeService.update(filialeDTO.tofiliale(), id);
         return noContent().build();
     }
 
     /**
-     * Einen vorhandenen Kunde-Datensatz durch PATCH aktualisieren.
+     * Einen vorhandenen filiale-Datensatz durch PATCH aktualisieren.
      *
-     * @param id ID des zu aktualisierenden Kunden.
+     * @param id ID des zu aktualisierenden filialen.
      * @param operations Die Collection der Patch-Operationen
      * @return Response mit Statuscode 204 oder 422, falls Constraints verletzt sind oder
      *      der JSON-Datensatz syntaktisch nicht korrekt ist oder falls die Emailadresse bereits existiert oder 400
      *      falls syntaktische Fehler vorliegen.
      */
     @PatchMapping(path = "{id:" + ID_PATTERN + "}", consumes = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Einen Kunden mit einzelnen neuen Werten aktualisieren", tags = "Aktualisieren")
+    @Operation(summary = "Einen filialen mit einzelnen neuen Werten aktualisieren", tags = "Aktualisieren")
     @ApiResponse(responseCode = "204", description = "Aktualisiert")
     @ApiResponse(responseCode = "400", description = "Syntaktische Fehler im Request-Body")
-    @ApiResponse(responseCode = "404", description = "Kunde nicht vorhanden")
+    @ApiResponse(responseCode = "404", description = "filiale nicht vorhanden")
     @ApiResponse(responseCode = "422", description = "Constraints verletzt oder Email vorhanden")
     ResponseEntity<Void> patch(
         @PathVariable final UUID id,
         @RequestBody final Collection<PatchOperation> operations
     ) {
         log.debug("patch: id={}, operations={}", id, operations);
-        final var kunde = readService.findById(id);
-        patcher.patch(kunde, operations);
-        log.debug("patch: {}", kunde);
-        writeService.update(kunde, id);
+        final var filiale = readService.findById(id);
+        patcher.patch(filiale, operations);
+        log.debug("patch: {}", filiale);
+        writeService.update(filiale, id);
         return noContent().build();
     }
 

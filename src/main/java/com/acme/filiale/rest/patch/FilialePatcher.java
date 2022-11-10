@@ -12,7 +12,7 @@ import static com.acme.filiale.rest.patch.PatchOperationType.REMOVE;
 import static com.acme.filiale.rest.patch.PatchOperationType.REPLACE;
 
 /**
- * Klasse, um PATCH-Operationen auf Kunde-Objekte anzuwenden.
+ * Klasse, um PATCH-Operationen auf filiale-Objekte anzuwenden.
  *
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
@@ -23,9 +23,9 @@ public final class FilialePatcher {
     }
 
     /**
-     * PATCH-Operationen werden auf ein Kunde-Objekt angewandt.
+     * PATCH-Operationen werden auf ein filiale-Objekt angewandt.
      *
-     * @param filiale    Das zu modifizierende Kunde-Objekt.
+     * @param filiale    Das zu modifizierende filiale-Objekt.
      * @param operations Die anzuwendenden Operationen.
      * @throws InvalidPatchOperationException Falls die Patch-Operation nicht korrekt ist.
      */
@@ -55,6 +55,6 @@ public final class FilialePatcher {
                 default -> throw new InvalidPatchOperationException();
             }
         });
-        log.trace("replaceOps: kunde={}", filiale);
+        log.trace("replaceOps: filiale={}", filiale);
     }
 }

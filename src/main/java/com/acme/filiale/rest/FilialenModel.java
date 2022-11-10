@@ -39,7 +39,7 @@ import java.net.URL;
 @JsonPropertyOrder({
     "name", "email", "homepage", "umsatz", "adresse"
 })
-@Relation(collectionRelation = "kunden", itemRelation = "kunde")
+@Relation(collectionRelation = "filialen", itemRelation = "filiale")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Getter
 @Setter

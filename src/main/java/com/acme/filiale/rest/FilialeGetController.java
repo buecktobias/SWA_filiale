@@ -58,27 +58,27 @@ final class FilialeGetController {
     // https://localhost:8080/swagger-ui.html
 
     /**
-     * Suche anhand der Kunde-ID als Pfad-Parameter.
+     * Suche anhand der filiale-ID als Pfad-Parameter.
      *
-     * @param id      ID des zu suchenden Kunden
+     * @param id      ID des zu suchenden filialen
      * @param request Das Request-Objekt, um Links für HATEOAS zu erstellen.
-     * @return Ein Response mit dem Statuscode 200 und dem gefundenen Kunden mit Atom-Links oder Statuscode 404.
+     * @return Ein Response mit dem Statuscode 200 und dem gefundenen filialen mit Atom-Links oder Statuscode 404.
      */
     @GetMapping(path = "{id:" + ID_PATTERN + "}", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Suche mit der Filialen-ID", tags = "Suchen")
-    @ApiResponse(responseCode = "200", description = "Kunde gefunden")
-    @ApiResponse(responseCode = "404", description = "Kunde nicht gefunden")
+    @ApiResponse(responseCode = "200", description = "filiale gefunden")
+    @ApiResponse(responseCode = "404", description = "filiale nicht gefunden")
     FilialenModel findById(@PathVariable final UUID id, final HttpServletRequest request) {
         log.debug("findById: id={}", id);
 
         // Anwendungskern
-        final var kunde = service.findById(id);
-        log.debug("findById: {}", kunde);
+        final var filiale = service.findById(id);
+        log.debug("findById: {}", filiale);
 
         // HATEOAS
-        final var model = new FilialenModel(kunde);
+        final var model = new FilialenModel(filiale);
         final var baseUri = getBaseUri(request, id);
-        final var idUri = baseUri + "/" + kunde.getId();
+        final var idUri = baseUri + "/" + filiale.getId();
 
         final var selfLink = Link.of(idUri);
         final var listLink = Link.of(baseUri, LinkRelation.of("list"));
@@ -95,12 +95,12 @@ final class FilialeGetController {
      *
      * @param suchkriterien Query-Parameter als Map.
      * @param request       Das Request-Objekt, um Links für HATEOAS zu erstellen.
-     * @return Ein Response mit dem Statuscode 200 und den gefundenen Kunden als CollectionModel oder Statuscode 404.
+     * @return Ein Response mit dem Statuscode 200 und den gefundenen filialen als CollectionModel oder Statuscode 404.
      */
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Suche mit Suchkriterien", tags = "Suchen")
-    @ApiResponse(responseCode = "200", description = "CollectionModel mid den Kunden")
-    @ApiResponse(responseCode = "404", description = "Keine Kunden gefunden")
+    @ApiResponse(responseCode = "200", description = "CollectionModel mid den filialen")
+    @ApiResponse(responseCode = "404", description = "Keine filialen gefunden")
     Collection<Filiale> find(
         @RequestParam final Map<String, String> suchkriterien,
         final HttpServletRequest request

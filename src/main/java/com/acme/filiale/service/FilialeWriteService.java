@@ -28,7 +28,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * Anwendungslogik für Kunden auch mit Bean Validation.
+ * Anwendungslogik für filialen auch mit Bean Validation.
  * <img src="../../../../../asciidoc/KundeWriteService.svg" alt="Klassendiagramm">
  *
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
@@ -43,12 +43,12 @@ public final class FilialeWriteService {
     private final Validator validator;
 
     /**
-     * Einen neuen Kunden anlegen.
+     * Einen neuen filialen anlegen.
      *
-     * @param filiale Das Objekt des neu anzulegenden Kunden.
-     * @return Der neu angelegte Kunden mit generierter ID
+     * @param filiale Das Objekt des neu anzulegenden filialen.
+     * @return Der neu angelegte filialen mit generierter ID
      * @throws ConstraintViolationsException Falls mindestens ein Constraint verletzt ist.
-     * @throws EmailExistsException Es gibt bereits einen Kunden mit der Emailadresse.
+     * @throws EmailExistsException Es gibt bereits einen filialen mit der Emailadresse.
      */
     public Filiale create(@Valid final Filiale filiale) {
         log.debug("create: {}", filiale);

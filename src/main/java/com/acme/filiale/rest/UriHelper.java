@@ -51,7 +51,7 @@ final class UriHelper {
      * Basis-URI ermitteln, d.h. ohne angehängten Pfad-Parameter für die ID und ohne Query-Parameter.
      *
      * @param request Servlet-Request
-     * @param id Eine Kunde-ID oder null als Defaultwert
+     * @param id Eine filiale-ID oder null als Defaultwert
      * @return Die Basis-URI als String
      */
     @SuppressWarnings({"ReturnCount", "NPathComplexity", "CyclomaticComplexity", "ExecutableStatementCount"})
@@ -90,8 +90,8 @@ final class UriHelper {
     private static String getBaseUriEnvoy(final HttpServletRequest request, final String envoyOriginalPath) {
         // host: "localhost"
         // x-forwarded-proto: "http"
-        // x-envoy-decorator-operation: "kunde.acme.svc.cluster.local:8080/kunden/*",
-        // x-envoy-original-path: "/kunden/api/00000000-0000-0000-0000-000000000001"
+        // x-envoy-decorator-operation: "filiale.acme.svc.cluster.local:8080/filialen/*",
+        // x-envoy-original-path: "/filialen/api/00000000-0000-0000-0000-000000000001"
         final var host = request.getHeader("Host");
         if (host == null) {
             throw new IllegalStateException("Kein \"Host\" im Header");
@@ -114,7 +114,7 @@ final class UriHelper {
     private static String getBaseUriForwarded(final HttpServletRequest request, final String forwardedHost) {
         // x-forwarded-proto: "https"
         // x-forwarded-host: "kubernetes.docker.internal"
-        // x-forwarded-prefix: null bei Ingress Controller bzw. "/kunden" bei Spring Cloud Gateway
+        // x-forwarded-prefix: null bei Ingress Controller bzw. "/filialen" bei Spring Cloud Gateway
         final var forwardedProto = request.getHeader(X_FORWARDED_PROTO);
         if (forwardedProto == null) {
             throw new IllegalStateException("Kein \"" + X_FORWARDED_PROTO + "\" im Header");

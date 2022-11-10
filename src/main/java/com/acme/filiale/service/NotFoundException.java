@@ -21,7 +21,7 @@ import java.util.UUID;
 import lombok.Getter;
 
 /**
- * RuntimeException, falls kein Kunde gefunden wurde.
+ * RuntimeException, falls kein filiale gefunden wurde.
  */
 @Getter
 @SuppressWarnings("ParameterHidesMemberVariable")
@@ -37,14 +37,14 @@ public final class NotFoundException extends RuntimeException {
     private final Map<String, String> suchkriterien;
 
     NotFoundException(final UUID id) {
-        super("Kein Kunde mit der ID " + id + " gefunden.");
+        super("Kein filiale mit der ID " + id + " gefunden.");
         this.id = id;
         //noinspection AssignmentToNull
         suchkriterien = null;
     }
 
     NotFoundException(final Map<String, String> suchkriterien) {
-        super("Keine Kunden gefunden.");
+        super("Keine filialen gefunden.");
         //noinspection AssignmentToNull
         id = null;
         this.suchkriterien = suchkriterien;
@@ -52,7 +52,7 @@ public final class NotFoundException extends RuntimeException {
 
     @SuppressWarnings("AssignmentToNull")
     NotFoundException() {
-        super("Keine Kunden gefunden.");
+        super("Keine filialen gefunden.");
         id = null;
         suchkriterien = null;
     }

@@ -1,7 +1,7 @@
 
 # Aufruf:   docker compose up
 #           docker compose down
-#           docker compose exec kunde bash
+#           docker compose exec filiale bash
 
 ---
 # https://github.com/compose-spec/compose-spec/blob/master/spec.md#compose-file
@@ -10,7 +10,7 @@
 # https://docs.docker.com/compose/compose-file/compose-file-v3
 services:
   filiale:
-    #image: juergenzimmermann/kunde:1.0.0-dockerfile
+    #image: juergenzimmermann/filiale:1.0.0-dockerfile
     image: juergenzimmermann/filiale:1.0.0
     ports:
       - published: 8080
@@ -18,7 +18,7 @@ services:
     #working_dir: /application
     volumes:
       - type: bind
-        source: C:\Zimmermann\volumes\kunde-v1
+        source: C:\Zimmermann\volumes\filiale-v1
         target: /tmp
     environment:
       TZ: Europe/Berlin

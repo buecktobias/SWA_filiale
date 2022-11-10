@@ -25,7 +25,7 @@ import java.net.URL;
  * ValueObject für das Neuanlegen und Ändern einer neuen Filiale. Beim Lesen wird die Klasse FilialeModel
  * für die Ausgabe verwendet.
  *
- * @param name Gültiger Name eines Kunden, d.h. mit einem geeigneten Muster.
+ * @param name Gültiger Name eines filialen, d.h. mit einem geeigneten Muster.
  * @param email Email der Filiale.
  * @param homepage Die Homepage der Filiale.
  * @param umsatz Der Umsatz der Filiale.
@@ -42,9 +42,9 @@ record FilialeDTO(
     /**
      * Konvertierung in ein Objekt des Anwendungskerns.
      *
-     * @return Kundeobjekt für den Anwendungskern
+     * @return filialeobjekt für den Anwendungskern
      */
-    Filiale toKunde() {
+    Filiale tofiliale() {
         return Filiale
             .builder()
             .id(null)

@@ -53,7 +53,7 @@ public final class FilialenRepository {
     public Optional<Filiale> findById(final UUID id) {
         log.debug("findById: id={}", id);
         final var result = FILIALEN.stream()
-            .filter(kunde -> Objects.equals(kunde.getId(), id))
+            .filter(filiale -> Objects.equals(filiale.getId(), id))
             .findFirst();
         log.debug("findById: {}", result);
         return result;

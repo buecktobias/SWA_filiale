@@ -105,7 +105,7 @@ Falls die Speichereinstellung für Gradle zu großzügig ist, kann man in
 Am rechten Rand auf den Button _Gradle_ klicken und in _Tasks_ > _application_
 _bootRun_ durch einen Doppelklick starten.
 
-Danach gibt es in der Werkzeugleiste im Auswahlmenü den Eintrag _kunde [bootRun]_
+Danach gibt es in der Werkzeugleiste im Auswahlmenü den Eintrag _filiale [bootRun]_
 und man kann den Server auch damit (neu-) starten, stoppen und ggf. debuggen.
 
 ```Text
@@ -307,8 +307,8 @@ weiteren PowerShell herunterfahren:
 Statt eine PowerShell zu verwenden, kann man Docker Compose auch direkt in
 IntelliJ aufrufen, indem man über das Kontextmenü ("rechte Maustaste") den
 Unterpunkt _Run 'docker-compose.yaml:...'_ aufruft. Im Tool-Window _Services_
-sieht man dann unterhalb von _Docker_ den Eintrag _Docker-compose: kunde_ mit
-dem Service _kunde_. Sobald man `/filiale` auswählt, kann man Folgendes inspizieren:
+sieht man dann unterhalb von _Docker_ den Eintrag _Docker-compose: filiale_ mit
+dem Service _filiale_. Sobald man `/filiale` auswählt, kann man Folgendes inspizieren:
 - Log
 - Properties
 - Environment Variables
@@ -559,7 +559,7 @@ deaktiviert sind. Außerdem wird die Logdatei im internen Verzeichnis `/tmp` ang
 welches durch _Mounting_ dem Windows-Verzeichnis `C:\Zimmermann\volumes\filiale-v1`
 entspricht und mit _Schreibberechtigung_ existieren muss.
 
-Später kann das Helm-Chart mit dem Release-Namen _kunde_ auch deinstalliert werden:
+Später kann das Helm-Chart mit dem Release-Namen _filiale_ auch deinstalliert werden:
 
 ```powershell
     cd extras\filiale
@@ -594,7 +594,7 @@ Gegenüber Skaffold (s.u.) hat helmfile allerdings folgende **Defizite**:
 Um beim Entwickeln von localhost (und damit von außen) auf einen
 Kubernetes-Service zuzugreifen, ist _Port-Forwarding_ die einfachste
 Möglichkeit, indem das nachfolgende Kommando für den installierten Service mit
-Name _kunde_ aufgerufen wird. Alternativ kann auch das Skript `port-forward.ps1`
+Name _filiale_ aufgerufen wird. Alternativ kann auch das Skript `port-forward.ps1`
 aufgerufen werden.
 
 ```powershell
@@ -635,14 +635,14 @@ in Kubernetes verfügbar ist.
     $credential = New-Object System.Management.Automation.PSCredential('admin', $secpasswd)
 
     # GET-Request fuer REST-Schnittstelle mit Invoke-WebRequest:
-    $response = Invoke-WebRequest https://kubernetes.docker.internal/kunden/00000000-0000-0000-0000-000000000001 `
+    $response = Invoke-WebRequest https://kubernetes.docker.internal/filialen/00000000-0000-0000-0000-000000000001 `
         -Headers @{Accept = 'application/hal+json'} `
         -SslProtocol Tls13 -HttpVersion 2 -SkipCertificateCheck `
         -Authentication Basic -Credential $credential
     Write-Output $response.RawContent
 
     # GraphQL mit Invoke-WebRequest:
-    $response = Invoke-WebRequest https://kubernetes.docker.internal/kunden/graphql `
+    $response = Invoke-WebRequest https://kubernetes.docker.internal/filialen/graphql `
         -Method Post -Body '{"query": "query { filiale(id: \"00000000-0000-0000-0000-000000000001\") { name } }"}' `
         -ContentType 'application/json' `
         -SslProtocol Tls13 -HttpVersion 2 -SkipCertificateCheck `
@@ -650,14 +650,14 @@ in Kubernetes verfügbar ist.
     Write-Output $response.RawContent
 
     # GET-Request fuer REST-Schnittstelle mit cURL:
-    curl --verbose --user admin:p --tlsv1.3 --http2 --insecure https://kubernetes.docker.internal/kunden/00000000-0000-0000-0000-000000000001
+    curl --verbose --user admin:p --tlsv1.3 --http2 --insecure https://kubernetes.docker.internal/filialen/00000000-0000-0000-0000-000000000001
 
     # GraphQL mit cURL:
     curl --verbose --data '{"query": "query { filiale(id: \"00000000-0000-0000-0000-000000000001\") { name } }"}' `
         --header 'Content-Type: application/json' `
         --tlsv1.3 --insecure `
         --user admin:p `
-        https://kubernetes.docker.internal/kunden/graphql
+        https://kubernetes.docker.internal/filialen/graphql
 ```
 
 ### Skaffold für Continuous Deployment
