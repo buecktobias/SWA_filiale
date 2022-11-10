@@ -4,7 +4,7 @@ GRAPHQL {{baseUrl}}/graphql
 mutation {
   create(
     input: {
-      nachname: "Graphql"
+      name: "Graphql"
       email: "graphql@graphql.de"
       kategorie: 1
       hasNewsletter: true

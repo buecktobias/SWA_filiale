@@ -61,7 +61,7 @@ public final class FilialenRepository {
 
     /**
      * Filiale anhand von Suchkriterien ermitteln.
-     * Z.B. mit GET https://localhost:8080/api?nachname=A&amp;plz=7
+     * Z.B. mit GET https://localhost:8080/api?name=A&amp;plz=7
      *
      * @param suchkriterien Suchkriterien.
      * @return Gefundene Kunden oder leere Collection.
@@ -81,7 +81,7 @@ public final class FilialenRepository {
                     //noinspection OptionalIsPresent
                     return result.isPresent() ? List.of(result.get()) : Collections.emptyList();
                 }
-                case "nachname" -> {
+                case "name" -> {
                     return findByName(entry.getValue());
                 }
                 default -> log.debug("find: ungueltiges Suchkriterium={}", entry.getKey());
@@ -141,25 +141,25 @@ public final class FilialenRepository {
         final var filialen = FILIALEN.stream()
             .filter(kunde -> kunde.getName().contains(name))
             .collect(Collectors.toList());
-        log.debug("findByNachname: filialen={}", filialen);
+        log.debug("findByNamen: filialen={}", filialen);
         return filialen;
     }
 
     /**
-     * Abfrage, welche Nachnamen es zu einem Präfix gibt.
+     * Abfrage, welchen Namen es zu einem Präfix gibt.
      *
-     * @param prefix Nachname-Präfix.
-     * @return Die passenden Nachnamen oder eine leere Collection.
+     * @param prefix Namen-Präfix.
+     * @return Die passenden Namen oder eine leere Collection.
      */
     public @NonNull Collection<String> findNamenByPrefix(final @NonNull String prefix) {
-        log.debug("findByNachname: prefix={}", prefix);
-        final var nachnamen = FILIALEN.stream()
+        log.debug("findByName: prefix={}", prefix);
+        final var namen = FILIALEN.stream()
             .map(Filiale::getName)
-            .filter(nachname -> nachname.startsWith(prefix))
+            .filter(name -> name.startsWith(prefix))
             .distinct()
             .collect(Collectors.toList());
-        log.debug("findByNachname: nachnamen={}", nachnamen);
-        return nachnamen;
+        log.debug("findByName: namen={}", namen);
+        return namen;
     }
 
     /**

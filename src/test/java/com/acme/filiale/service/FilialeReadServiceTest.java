@@ -50,7 +50,7 @@ import static org.junit.jupiter.api.parallel.ExecutionMode.CONCURRENT;
 class FilialeReadServiceTest {
     private static final String ID_VORHANDEN = "00000000-0000-0000-0000-000000000001";
     private static final String ID_NICHT_VORHANDEN = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-    private static final String NACHNAME = "Alpha";
+    private static final String Name = "Alpha";
 
     private final FilialenRepository repo = new FilialenRepository();
     private final FilialeReadService service = new FilialeReadService(repo);
@@ -68,7 +68,7 @@ class FilialeReadServiceTest {
     @DisplayName("Noch nicht fertig")
     @Disabled
     void nochNichtFertig() {
-        //noinspection DataFlowIssue
+        //noinspection DataFlowIssue,ConstantConditions
         assertThat(false).isTrue();
     }
 
@@ -83,7 +83,7 @@ class FilialeReadServiceTest {
     }
 
     @ParameterizedTest(name = "[{index}] Suche mit vorhandenem Nachnamen: nachname={0}")
-    @ValueSource(strings = NACHNAME)
+    @ValueSource(strings = Name)
     @DisplayName("Suche mit vorhandenem Nachnamen")
     void findByNachname(final String nachname) {
         // given

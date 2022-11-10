@@ -11,7 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.LinkRelation;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 import java.util.Map;
@@ -107,10 +112,10 @@ final class FilialeGetController {
     }
 
     /**
-     * Abfrage, welche Nachnamen es zu einem Präfix gibt.
+     * Abfrage, welche Name es zu einem Präfix gibt.
      *
-     * @param prefix Nachname-Präfix als Pfadvariable.
-     * @return Die passenden Nachnamen oder Statuscode 404, falls es keine gibt.
+     * @param prefix Namen-Präfix als Pfadvariable.
+     * @return Die passenden Namen oder Statuscode 404, falls es keine gibt.
      */
     @GetMapping(path = NAMEN_PATH + "/{prefix}", produces = APPLICATION_JSON_VALUE)
     ResponseEntity<String> findNameByPrefix(@PathVariable final String prefix) {

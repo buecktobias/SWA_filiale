@@ -22,10 +22,10 @@ import com.acme.filiale.entity.Umsatz;
 import java.net.URL;
 
 /**
- * ValueObject für das Neuanlegen und Ändern einer neuen Filiale. Beim Lesen wird die Klasse FilialeModel für die Ausgabe
- * verwendet.
+ * ValueObject für das Neuanlegen und Ändern einer neuen Filiale. Beim Lesen wird die Klasse FilialeModel
+ * für die Ausgabe verwendet.
  *
- * @param name Gültiger Nachname eines Kunden, d.h. mit einem geeigneten Muster.
+ * @param name Gültiger Name eines Kunden, d.h. mit einem geeigneten Muster.
  * @param email Email der Filiale.
  * @param homepage Die Homepage der Filiale.
  * @param umsatz Der Umsatz der Filiale.

@@ -154,11 +154,11 @@ paths:
           description: Kunde neu angelegt
         "400":
           description: Syntaktische Fehler im Request-Body
-  /nachname/{prefix}:
+  /name/{prefix}:
     get:
       tags:
       - Kunde API
-      operationId: findNachnamenByPrefix
+      operationId: findNamenByPrefix
       parameters:
       - name: prefix
         in: path
@@ -188,7 +188,7 @@ components:
     KundeDTO:
       type: object
       properties:
-        nachname:
+        name:
           type: string
         email:
           type: string
@@ -266,7 +266,7 @@ components:
     KundeModel:
       type: object
       properties:
-        nachname:
+        name:
           type: string
         email:
           type: string

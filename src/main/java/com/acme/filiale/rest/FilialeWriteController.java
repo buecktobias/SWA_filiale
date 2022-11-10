@@ -19,7 +19,11 @@ package com.acme.filiale.rest;
 import com.acme.filiale.rest.patch.InvalidPatchOperationException;
 import com.acme.filiale.rest.patch.FilialePatcher;
 import com.acme.filiale.rest.patch.PatchOperation;
-import com.acme.filiale.service.*;
+import com.acme.filiale.service.ConstraintViolationsException;
+import com.acme.filiale.service.EmailExistsException;
+import com.acme.filiale.service.FilialeReadService;
+import com.acme.filiale.service.FilialeWriteService;
+import com.acme.filiale.service.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -72,7 +76,7 @@ final class FilialeWriteController {
     @SuppressWarnings("TrailingComment")
     private static final String PROBLEM_PATH = "/problem/"; //NOSONAR
 
-    private final FilialeWriteService service;
+    private final FilialeWriteService writeService;
     private final FilialeReadService readService;
     private final FilialePatcher patcher;
 
@@ -98,7 +102,7 @@ final class FilialeWriteController {
     ) throws URISyntaxException {
         log.debug("create: {}", filialeDTO);
 
-        final var kunde = service.create(filialeDTO.toKunde());
+        final var kunde = writeService.create(filialeDTO.toKunde());
         final var baseUri = getBaseUri(request);
         final var location = new URI(baseUri + "/" + kunde.getId()); //NOSONAR
         return created(location).build();
@@ -124,7 +128,7 @@ final class FilialeWriteController {
         @RequestBody final FilialeDTO filialeDTO
     ) {
         log.debug("update: id={}, {}", id, filialeDTO);
-        service.update(filialeDTO.toKunde(), id);
+        writeService.update(filialeDTO.toKunde(), id);
         return noContent().build();
     }
 
@@ -151,7 +155,7 @@ final class FilialeWriteController {
         final var kunde = readService.findById(id);
         patcher.patch(kunde, operations);
         log.debug("patch: {}", kunde);
-        service.update(kunde, id);
+        writeService.update(kunde, id);
         return noContent().build();
     }
 
@@ -166,7 +170,7 @@ final class FilialeWriteController {
     @ApiResponse(responseCode = "204", description = "Gelöscht")
     ResponseEntity<Void> deleteById(@PathVariable final UUID id)  {
         log.debug("deleteById: id={}", id);
-        service.deleteById(id);
+        writeService.deleteById(id);
         return noContent().build();
     }
 

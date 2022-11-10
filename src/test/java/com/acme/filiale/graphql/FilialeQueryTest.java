@@ -30,13 +30,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.ApplicationContext;
-import org.springframework.graphql.client.HttpGraphQlClient;
-import org.springframework.graphql.execution.ErrorType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.reactive.function.client.WebClient;
 import static com.acme.filiale.config.dev.DevConfig.DEV;
 import static com.acme.filiale.entity.Adresse.PLZ_PATTERN;
-import static com.acme.filiale.entity.Filiale.NACHNAME_PATTERN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.condition.JRE.JAVA_18;
 import static org.junit.jupiter.api.condition.JRE.JAVA_19;
@@ -82,7 +79,7 @@ class FilialeQueryTest {
             {
                 kunden(input: {}) {
                     id
-                    nachname
+                    name
                     email
                 }
             }
@@ -105,7 +102,7 @@ class FilialeQueryTest {
         for (int i = 0; i < anzahl; i++) {
             final var id = response.field("kunden[%d].id".formatted(i)).toEntity(String.class);
             softly.assertThat(id).matches(ID_PATTERN);
-            final var nachname = response.field("kunden[%d].nachname".formatted(i)).toEntity(String.class);
+            final var nachname = response.field("kunden[%d].name".formatted(i)).toEntity(String.class);
             softly.assertThat(nachname).matches(NACHNAME_PATTERN);
             final var email = response.field("kunden[%d].email".formatted(i)).toEntity(String.class);
             softly.assertThat(email).contains("@");

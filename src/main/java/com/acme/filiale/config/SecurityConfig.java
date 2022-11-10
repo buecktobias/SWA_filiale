@@ -26,13 +26,15 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.List;
 
-import static com.acme.filiale.security.Rolle.*;
+import static com.acme.filiale.security.Rolle.ACTUATOR;
+import static com.acme.filiale.security.Rolle.ADMIN;
+import static com.acme.filiale.security.Rolle.KUNDE;
 import static org.springframework.security.crypto.factory.PasswordEncoderFactories.createDelegatingPasswordEncoder;
 
 /**
  * Security-Konfiguration.
  *
- @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
+ * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
 // https://github.com/spring-projects/spring-security/tree/master/samples
 interface SecurityConfig {

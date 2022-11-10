@@ -78,7 +78,7 @@ class FilialeMutationTest {
             mutation {
                 create(
                     input: {
-                        nachname: "Neuernachname-Graphql"
+                        name: "Neuernachname-Graphql"
                         email: "neue.email.graphql@acme.com"
                         kategorie: 1
                         hasNewsletter: true
@@ -122,7 +122,7 @@ class FilialeMutationTest {
     void createInvalid() {
         // given
         final var paths = List.of(
-            "input.nachname",
+            "input.name",
             "input.email",
             "input.kategorie",
             "input.interessen",
@@ -133,7 +133,7 @@ class FilialeMutationTest {
             mutation {
                 create(
                     input: {
-                        nachname: "?!$"
+                        name: "?!$"
                         email: "email@"
                         kategorie: 11
                         hasNewsletter: true

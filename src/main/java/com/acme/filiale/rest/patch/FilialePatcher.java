@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import static com.acme.filiale.rest.patch.PatchOperationType.*;
+import static com.acme.filiale.rest.patch.PatchOperationType.ADD;
+import static com.acme.filiale.rest.patch.PatchOperationType.REMOVE;
+import static com.acme.filiale.rest.patch.PatchOperationType.REPLACE;
 
 /**
  * Klasse, um PATCH-Operationen auf Kunde-Objekte anzuwenden.
@@ -48,7 +50,7 @@ public final class FilialePatcher {
     private void replaceOps(final Filiale filiale, final Iterable<PatchOperation> ops) {
         ops.forEach(op -> {
             switch (op.path()) {
-                case "/nachname" -> filiale.setName(op.value());
+                case "/name" -> filiale.setName(op.value());
                 case "/email" -> filiale.setEmail(op.value());
                 default -> throw new InvalidPatchOperationException();
             }

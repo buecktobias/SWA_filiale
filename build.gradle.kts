@@ -293,7 +293,7 @@ sweeney {
     enforce(mapOf("type" to "gradle", "expect" to "[7.5,7.7]"))
     // https://www.java.com/releases
     // https://devcenter.heroku.com/articles/java-support#specifying-a-java-version
-    enforce(mapOf("type" to "jdk", "expect" to "[17,19]"))
+    enforce(mapOf("type" to "jdk", "expect" to "[17,20]"))
     validate()
 }
 

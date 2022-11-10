@@ -104,7 +104,7 @@ public final class FilialeReadService {
     /**
      * Abfrage, welche Namen es zu einem Präfix gibt.
      *
-     * @param prefix Nachname-Präfix.
+     * @param prefix Namen-Präfix.
      * @return Die passenden Name.
      * @throws NotFoundException Falls kein Name gefunden wurden.
      */

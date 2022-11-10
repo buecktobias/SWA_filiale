@@ -20,7 +20,11 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.net.URL;
 import java.util.UUID;
@@ -50,7 +54,7 @@ public class Filiale {
     public static final long MAX_KATEGORIE = 9L;
 
     /**
-     * Die ID der Filiale
+     * Die ID der Filiale.
      *
      * @param id Die ID.
      * @return Die ID.
@@ -61,7 +65,7 @@ public class Filiale {
     /**
      * Der Name der Filiale.
      *
-     * @param nachname Der Name.
+     * @param name Der Name.
      * @return Der Name.
      */
     @NotEmpty
