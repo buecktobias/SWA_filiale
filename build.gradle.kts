@@ -101,10 +101,6 @@ plugins {
     // https://github.com/boxheed/gradle-sweeney-plugin
     alias(libs.plugins.sweeney)
 
-    // https://github.com/policeman-tools/forbidden-apis
-    // TODO Java 19
-    alias(libs.plugins.forbiddenapis)
-
     // https://github.com/jeremylong/dependency-check-gradle
     alias(libs.plugins.owaspDependencycheck)
 
@@ -341,7 +337,8 @@ tasks.named<BootBuildImage>("bootBuildImage") {
             // https://github.com/paketo-buildpacks/bellsoft-liberica/releases
             // https://paketo.io/docs/howto/java/#use-an-alternative-jvm
             // default: 11
-            "BP_JVM_VERSION" to "17.0.0",
+            "BP_JVM_TYPE" to "JDK",
+            "BP_JVM_VERSION" to "18.0.0",
             // https://github.com/paketo-buildpacks/bellsoft-liberica#configuration
             // https://github.com/paketo-buildpacks/spring-boot: Default=50 bei WebFlux statt 250
             // "BPL_JVM_THREAD_COUNT" to "250",
