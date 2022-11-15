@@ -31,6 +31,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -97,7 +98,7 @@ final class FilialeWriteController {
     @ApiResponse(responseCode = "400", description = "Syntaktische Fehler im Request-Body")
     @ApiResponse(responseCode = "422", description = "Ungültige Werte oder Email vorhanden")
     @SuppressWarnings("TrailingComment")
-    ResponseEntity<Void> create(
+    ResponseEntity<String> create(
         @RequestBody final FilialeDTO filialeDTO,
         final HttpServletRequest request
     ) throws URISyntaxException {
@@ -107,8 +108,10 @@ final class FilialeWriteController {
         final var baseUri = getBaseUri(request);
         log.debug(filiale.toString());
         final var location = new URI(baseUri + "/" + filiale.getId());
-        return created(location)
-            .build();
+        log.info("###########LOCATION: " + location.toString());
+        final var headers = new HttpHeaders();
+        headers.set("Location", location.toString());
+        return new ResponseEntity<>("", headers,  HttpStatus.CREATED);
     }
 
     /**
