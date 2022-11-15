@@ -39,7 +39,6 @@ import java.util.UUID;
 public final class FilialeWriteService {
     private final FilialenRepository repo;
 
-    // https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#validation-beanvalidation
     private final Validator validator;
 
     /**

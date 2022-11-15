@@ -44,7 +44,7 @@ record FilialeDTO(
      *
      * @return filialeobjekt für den Anwendungskern
      */
-    Filiale tofiliale() {
+    Filiale toFiliale() {
         return Filiale
             .builder()
             .id(null)

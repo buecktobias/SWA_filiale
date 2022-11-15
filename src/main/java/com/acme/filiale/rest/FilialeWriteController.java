@@ -74,7 +74,7 @@ import static org.springframework.http.ResponseEntity.notFound;
 @SuppressWarnings("ClassFanOutComplexity")
 final class FilialeWriteController {
     @SuppressWarnings("TrailingComment")
-    private static final String PROBLEM_PATH = "/problem/"; //NOSONAR
+    private static final String PROBLEM_PATH = "/problem/";
 
     private final FilialeWriteService writeService;
     private final FilialeReadService readService;
@@ -90,8 +90,8 @@ final class FilialeWriteController {
      *      vorliegen.
      * @throws URISyntaxException falls die URI im Request-Objekt nicht korrekt wäre
      */
-    @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Einen neuen filialen anlegen", tags = "Neuanlegen")
+    @PostMapping(path="/create",consumes = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Eine neuen filialen anlegen", tags = "Neuanlegen")
     @ApiResponse(responseCode = "201", description = "filiale neu angelegt")
     @ApiResponse(responseCode = "400", description = "Syntaktische Fehler im Request-Body")
     @ApiResponse(responseCode = "422", description = "Ungültige Werte oder Email vorhanden")
@@ -102,9 +102,9 @@ final class FilialeWriteController {
     ) throws URISyntaxException {
         log.debug("create: {}", filialeDTO);
 
-        final var filiale = writeService.create(filialeDTO.tofiliale());
+        final var filiale = writeService.create(filialeDTO.toFiliale());
         final var baseUri = getBaseUri(request);
-        final var location = new URI(baseUri + "/" + filiale.getId()); //NOSONAR
+        final var location = new URI(baseUri + "/" + filiale.getId());
         return created(location).build();
     }
 
@@ -128,7 +128,7 @@ final class FilialeWriteController {
         @RequestBody final FilialeDTO filialeDTO
     ) {
         log.debug("update: id={}, {}", id, filialeDTO);
-        writeService.update(filialeDTO.tofiliale(), id);
+        writeService.update(filialeDTO.toFiliale(), id);
         return noContent().build();
     }
 

@@ -1,0 +1,13 @@
+{
+    "name": "?!:",
+    "email": "email",
+    "umsatz": {
+        "betrag": 0,
+        "waehrung": "EUR"
+    },
+    "homepage": "https://www.test.de",
+    "adresse": {
+        "plz": "1",
+        "ort": ""
+    }
+}
