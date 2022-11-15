@@ -108,10 +108,7 @@ final class FilialeWriteController {
         final var baseUri = getBaseUri(request);
         log.debug(filiale.toString());
         final var location = new URI(baseUri + "/" + filiale.getId());
-        log.info("###########LOCATION: " + location.toString());
-        final var headers = new HttpHeaders();
-        headers.set("Location", location.toString());
-        return new ResponseEntity<>("", headers,  HttpStatus.CREATED);
+        return created(location).build();
     }
 
     /**
@@ -124,7 +121,7 @@ final class FilialeWriteController {
      *      Statuscode 400 falls syntaktische Fehler im Request-Body vorliegen.
      */
     @PutMapping(path = "{id:" + ID_PATTERN + "}", consumes = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Einen filialen mit neuen Werten aktualisieren", tags = "Aktualisieren")
+    @Operation(summary = "Eine filialen mit neuen Werten aktualisieren", tags = "Aktualisieren")
     @ApiResponse(responseCode = "204", description = "Aktualisiert")
     @ApiResponse(responseCode = "400", description = "Syntaktische Fehler im Request-Body")
     @ApiResponse(responseCode = "404", description = "filiale nicht vorhanden")

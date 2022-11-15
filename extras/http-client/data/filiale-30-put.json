@@ -6,6 +6,7 @@
         "waehrung": "EUR"
     },
     "homepage": "https://www.acme.de.put",
+    "email": "alphaput@acme.de",
     "adresse": {
         "plz": "33333",
         "ort": "Ahlen"
