@@ -1,5 +1,5 @@
 {
-    "nachname": "Test",
+    "name": "Test",
     "email": "alpha@acme.de",
     "umsatz": {
         "betrag": 0,

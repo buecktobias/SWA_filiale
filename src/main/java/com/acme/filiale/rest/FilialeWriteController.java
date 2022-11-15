@@ -30,6 +30,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -102,10 +103,12 @@ final class FilialeWriteController {
     ) throws URISyntaxException {
         log.debug("create: {}", filialeDTO);
 
-        final var filiale = writeService.create(filialeDTO.toFiliale());
+        var filiale = writeService.create(filialeDTO.toFiliale());
+        filiale = writeService.create(filiale);
         final var baseUri = getBaseUri(request);
         final var location = new URI(baseUri + "/" + filiale.getId());
-        return created(location).build();
+        return created(location)
+            .build();
     }
 
     /**

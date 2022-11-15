@@ -62,9 +62,9 @@ public final class FilialeWriteService {
             throw new EmailExistsException(filiale.getEmail());
         }
 
-        final var kundeDB = repo.create(filiale);
-        log.debug("create: {}", kundeDB);
-        return kundeDB;
+        final var filialeDb = repo.create(filiale);
+        log.debug("create: {}", filialeDb);
+        return filialeDb;
     }
 
     /**
