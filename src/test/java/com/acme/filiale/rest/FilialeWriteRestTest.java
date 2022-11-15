@@ -16,7 +16,6 @@
  */
 package com.acme.filiale.rest;
 
-import com.acme.filiale.entity.InteresseType;
 import com.acme.filiale.rest.patch.PatchOperation;
 import java.net.URI;
 import java.net.URL;

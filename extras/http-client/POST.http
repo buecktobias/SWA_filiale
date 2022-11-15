@@ -14,7 +14,6 @@ Content-Type: application/json
         const headers = response.headers;
         client.assert(typeof headers === 'object', `headers: ${JSON.stringify(headers)}`);
         const location = headers.valueOf('Location');
-        // TODO https://youtrack.jetbrains.com/issue/IDEA-239259/JDK-11-responseheader-is-emtpy https://youtrack.jetbrains.com/issue/IDEA-239550/JDK-11-Response-handler-doesnt-work-Nashorn-is-removed
         client.assert(typeof location === 'string', `headers: ${JSON.stringify(headers)}`);
         client.assert(location.match(/[A-Fa-f\d]{8}-([A-Fa-f\d]{4}-){3}[A-Fa-f\d]{12}$/).length > 0, `location: ${location}`);
     });

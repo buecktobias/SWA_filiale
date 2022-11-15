@@ -104,8 +104,8 @@ final class FilialeWriteController {
         log.debug("create: {}", filialeDTO);
 
         var filiale = writeService.create(filialeDTO.toFiliale());
-        filiale = writeService.create(filiale);
         final var baseUri = getBaseUri(request);
+        log.debug(filiale.toString());
         final var location = new URI(baseUri + "/" + filiale.getId());
         return created(location)
             .build();

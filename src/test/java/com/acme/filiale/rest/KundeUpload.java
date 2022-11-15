@@ -17,8 +17,7 @@
 package com.acme.filiale.rest;
 
 import com.acme.filiale.entity.FamilienstandType;
-import com.acme.filiale.entity.GeschlechtType;
-import com.acme.filiale.entity.InteresseType;
+
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
