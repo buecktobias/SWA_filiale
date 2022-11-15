@@ -44,16 +44,6 @@ import java.util.UUID;
 @SuppressWarnings({"ClassFanOutComplexity", "JavadocDeclaration", "RequireEmptyLineBeforeBlockTagGroup"})
 public class Filiale {
     /**
-     * Kleinster Wert für eine Kategorie.
-     */
-    public static final long MIN_KATEGORIE = 0L;
-
-    /**
-     * Maximaler Wert für eine Kategorie.
-     */
-    public static final long MAX_KATEGORIE = 9L;
-
-    /**
      * Die ID der Filiale.
      *
      * @param id Die ID.
