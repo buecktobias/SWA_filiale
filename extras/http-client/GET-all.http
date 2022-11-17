@@ -21,8 +21,8 @@ Authorization: Basic {{userAdmin}} {{password}}
         const body = response.body;
         client.assert(typeof body === 'object', `body: ${JSON.stringify(body)}`);
         // TODO Optional Chaining
-        const kunden = body;
-        client.assert(Array.isArray(kunden), `body: ${JSON.stringify(body)}`);
-        client.assert(kunden.length > 0, `kunden: ${JSON.stringify(kunden)}`);
+        const filialen = body;
+        client.assert(Array.isArray(filialen), `body: ${JSON.stringify(body)}`);
+        client.assert(filialen.length > 0, `filialen: ${JSON.stringify(filialen)}`);
     });
 %}

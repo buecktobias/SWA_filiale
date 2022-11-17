@@ -241,7 +241,7 @@ class FilialeWriteRestTest {
         @DisplayName("Aendern eines vorhandenen Kunden durch PUT")
         void put(final String id) {
             // given
-            final var kundeOrig = kundeRepo.getKunde(id).block();
+            final var kundeOrig = kundeRepo.getFiliale(id).block();
             assertThat(kundeOrig).isNotNull();
             final var umsatzOrig = kundeOrig.umsatz();
             final var umsatz = (umsatzOrig == null)

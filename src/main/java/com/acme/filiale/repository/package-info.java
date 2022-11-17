@@ -16,6 +16,6 @@
  */
 
 /**
- * Repository für Kunden.
+ * Repository für Filialen.
  */
 package com.acme.filiale.repository;

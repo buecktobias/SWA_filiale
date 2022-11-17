@@ -97,7 +97,7 @@ include::./KundeWriteService.plantuml[]
 
 bla bla
 
-.Die Entity-Klasse "Kunde" für Kundendaten
+.Die Entity-Klasse "Filiale" für Filialedaten
 [plantuml,Kunde,svg]
 ----
 include::./Kunde.plantuml[]

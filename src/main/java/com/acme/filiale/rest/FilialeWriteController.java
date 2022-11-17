@@ -16,8 +16,8 @@
  */
 package com.acme.filiale.rest;
 
-import com.acme.filiale.rest.patch.InvalidPatchOperationException;
 import com.acme.filiale.rest.patch.FilialePatcher;
+import com.acme.filiale.rest.patch.InvalidPatchOperationException;
 import com.acme.filiale.rest.patch.PatchOperation;
 import com.acme.filiale.service.ConstraintViolationsException;
 import com.acme.filiale.service.EmailExistsException;
@@ -30,8 +30,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -86,13 +84,13 @@ final class FilialeWriteController {
      * Einen neuen filiale-Datensatz anlegen.
      *
      * @param filialeDTO Das filialenobjekt aus dem eingegangenen Request-Body.
-     * @param request Das Request-Objekt, um `Location` im Response-Header zu erstellen.
+     * @param request    Das Request-Objekt, um `Location` im Response-Header zu erstellen.
      * @return Response mit Statuscode 201 einschließlich Location-Header oder Statuscode 422 falls Constraints verletzt
-     *      sind oder die Emailadresse bereits existiert oder Statuscode 400 falls syntaktische Fehler im Request-Body
-     *      vorliegen.
+     *     sind oder die Emailadresse bereits existiert oder Statuscode 400 falls syntaktische Fehler im Request-Body
+     *     vorliegen.
      * @throws URISyntaxException falls die URI im Request-Objekt nicht korrekt wäre
-     */
-    @PostMapping(path="/create",consumes = APPLICATION_JSON_VALUE)
+     * */
+    @PostMapping(path = "/create", consumes = APPLICATION_JSON_VALUE)
     @Operation(summary = "Eine neuen filialen anlegen", tags = "Neuanlegen")
     @ApiResponse(responseCode = "201", description = "filiale neu angelegt")
     @ApiResponse(responseCode = "400", description = "Syntaktische Fehler im Request-Body")
@@ -104,7 +102,7 @@ final class FilialeWriteController {
     ) throws URISyntaxException {
         log.debug("create: {}", filialeDTO);
 
-        var filiale = writeService.create(filialeDTO.toFiliale());
+        final var filiale = writeService.create(filialeDTO.toFiliale());
         final var baseUri = getBaseUri(request);
         log.debug(filiale.toString());
         final var location = new URI(baseUri + "/" + filiale.getId());
@@ -114,14 +112,14 @@ final class FilialeWriteController {
     /**
      * Einen vorhandenen filiale-Datensatz überschreiben.
      *
-     * @param id ID des zu aktualisierenden filialen.
+     * @param id         ID des zu aktualisierenden filialen.
      * @param filialeDTO Das filialenobjekt aus dem eingegangenen Request-Body.
      * @return Response mit Statuscode 204 oder Statuscode 422, falls Constraints verletzt sind oder
-     *      der JSON-Datensatz syntaktisch nicht korrekt ist oder falls die Emailadresse bereits existiert oder
-     *      Statuscode 400 falls syntaktische Fehler im Request-Body vorliegen.
+     *     der JSON-Datensatz syntaktisch nicht korrekt ist oder falls die Emailadresse bereits existiert oder
+     *     Statuscode 400 falls syntaktische Fehler im Request-Body vorliegen.
      */
     @PutMapping(path = "{id:" + ID_PATTERN + "}", consumes = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Eine filialen mit neuen Werten aktualisieren", tags = "Aktualisieren")
+    @Operation(summary = "Eine Filiale mit neuen Werten aktualisieren", tags = "Aktualisieren")
     @ApiResponse(responseCode = "204", description = "Aktualisiert")
     @ApiResponse(responseCode = "400", description = "Syntaktische Fehler im Request-Body")
     @ApiResponse(responseCode = "404", description = "filiale nicht vorhanden")
@@ -138,14 +136,14 @@ final class FilialeWriteController {
     /**
      * Einen vorhandenen filiale-Datensatz durch PATCH aktualisieren.
      *
-     * @param id ID des zu aktualisierenden filialen.
+     * @param id         ID des zu aktualisierenden filialen.
      * @param operations Die Collection der Patch-Operationen
      * @return Response mit Statuscode 204 oder 422, falls Constraints verletzt sind oder
-     *      der JSON-Datensatz syntaktisch nicht korrekt ist oder falls die Emailadresse bereits existiert oder 400
-     *      falls syntaktische Fehler vorliegen.
+     *     der JSON-Datensatz syntaktisch nicht korrekt ist oder falls die Emailadresse bereits existiert oder 400
+     *     falls syntaktische Fehler vorliegen.
      */
     @PatchMapping(path = "{id:" + ID_PATTERN + "}", consumes = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Einen filialen mit einzelnen neuen Werten aktualisieren", tags = "Aktualisieren")
+    @Operation(summary = "Eine Filiale mit einzelnen neuen Werten aktualisieren", tags = "Aktualisieren")
     @ApiResponse(responseCode = "204", description = "Aktualisiert")
     @ApiResponse(responseCode = "400", description = "Syntaktische Fehler im Request-Body")
     @ApiResponse(responseCode = "404", description = "filiale nicht vorhanden")
@@ -163,15 +161,15 @@ final class FilialeWriteController {
     }
 
     /**
-     * Einen vorhandenen Kunden anhand seiner ID löschen.
+     * Einen vorhandene Filiale anhand seiner ID löschen.
      *
-     * @param id ID des zu löschenden Kunden.
+     * @param id ID des zu löschenden Filiale.
      * @return Response mit Statuscode 204.
      */
     @DeleteMapping(path = "{id:" + ID_PATTERN + "}")
-    @Operation(summary = "Einen Kunden anhand der ID loeschen", tags = "Loeschen")
+    @Operation(summary = "Eine Filiale anhand der ID löschen", tags = "Löschen")
     @ApiResponse(responseCode = "204", description = "Gelöscht")
-    ResponseEntity<Void> deleteById(@PathVariable final UUID id)  {
+    ResponseEntity<Void> deleteById(@PathVariable final UUID id) {
         log.debug("deleteById: id={}", id);
         writeService.deleteById(id);
         return noContent().build();

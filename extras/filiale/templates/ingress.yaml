@@ -39,7 +39,7 @@ spec:
           #   kubernetes.docker.internal/kunden wird zu kubernetes.docker.internal:8080/
           #   kubernetes.docker.internal/kunden/123 wird zu kubernetes.docker.internal:8080/123
           #   kubernetes.docker.internal/kunden/graphql wird zu kubernetes.docker.internal:8080/graphql
-          - path: /kunden(/|$)(.*)
+          - path: /filiale(/|$)(.*)
             pathType: Prefix
             backend:
               service:

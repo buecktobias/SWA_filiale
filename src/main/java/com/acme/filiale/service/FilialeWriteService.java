@@ -68,13 +68,13 @@ public final class FilialeWriteService {
     }
 
     /**
-     * Einen vorhandenen Kunden aktualisieren.
+     * Einen vorhandenen Filiale aktualisieren.
      *
      * @param filiale Das Objekt mit den neuen Daten (ohne ID)
-     * @param id ID des zu aktualisierenden Kunden
+     * @param id ID des zu aktualisierenden Filiale
      * @throws ConstraintViolationsException Falls mindestens ein Constraint verletzt ist.
-     * @throws NotFoundException Kein Kunde zur ID vorhanden.
-     * @throws EmailExistsException Es gibt bereits einen Kunden mit der Emailadresse.
+     * @throws NotFoundException Keine Filiale zur ID vorhanden.
+     * @throws EmailExistsException Es gibt bereits eine Filiale mit der Emailadresse.
      */
     public void update(final Filiale filiale, final UUID id) {
         log.debug("update: {}", filiale);
@@ -93,7 +93,7 @@ public final class FilialeWriteService {
 
         final var email = filiale.getEmail();
         final var kundeDb = kundeDbOptional.get();
-        // Ist die neue Email bei einem *ANDEREN* Kunden vorhanden?
+        // Ist die neue Email bei einer *ANDEREN* Filiale  vorhanden?
         if (!Objects.equals(email, kundeDb.getEmail()) && repo.isEmailExisting(email)) {
             log.debug("update: email {} existiert", email);
             throw new EmailExistsException(email);
@@ -104,9 +104,9 @@ public final class FilialeWriteService {
     }
 
     /**
-     * Einen vorhandenen Kunden löschen.
+     * Eine vorhandene Filiale löschen.
      *
-     * @param id Die ID des zu löschenden Kunden.
+     * @param id Die ID des zu löschenden Filiale.
      */
     public void deleteById(final UUID id) {
         log.debug("deleteById: id={}", id);

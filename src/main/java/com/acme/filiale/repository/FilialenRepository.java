@@ -36,7 +36,7 @@ import static com.acme.filiale.repository.DB.FILIALEN;
 import static java.util.UUID.randomUUID;
 
 /**
- * Repository für den DB-Zugriff bei Kunden.
+ * Repository für den DB-Zugriff bei Filialen.
  *
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
@@ -64,7 +64,7 @@ public final class FilialenRepository {
      * Z.B. mit GET https://localhost:8080/api?name=A&amp;plz=7
      *
      * @param suchkriterien Suchkriterien.
-     * @return Gefundene Kunden oder leere Collection.
+     * @return Gefundene Filialen oder leere Collection.
      */
     @SuppressWarnings({"ReturnCount", "JavadocLinkAsPlainText"})
     public @NonNull Collection<Filiale> find(final Map<String, String> suchkriterien) {
@@ -92,9 +92,9 @@ public final class FilialenRepository {
     }
 
     /**
-     * Alle Kunden als Collection ermitteln, wie sie später auch von der DB kommen.
+     * Alle Filialen als Collection ermitteln, wie sie später auch von der DB kommen.
      *
-     * @return Alle Kunden
+     * @return Alle Filialen
      */
     public @NonNull Collection<Filiale> findAll() {
         return FILIALEN;
@@ -119,7 +119,7 @@ public final class FilialenRepository {
      * Abfrage, ob es eine Filiale mit gegebener Emailadresse gibt.
      *
      * @param email Emailadresse für die Suche
-     * @return true, falls es einen solchen Kunden gibt, sonst false
+     * @return true, falls es einen solchen Filialen gibt, sonst false
      */
     public boolean isEmailExisting(final String email) {
         log.debug("isEmailExisting: email={}", email);
@@ -163,9 +163,9 @@ public final class FilialenRepository {
     }
 
     /**
-     * Einen neuen Kunden anlegen.
+     * Einen neuen Filialen anlegen.
      *
-     * @param filiale Das Objekt des neu anzulegenden Kunden.
+     * @param filiale Das Objekt des neu anzulegenden Filialen.
      * @return Der neu angelegte Kunde mit generierter ID
      */
     public @NonNull Filiale create(final @NonNull Filiale filiale) {
@@ -177,7 +177,7 @@ public final class FilialenRepository {
     }
 
     /**
-     * Einen vorhandenen Kunden aktualisieren.
+     * Einen vorhandenen Filiale aktualisieren.
      *
      * @param filiale Das Objekt mit den neuen Daten
      */
@@ -196,9 +196,9 @@ public final class FilialenRepository {
     }
 
     /**
-     * Einen vorhandenen Kunden löschen.
+     * Einen vorhandenen Filiale löschen.
      *
-     * @param id Die ID des zu löschenden Kunden.
+     * @param id Die ID des zu löschenden Filiale.
      */
     public void deleteById(final UUID id) {
         log.debug("deleteById: id={}", id);
@@ -208,6 +208,6 @@ public final class FilialenRepository {
             .findFirst();
         log.trace("deleteById: index={}", index);
         index.ifPresent(FILIALEN::remove);
-        log.debug("deleteById: #KUNDEN={}", FILIALEN.size());
+        log.debug("deleteById: #Filiale={}", FILIALEN.size());
     }
 }

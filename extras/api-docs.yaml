@@ -3,15 +3,15 @@ info:
   title: OpenAPI definition
   version: v0
 servers:
-- url: https://localhost:8080
+- url: http://localhost:8080/openAPI
   description: Generated server url
 paths:
   /{id}:
     get:
       tags:
       - Suchen
-      - Kunde API
-      summary: Suche mit der Kunde-ID
+      - Filialen API
+      summary: Suche mit der Filiale-ID
       operationId: findById
       parameters:
       - name: id
@@ -22,7 +22,7 @@ paths:
           format: uuid
       responses:
         "200":
-          description: Kunde gefunden
+          description: Filiale gefunden
           content:
             application/hal+json:
               schema:
@@ -37,7 +37,7 @@ paths:
       tags:
       - Aktualisieren
       - Kunde API
-      summary: Einen Kunden mit neuen Werten aktualisieren
+      summary: Eine Filiale mit neuen Werten aktualisieren
       operationId: update
       parameters:
       - name: id
@@ -65,7 +65,7 @@ paths:
       tags:
       - Loeschen
       - Kunde API
-      summary: Einen Kunden anhand der ID loeschen
+      summary: Eine Filiale anhand der ID loeschen
       operationId: deleteById
       parameters:
       - name: id
@@ -81,7 +81,7 @@ paths:
       tags:
       - Aktualisieren
       - Kunde API
-      summary: Einen Kunden mit einzelnen neuen Werten aktualisieren
+      summary: Eine Filiale mit einzelnen neuen Werten aktualisieren
       operationId: patch
       parameters:
       - name: id
@@ -124,13 +124,13 @@ paths:
             type: string
       responses:
         "404":
-          description: Keine Kunden gefunden
+          description: Keine Filialen gefunden
           content:
             application/hal+json:
               schema:
                 $ref: '#/components/schemas/CollectionModelKundeModel'
         "200":
-          description: CollectionModel mid den Kunden
+          description: CollectionModel mid den Filialen
           content:
             application/hal+json:
               schema:
@@ -139,7 +139,7 @@ paths:
       tags:
       - Neuanlegen
       - Kunde API
-      summary: Einen neuen Kunden anlegen
+      summary: Eine neue Filiale anlegen
       operationId: create
       requestBody:
         content:
@@ -318,10 +318,10 @@ components:
         _embedded:
           type: object
           properties:
-            kunden:
+            filialen:
               type: array
               items:
-                $ref: '#/components/schemas/KundeModel'
+                $ref: '#/components/schemas/FilialenModel'
         _links:
           $ref: '#/components/schemas/Links'
     Link:

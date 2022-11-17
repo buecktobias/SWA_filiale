@@ -71,7 +71,7 @@ class FilialeMutationTest {
     }
 
     @Test
-    @DisplayName("Neuanlegen eines neuen Kunden")
+    @DisplayName("Neuanlegen einer neuen Filiale")
     void create() {
         // given
         final var mutation = """

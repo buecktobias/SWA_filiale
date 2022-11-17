@@ -27,8 +27,8 @@ import reactor.core.publisher.Mono;
 @SuppressWarnings("WriteTag")
 interface KundeRepository {
     @GetExchange("{id}")
-    Mono<KundeDownload> getKunde(@PathVariable String id);
+    Mono<KundeDownload> getFiliale(@PathVariable String id);
 
     @GetExchange("")
-    Mono<KundenDownload> getKunden(@RequestParam Map<String, String> suchkriterien);
+    Mono<FialialenDownload> getFilialen(@RequestParam Map<String, String> suchkriterien);
 }

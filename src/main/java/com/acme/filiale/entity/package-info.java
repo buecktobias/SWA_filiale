@@ -16,6 +16,6 @@
  */
 
 /**
- * Entity-Klassen für Kunden.
+ * Entity-Klassen für Filialen.
  */
 package com.acme.filiale.entity;

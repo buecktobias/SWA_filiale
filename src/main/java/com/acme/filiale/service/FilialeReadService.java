@@ -22,9 +22,9 @@ public final class FilialeReadService {
     private final FilialenRepository repo;
 
     /**
-     * Einen Kunden anhand seiner ID suchen.
+     * Eine Filiale anhand seiner ID suchen.
      *
-     * @param id Die Id des gesuchten Kunden
+     * @param id Die Id der gesuchten Filiale
      * @return Der gefundene Kunde
      * @throws NotFoundException Falls kein Kunde gefunden wurde
      */
@@ -37,11 +37,11 @@ public final class FilialeReadService {
     }
 
     /**
-     * Kunden anhand von Suchkriterien als Collection suchen.
+     * Filiale anhand von Suchkriterien als Collection suchen.
      *
      * @param suchkriterien Die Suchkriterien
-     * @return Die gefundenen Kunden oder eine leere Liste
-     * @throws NotFoundException Falls keine Kunden gefunden wurden
+     * @return Die gefundenen Filiale oder eine leere Liste
+     * @throws NotFoundException Falls keine Filiale gefunden wurden
      */
     @SuppressWarnings({"ReturnCount", "NestedIfDepth"})
     public Collection<Filiale> find(final Map<String, String> suchkriterien) {
@@ -54,12 +54,12 @@ public final class FilialeReadService {
         if (suchkriterien.size() == 1) {
             final var name = suchkriterien.get("name");
             if (name != null) {
-                final var kunden = repo.findByName(name);
-                if (kunden.isEmpty()) {
+                final var filiale = repo.findByName(name);
+                if (filiale.isEmpty()) {
                     throw new NotFoundException(suchkriterien);
                 }
-                log.debug("find (name): {}", kunden);
-                return kunden;
+                log.debug("find (name): {}", filiale);
+                return filiale;
             }
 
             final var email = suchkriterien.get("email");
@@ -68,18 +68,18 @@ public final class FilialeReadService {
                 if (kunde.isEmpty()) {
                     throw new NotFoundException(suchkriterien);
                 }
-                final var kunden = List.of(kunde.get());
-                log.debug("find (email): {}", kunden);
-                return kunden;
+                final var filialen = List.of(kunde.get());
+                log.debug("find (email): {}", filialen);
+                return filialen;
             }
         }
 
-        final var kunden = repo.find(suchkriterien);
-        if (kunden.isEmpty()) {
+        final var filialen = repo.find(suchkriterien);
+        if (filialen.isEmpty()) {
             throw new NotFoundException(suchkriterien);
         }
-        log.debug("find: {}", kunden);
-        return kunden;
+        log.debug("find: {}", filialen);
+        return filialen;
     }
 
     /**

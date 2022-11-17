@@ -19,5 +19,5 @@ package com.acme.filiale.rest;
 import java.util.List;
 
 @SuppressWarnings("WriteTag")
-record KundeDownloadList(List<KundeDownload> kunden) {
+record KundeDownloadList(List<KundeDownload> filialen) {
 }

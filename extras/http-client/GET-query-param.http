@@ -22,9 +22,9 @@ Authorization: Basic {{userAdmin}} {{password}}
         // TODO Optional Chaining
         const filialen = body;
         client.assert(Array.isArray(filialen), `body: ${JSON.stringify(body)}`);
-        client.assert(filialen.length > 0, `kunden: ${JSON.stringify(filialen)}`);
+        client.assert(filialen.length > 0, `filialen: ${JSON.stringify(filialen)}`);
         filialen.map(filiale => filiale.name)
-            .forEach(name => client.assert(name.includes('Alpha'), `kunden: ${JSON.stringify(filialen)}`));
+            .forEach(name => client.assert(name.includes('Alpha'), `filialen: ${JSON.stringify(filialen)}`));
     });
 %}
 
@@ -64,10 +64,10 @@ Authorization: Basic {{userAdmin}} {{password}}
     client.test('GET mit vorhandener Email: body mit Daten', () => {
         const body = response.body;
         client.assert(typeof body === 'object', `body: ${JSON.stringify(body)}`);
-        const kunden = body;
-        client.assert(Array.isArray(kunden), `body: ${JSON.stringify(body)}`);
-        client.assert(kunden.length === 1);
-        const filiale = kunden[0];
+        const filialen = body;
+        client.assert(Array.isArray(filialen), `body: ${JSON.stringify(body)}`);
+        client.assert(filialen.length === 1);
+        const filiale = filialen[0];
         client.assert(filiale.email === 'admin@acme.com', `body: ${JSON.stringify(body)}`);
     });
 %}

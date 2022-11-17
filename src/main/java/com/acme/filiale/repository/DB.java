@@ -34,12 +34,12 @@ import static java.math.BigDecimal.ZERO;
 import static java.util.Locale.GERMANY;
 
 /**
- * Emulation der Datenbasis für persistente Kunden.
+ * Emulation der Datenbasis für persistente Filialen.
  */
 @SuppressWarnings({"UtilityClassCanBeEnum", "UtilityClass", "MagicNumber", "RedundantSuppression"})
 final class DB {
     /**
-     * Liste der Kunden zur Emulation der DB.
+     * Liste der Filialen zur Emulation der DB.
      */
     @SuppressWarnings("StaticCollection")
     static final List<Filiale> FILIALEN = getFilialen();

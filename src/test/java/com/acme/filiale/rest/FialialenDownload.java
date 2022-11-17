@@ -17,5 +17,5 @@
 package com.acme.filiale.rest;
 
 @SuppressWarnings({"WriteTag", "RecordComponentName"})
-record KundenDownload(KundeDownloadList _embedded) {
+record FialialenDownload(KundeDownloadList _embedded) {
 }

@@ -110,16 +110,16 @@ class FilialeGetRestTest {
     }
 
     @Test
-    @DisplayName("Suche nach allen Kunden")
+    @DisplayName("Suche nach allen Filialen")
     @SuppressWarnings("DataFlowIssue")
     void findAll() {
         // when
-        final var kunden = kundeRepo.getKunden(emptyMap()).block();
+        final var kunden = kundeRepo.getFilialen(emptyMap()).block();
 
         // then
         softly.assertThat(kunden).isNotNull();
         softly.assertThat(kunden._embedded()).isNotNull();
-        softly.assertThat(kunden._embedded().kunden())
+        softly.assertThat(kunden._embedded().filialen())
             .isNotNull()
             .isNotEmpty();
     }
@@ -133,12 +133,12 @@ class FilialeGetRestTest {
         final var suchkriterien = Map.of(NACHNAME_PARAM, nachname);
 
         // when
-        final var kunden = kundeRepo.getKunden(suchkriterien).block();
+        final var kunden = kundeRepo.getFilialen(suchkriterien).block();
 
         // then
         softly.assertThat(kunden).isNotNull();
         softly.assertThat(kunden._embedded()).isNotNull();
-        final var kundenList = kunden._embedded().kunden();
+        final var kundenList = kunden._embedded().filialen();
         softly.assertThat(kundenList)
             .isNotNull()
             .isNotEmpty();
@@ -189,7 +189,7 @@ class FilialeGetRestTest {
             // given
 
             // when
-            final var kunde = kundeRepo.getKunde(id).block();
+            final var kunde = kundeRepo.getFiliale(id).block();
 
             // then
             assertThat(kunde).isNotNull();

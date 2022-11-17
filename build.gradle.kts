@@ -146,7 +146,7 @@ repositories {
     maven("https://repo.spring.io/milestone") { mavenContent { releasesOnly() } }
 
     // Snapshots von Spring (auch erforderlich fuer Snapshots von springdoc-openapi)
-    // maven("https://repo.spring.io/snapshot") { mavenContent { snapshotsOnly() } }
+    //maven("https://repo.spring.io/snapshot") { mavenContent { snapshotsOnly() } }
 
     // Snapshots von springdoc-openapi
     // maven("https://s01.oss.sonatype.org/content/repositories/snapshots") { mavenContent { snapshotsOnly() } }
@@ -336,9 +336,8 @@ tasks.named<BootBuildImage>("bootBuildImage") {
         mapOf(
             // https://github.com/paketo-buildpacks/bellsoft-liberica/releases
             // https://paketo.io/docs/howto/java/#use-an-alternative-jvm
-            // default: 11
-            "BP_JVM_TYPE" to "JDK",
-            "BP_JVM_VERSION" to "18.0.0",
+            "BP_JVM_TYPE" to "JRE",
+            "BP_JVM_VERSION" to "19.0.1",
             // https://github.com/paketo-buildpacks/bellsoft-liberica#configuration
             // https://github.com/paketo-buildpacks/spring-boot: Default=50 bei WebFlux statt 250
             // "BPL_JVM_THREAD_COUNT" to "250",

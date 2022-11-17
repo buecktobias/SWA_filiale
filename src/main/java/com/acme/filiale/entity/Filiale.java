@@ -30,7 +30,7 @@ import java.net.URL;
 import java.util.UUID;
 
 /**
- * Daten eines Kunden. In DDD ist Kunde ist ein Aggregate Root.
+ * Daten einer Filiale. In DDD ist Kunde ist ein Aggregate Root.
  * <img src="../../../../../asciidoc/Kunde.svg" alt="Klassendiagramm">
  *
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
