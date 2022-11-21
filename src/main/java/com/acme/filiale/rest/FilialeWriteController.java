@@ -86,10 +86,10 @@ final class FilialeWriteController {
      * @param filialeDTO Das filialenobjekt aus dem eingegangenen Request-Body.
      * @param request    Das Request-Objekt, um `Location` im Response-Header zu erstellen.
      * @return Response mit Statuscode 201 einschließlich Location-Header oder Statuscode 422 falls Constraints verletzt
-     *     sind oder die Emailadresse bereits existiert oder Statuscode 400 falls syntaktische Fehler im Request-Body
-     *     vorliegen.
+     * sind oder die Emailadresse bereits existiert oder Statuscode 400 falls syntaktische Fehler im Request-Body
+     * vorliegen.
      * @throws URISyntaxException falls die URI im Request-Objekt nicht korrekt wäre
-     * */
+     */
     @PostMapping(path = "/create", consumes = APPLICATION_JSON_VALUE)
     @Operation(summary = "Eine neuen filialen anlegen", tags = "Neuanlegen")
     @ApiResponse(responseCode = "201", description = "filiale neu angelegt")
@@ -115,8 +115,8 @@ final class FilialeWriteController {
      * @param id         ID des zu aktualisierenden filialen.
      * @param filialeDTO Das filialenobjekt aus dem eingegangenen Request-Body.
      * @return Response mit Statuscode 204 oder Statuscode 422, falls Constraints verletzt sind oder
-     *     der JSON-Datensatz syntaktisch nicht korrekt ist oder falls die Emailadresse bereits existiert oder
-     *     Statuscode 400 falls syntaktische Fehler im Request-Body vorliegen.
+     * der JSON-Datensatz syntaktisch nicht korrekt ist oder falls die Emailadresse bereits existiert oder
+     * Statuscode 400 falls syntaktische Fehler im Request-Body vorliegen.
      */
     @PutMapping(path = "{id:" + ID_PATTERN + "}", consumes = APPLICATION_JSON_VALUE)
     @Operation(summary = "Eine Filiale mit neuen Werten aktualisieren", tags = "Aktualisieren")
@@ -139,9 +139,10 @@ final class FilialeWriteController {
      * @param id         ID des zu aktualisierenden filialen.
      * @param operations Die Collection der Patch-Operationen
      * @return Response mit Statuscode 204 oder 422, falls Constraints verletzt sind oder
-     *     der JSON-Datensatz syntaktisch nicht korrekt ist oder falls die Emailadresse bereits existiert oder 400
-     *     falls syntaktische Fehler vorliegen.
+     * der JSON-Datensatz syntaktisch nicht korrekt ist oder falls die Emailadresse bereits existiert oder 400
+     * falls syntaktische Fehler vorliegen.
      */
+    /*
     @PatchMapping(path = "{id:" + ID_PATTERN + "}", consumes = APPLICATION_JSON_VALUE)
     @Operation(summary = "Eine Filiale mit einzelnen neuen Werten aktualisieren", tags = "Aktualisieren")
     @ApiResponse(responseCode = "204", description = "Aktualisiert")
@@ -159,13 +160,14 @@ final class FilialeWriteController {
         writeService.update(filiale, id);
         return noContent().build();
     }
-
+    */
     /**
      * Einen vorhandene Filiale anhand seiner ID löschen.
      *
      * @param id ID des zu löschenden Filiale.
      * @return Response mit Statuscode 204.
      */
+    /*
     @DeleteMapping(path = "{id:" + ID_PATTERN + "}")
     @Operation(summary = "Eine Filiale anhand der ID löschen", tags = "Löschen")
     @ApiResponse(responseCode = "204", description = "Gelöscht")
@@ -174,7 +176,7 @@ final class FilialeWriteController {
         writeService.deleteById(id);
         return noContent().build();
     }
-
+*/
     @ExceptionHandler(ConstraintViolationsException.class)
     @SuppressWarnings("unused")
     ResponseEntity<ProblemDetail> handleConstraintViolations(

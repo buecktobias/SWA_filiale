@@ -68,7 +68,6 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.asciidoctor.gradle.jvm.AsciidoctorTask
 import org.asciidoctor.gradle.jvm.pdf.AsciidoctorPdfTask
-import org.gradle.internal.component.model.Exclude
 import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 import org.springframework.boot.gradle.tasks.run.BootRun
@@ -165,6 +164,7 @@ repositories {
 dependencies {
     //implementation(platform(libs.micrometerBom))
     implementation(platform(libs.jacksonBom))
+    implementation("org.springframework.boot:spring-boot-starter-graphql")
     //implementation(platform(libs.nettyBom))
     //implementation(platform(libs.reactorBom))
     //implementation(platform(libs.springBom))
@@ -180,7 +180,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.24");
 
     testCompileOnly("org.projectlombok:lombok:1.18.24");
-    testAnnotationProcessor("org.projectlombok:lombok:1.18.24");
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.24")
     // "Starters" enthalten sinnvolle Abhaengigkeiten, die man i.a. benoetigt
     // spring-boot-starter beinhaltet Spring Boot mit Actuator sowie spring-boot-starter-logging mit Logback
     implementation("org.springframework.boot:spring-boot-starter")
@@ -188,7 +188,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-tomcat")
     implementation("org.springframework.boot:spring-boot-starter-json")
-    // implementation("org.springframework.boot:spring-boot-starter-graphql")
+    implementation("org.springframework.boot:spring-boot-starter-graphql")
     implementation("org.springframework.boot:spring-boot-starter-hateoas")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     // Auskommentieren fuer Beispiel 1
@@ -237,7 +237,6 @@ dependencies {
 
     constraints {
         implementation(libs.annotations)
-        //implementation(libs.springGraphQL)
         //implementation(libs.springHateoas)
         implementation(libs.jakartaPersistence)
         implementation(libs.hibernate)
@@ -424,7 +423,7 @@ tasks.test {
         // includeTags = setOf("rest")
         // includeTags = setOf("rest_get")
         // includeTags = setOf("rest_write")
-        // includeTags = setOf("graphql")
+        includeTags = setOf("graphql")
         // includeTags = setOf("query")
         // includeTags = setOf("mutation")
 

@@ -59,7 +59,7 @@ class FilialeMutationTest {
     private SoftAssertions softly;
 
     FilialeMutationTest(@LocalServerPort final int port, final ApplicationContext ctx) {
-        final var getController = ctx.getBean(KundeMutationController.class);
+        final var getController = ctx.getBean(FilialeMutationController.class);
         assertThat(getController).isNotNull();
 
         final var baseUrl = SCHEMA + "://" + HOST + ":" + port + "/graphql";

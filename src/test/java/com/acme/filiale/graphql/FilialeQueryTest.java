@@ -60,7 +60,7 @@ class FilialeQueryTest {
     private SoftAssertions softly;
 
     FilialeQueryTest(@LocalServerPort final int port, final ApplicationContext ctx) {
-        final var getController = ctx.getBean(KundeQueryController.class);
+        final var getController = ctx.getBean(FilialeQueryController.class);
         assertThat(getController).isNotNull();
 
         final var baseUrl = SCHEMA + "://" + HOST + ":" + port + "/graphql";

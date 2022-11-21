@@ -1,0 +1,88 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Adresse {
+    "Ortsangabe"
+    ort: String!
+    "Postleitzahl der Adresse"
+    plz: String!
+}
+
+"Rückgabetyp beim Neuanlegen eines Kunden"
+type CreatePayload {
+    "ID des neu angelegten Kunden"
+    id: String!
+}
+
+"Eigenschaften eines Kunde-Datensatzes mit untergeordneten Eigenschaften"
+type Filiale {
+    adresse: Adresse!
+    " https://www.graphql-scalars.dev/docs/scalars/email-address"
+    email: String!
+    homepage: String
+    "ID der Filiale"
+    id: ID
+    kategorie: Int!
+    "Name der Filiale"
+    name: String!
+}
+
+type Mutation {
+    "Einen neuen Kundendatensatz anlegen"
+    create(input: FIlialeInput!): CreatePayload
+}
+
+"Suche nach Filialendaten"
+type Query {
+    "Suche Kundendaten anhand der ID"
+    filiale(id: ID!): Filiale
+    "Suche Filialendaten anhand des Nachnamens oder der Emailadresse"
+    filialen(input: Suchkriterien): [Filiale!]
+}
+
+type Umsatz {
+    "Der Betrag"
+    betrag: String!
+    "Die Währung"
+    waehrung: String!
+}
+
+"Neue oder geänderte Adresse"
+input AdresseInput {
+    ort: String!
+    plz: String!
+}
+
+"Eingabedaten für einen neue Filiale"
+input FIlialeInput {
+    "Adresse der neuen Filiale"
+    adresse: AdresseInput!
+    "Emailadresse der neuen Filiale"
+    email: String!
+    homepage: String
+    kategorie: Int!
+    "Name der Filiale"
+    name: String!
+    "Umsatzangabe zur neuen Filiale"
+    umsatz: UmsatzInput
+}
+
+"Suchkriterien für die Query 'filiale'"
+input Suchkriterien {
+    "Emailadresse der gesuchten Filiale"
+    email: String
+    "Name der gesuchten Filiale"
+    name: String
+}
+
+"Umsatzeingabe für einen Kunden: Neuanlegen oder Ändern"
+input UmsatzInput {
+    "Betrag"
+    betrag: String!
+    "Währung"
+    waehrung: String!
+}

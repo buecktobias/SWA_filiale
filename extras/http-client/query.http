@@ -3,7 +3,7 @@ GRAPHQL {{baseUrl}}/graphql
 
 query {
   filiale(id: "00000000-0000-0000-0000-000000000001") {
-    nachname
+    name
   }
 }
 
@@ -12,7 +12,7 @@ GRAPHQL {{baseUrl}}/graphql
 
 query {
   filiale(id: "ffffffff-ffff-ffff-ffff-ffffffffffff") {
-    nachname
+    name
   }
 }
 
@@ -21,15 +21,10 @@ GRAPHQL {{baseUrl}}/graphql
 
 query {
   filiale(id: "00000000-0000-0000-0000-000000000001") {
-    nachname
+    name
     email
     kategorie
-    hasNewsletter
-    geburtsdatum
     homepage
-    geschlecht
-    familienstand
-    interessen
     umsatz {
       betrag
       waehrung
@@ -47,14 +42,8 @@ GRAPHQL {{baseUrl}}/graphql
 query {
   kunden {
     id
-    nachname
-    kategorie
-    hasNewsletter
-    geburtsdatum
+    name
     homepage
-    geschlecht
-    familienstand
-    interessen
     umsatz {
       betrag
       waehrung
@@ -72,14 +61,8 @@ GRAPHQL {{baseUrl}}/graphql
 query {
   kunden(input: {email: "admin@acme.com"}) {
     id
-    nachname
-    kategorie
-    hasNewsletter
-    geburtsdatum
+    name
     homepage
-    geschlecht
-    familienstand
-    interessen
     umsatz {
       betrag
       waehrung
@@ -104,17 +87,11 @@ query {
 GRAPHQL {{baseUrl}}/graphql
 
 query {
-  kunden(input: {nachname: "a"}) {
+  filialen(input: {name: "a"}) {
     id
-    nachname
-    email
+    name
     kategorie
-    hasNewsletter
-    geburtsdatum
     homepage
-    geschlecht
-    familienstand
-    interessen
     umsatz {
       betrag
       waehrung
@@ -129,7 +106,7 @@ query {
 GRAPHQL {{baseUrl}}/graphql
 
 query {
-  kunden(input: {nachname: "Nichtvorhanden"}) {
+  filialen(input: {name: "Nichtvorhanden"}) {
     id
   }
 }
