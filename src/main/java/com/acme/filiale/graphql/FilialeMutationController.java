@@ -16,7 +16,7 @@
  */
 package com.acme.filiale.graphql;
 
-import com.acme.kunde.service.KundeWriteService;
+import com.acme.filiale.service.FilialeWriteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -31,8 +31,8 @@ import org.springframework.stereotype.Controller;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-final class KundeMutationController {
-    private final KundeWriteService service;
+final class FilialeMutationController {
+    private final FilialeWriteService service;
 
     /**
      * Einen neuen Kunden anlegen.
@@ -41,9 +41,9 @@ final class KundeMutationController {
      * @return Die generierte ID für den neuen Kunden als Payload
      */
     @MutationMapping
-    CreatePayload create(@Argument final KundeInput input) {
+    CreatePayload create(@Argument final FilialeInput input) {
         log.debug("create: input={}", input);
-        final var id = service.create(input.toKunde()).getId();
+        final var id = service.create(input.toFiliale()).getId();
         log.debug("create: id={}", id);
         return new CreatePayload(id);
     }

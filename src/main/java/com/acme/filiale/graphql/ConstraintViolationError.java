@@ -16,15 +16,17 @@
  */
 package com.acme.filiale.graphql;
 
-import com.acme.kunde.entity.Kunde;
+import com.acme.filiale.entity.Filiale;
 import graphql.GraphQLError;
 import graphql.language.SourceLocation;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Path.Node;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.execution.ErrorType;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.springframework.graphql.execution.ErrorType.BAD_REQUEST;
 
 /**
@@ -36,7 +38,7 @@ import static org.springframework.graphql.execution.ErrorType.BAD_REQUEST;
 @RequiredArgsConstructor
 @SuppressWarnings("SerializableDeserializableClassInSecureContext")
 final class ConstraintViolationError implements GraphQLError {
-    private final ConstraintViolation<Kunde> violation;
+    private final ConstraintViolation<Filiale> violation;
 
     /**
      * ErrorType auf BAD_REQUEST setzen.

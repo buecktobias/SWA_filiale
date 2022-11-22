@@ -16,9 +16,9 @@
  */
 package com.acme.filiale.graphql;
 
-import com.acme.kunde.service.ConstraintViolationsException;
-import com.acme.kunde.service.EmailExistsException;
-import com.acme.kunde.service.NotFoundException;
+import com.acme.filiale.service.ConstraintViolationsException;
+import com.acme.filiale.service.EmailExistsException;
+import com.acme.filiale.service.NotFoundException;
 import graphql.GraphQLError;
 import graphql.schema.DataFetchingEnvironment;
 import java.time.format.DateTimeParseException;

@@ -16,8 +16,8 @@
  */
 package com.acme.filiale.graphql;
 
-import com.acme.kunde.entity.Kunde;
-import com.acme.kunde.service.KundeReadService;
+import com.acme.filiale.entity.Filiale;
+import com.acme.filiale.service.FilialeReadService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -36,7 +36,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 final class KundeQueryController {
-    private final KundeReadService service;
+    private final FilialeReadService service;
 
     /**
      * Suche anhand der Kunde-ID.
@@ -45,7 +45,7 @@ final class KundeQueryController {
      * @return Der gefundene Kunde
      */
     @QueryMapping
-    Kunde kunde(@Argument final UUID id) {
+    Filiale filiale(@Argument final UUID id) {
         log.debug("kunde: id={}", id);
         final var kunde = service.findById(id);
         log.debug("kunde: {}", kunde);
@@ -59,7 +59,7 @@ final class KundeQueryController {
      * @return Die gefundenen Kunden als Collection
      */
     @QueryMapping
-    Collection<Kunde> kunden(@Argument final Suchkriterien input) {
+    Collection<Filiale> filialen(@Argument final Suchkriterien input) {
         log.debug("kunden: suchkriterien={}", input);
         final var kunden = service.find(input.toMap());
         log.debug("kunden: {}", kunden);

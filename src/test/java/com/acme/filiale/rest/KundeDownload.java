@@ -26,13 +26,7 @@ import java.util.List;
 record KundeDownload(
     String nachname,
     String email,
-    int kategorie,
-    boolean hasNewsletter,
-    LocalDate geburtsdatum,
     URL homepage,
-    GeschlechtType geschlecht,
-    FamilienstandType familienstand,
-    List<InteresseType> interessen,
     Umsatz umsatz,
     Adresse adresse,
 

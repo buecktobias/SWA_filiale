@@ -16,15 +16,12 @@
  */
 package com.acme.filiale.graphql;
 
-import com.acme.kunde.entity.Adresse;
-import com.acme.kunde.entity.FamilienstandType;
-import com.acme.kunde.entity.GeschlechtType;
-import com.acme.kunde.entity.InteresseType;
-import com.acme.kunde.entity.Kunde;
-import com.acme.kunde.entity.Umsatz;
+import com.acme.filiale.entity.Adresse;
+import com.acme.filiale.entity.Filiale;
+import com.acme.filiale.entity.Umsatz;
+
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  * Eine Value-Klasse für Eingabedaten passend zu KundeInput aus dem GraphQL-Schema.
@@ -36,23 +33,17 @@ import java.util.List;
  * @param hasNewsletter Newsletter-Abonnement
  * @param geburtsdatum Geburtsdatum
  * @param homepage URL der Homepage
- * @param geschlecht Geschlecht
- * @param familienstand Familienstand
- * @param interessen Interessen als Liste
  * @param umsatz Umsatz
  * @param adresse Adresse
  */
 @SuppressWarnings("RecordComponentNumber")
-record KundeInput(
+record FilialeInput(
     String nachname,
     String email,
     int kategorie,
     boolean hasNewsletter,
     String geburtsdatum,
     URL homepage,
-    GeschlechtType geschlecht,
-    FamilienstandType familienstand,
-    List<InteresseType> interessen,
     UmsatzInput umsatz,
     AdresseInput adresse
 ) {
@@ -61,7 +52,7 @@ record KundeInput(
      *
      * @return Das konvertierte Kunde-Objekt
      */
-    Kunde toKunde() {
+    Filiale toFiliale() {
         final LocalDate geburtsdatumTmp;
         geburtsdatumTmp = LocalDate.parse(geburtsdatum);
         Umsatz umsatzTmp = null;
@@ -70,18 +61,12 @@ record KundeInput(
         }
         final var adresseTmp = Adresse.builder().plz(adresse.plz()).ort(adresse.ort()).build();
 
-        return Kunde
+        return Filiale
             .builder()
             .id(null)
-            .nachname(nachname)
+            .name(nachname)
             .email(email)
-            .kategorie(kategorie)
-            .hasNewsletter(hasNewsletter)
-            .geburtsdatum(geburtsdatumTmp)
             .homepage(homepage)
-            .geschlecht(geschlecht)
-            .familienstand(familienstand)
-            .interessen(interessen)
             .umsatz(umsatzTmp)
             .adresse(adresseTmp)
             .build();

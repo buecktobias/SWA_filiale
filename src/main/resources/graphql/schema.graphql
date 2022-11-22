@@ -1,0 +1,127 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Adresse {
+  "Ortsangabe"
+  ort: String!
+  "Postleitzahl der Adresse"
+  plz: String!
+}
+
+"Rückgabetyp beim Neuanlegen eines Kunden"
+type CreatePayload {
+  "ID des neu angelegten Kunden"
+  id: String!
+}
+
+"Eigenschaften eines Kunde-Datensatzes mit untergeordneten Eigenschaften"
+type Kunde {
+  adresse: Adresse!
+  " https://www.graphql-scalars.dev/docs/scalars/email-address"
+  email: String!
+  familienstand: String
+  " https://www.graphql-scalars.dev/docs/scalars/local-date"
+  geburtsdatum: String
+  geschlecht: String
+  hasNewsletter: Boolean!
+  homepage: String
+  "ID des Kunden"
+  id: ID
+  interessen: [String!]
+  kategorie: Int!
+  "Nachname des Kunden"
+  nachname: String!
+  umsatz: Umsatz
+}
+
+type Mutation {
+  "Einen neuen Kundendatensatz anlegen"
+  create(input: KundeInput!): CreatePayload
+}
+
+"Suche nach Kundendaten"
+type Query {
+  "Suche Kundendaten anhand der ID"
+  kunde(id: ID!): Kunde
+  "Suche Kundendaten anhand des Nachnamens oder der Emailadresse"
+  kunden(input: Suchkriterien): [Kunde!]
+}
+
+type Umsatz {
+  "Der Betrag"
+  betrag: String!
+  "Die Währung"
+  waehrung: String!
+}
+
+"Aufzählungstyp für den Familienstand eines Kunden"
+enum Familienstand {
+  GESCHIEDEN
+  LEDIG
+  VERHEIRATET
+  VERWITWET
+}
+
+"Aufzählungstyp für das Geschlecht eines Kunden"
+enum Geschlecht {
+  DIVERS
+  MAENNLICH
+  WEIBLICH
+}
+
+"Aufzählungstyp für die Interessen eines Kunden"
+enum Interesse {
+  LESEN
+  REISEN
+  SPORT
+}
+
+"Neue oder geänderte Adresse"
+input AdresseInput {
+  ort: String!
+  plz: String!
+}
+
+"Eingabedaten für einen neuen Kunden"
+input KundeInput {
+  "Adresse des neuen Kunden"
+  adresse: AdresseInput!
+  "Emailadresse des neuen Kunden"
+  email: String!
+  "Familienstand des neuen Kunden: LEDIG, VERHEIRATET, GESCHIEDEN, VERWITWET"
+  familienstand: Familienstand
+  "Geburtsdatum des neuen Kunden"
+  geburtsdatum: String
+  "Geschlecht des neuen Kunden: MAENNLICH, WEIBLICH, DIVERS"
+  geschlecht: Geschlecht
+  "Newsletter-Abo: true / false"
+  hasNewsletter: Boolean!
+  homepage: String
+  "InteressEN des neuen Kunden: SPORT, LESEN, REISEN"
+  interessen: [Interesse!]
+  kategorie: Int!
+  "Nachname des neuen Kunden"
+  nachname: String!
+  "Umsatzangabe zum neuen Kunden"
+  umsatz: UmsatzInput
+}
+
+"Suchkriterien für die Query 'kunden'"
+input Suchkriterien {
+  "Emailadresse der gesuchten Kunden"
+  email: String
+  "Nachname der gesuchten Kunden"
+  nachname: String
+}
+
+"Umsatzeingabe für einen Kunden: Neuanlegen oder Ändern"
+input UmsatzInput {
+  "Betrag"
+  betrag: String!
+  "Währung"
+  waehrung: String!
+}
