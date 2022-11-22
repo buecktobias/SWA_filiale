@@ -6,7 +6,6 @@ mutation {
     input: {
       name: "Graphql"
       email: "graphql@graphql.de"
-      kategorie: 1
       homepage: "https://graphql.de"
       umsatz: {
         betrag: "200"
@@ -30,7 +29,6 @@ mutation {
     input: {
       name: "?!:"
       email: "email@"
-      kategorie: 11
       homepage: "https://graphql.de"
       umsatz: {
         betrag: "1"

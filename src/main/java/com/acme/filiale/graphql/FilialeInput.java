@@ -20,7 +20,6 @@ import com.acme.filiale.entity.Adresse;
 import com.acme.filiale.entity.Filiale;
 import com.acme.filiale.entity.Umsatz;
 import java.net.URL;
-import java.time.LocalDate;
 
 /**
  * Eine Value-Klasse für Eingabedaten passend zu KundeInput aus dem GraphQL-Schema.
@@ -28,7 +27,6 @@ import java.time.LocalDate;
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  * @param name Nachname
  * @param email Emailadresse
- * @param geburtsdatum Geburtsdatum
  * @param homepage URL der Homepage
  * @param umsatz Umsatz
  * @param adresse Adresse
@@ -37,7 +35,6 @@ import java.time.LocalDate;
 record FilialeInput(
     String name,
     String email,
-    String geburtsdatum,
     URL homepage,
     UmsatzInput umsatz,
     AdresseInput adresse
@@ -48,8 +45,6 @@ record FilialeInput(
      * @return Das konvertierte Kunde-Objekt
      */
     Filiale toFiliale() {
-        final LocalDate geburtsdatumTmp;
-        geburtsdatumTmp = LocalDate.parse(geburtsdatum);
         Umsatz umsatzTmp = null;
         if (umsatz != null) {
             umsatzTmp = Umsatz.builder().betrag(umsatz.betrag()).waehrung(umsatz.waehrung()).build();

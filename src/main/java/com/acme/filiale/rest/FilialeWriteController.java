@@ -16,12 +16,9 @@
  */
 package com.acme.filiale.rest;
 
-import com.acme.filiale.rest.patch.FilialePatcher;
 import com.acme.filiale.rest.patch.InvalidPatchOperationException;
-import com.acme.filiale.rest.patch.PatchOperation;
 import com.acme.filiale.service.ConstraintViolationsException;
 import com.acme.filiale.service.EmailExistsException;
-import com.acme.filiale.service.FilialeReadService;
 import com.acme.filiale.service.FilialeWriteService;
 import com.acme.filiale.service.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,9 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -45,7 +40,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Collection;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -55,6 +49,7 @@ import static com.acme.filiale.rest.UriHelper.getRequestUri;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.notFound;
@@ -77,8 +72,6 @@ final class FilialeWriteController {
     private static final String PROBLEM_PATH = "/problem/";
 
     private final FilialeWriteService writeService;
-    private final FilialeReadService readService;
-    private final FilialePatcher patcher;
 
     /**
      * Einen neuen filiale-Datensatz anlegen.
@@ -86,8 +79,8 @@ final class FilialeWriteController {
      * @param filialeDTO Das filialenobjekt aus dem eingegangenen Request-Body.
      * @param request    Das Request-Objekt, um `Location` im Response-Header zu erstellen.
      * @return Response mit Statuscode 201 einschließlich Location-Header oder Statuscode 422 falls Constraints verletzt
-     * sind oder die Emailadresse bereits existiert oder Statuscode 400 falls syntaktische Fehler im Request-Body
-     * vorliegen.
+     *      sind oder die Emailadresse bereits existiert oder Statuscode 400 falls syntaktische Fehler im Request-Body
+     *          vorliegen.
      * @throws URISyntaxException falls die URI im Request-Objekt nicht korrekt wäre
      */
     @PostMapping(path = "/create", consumes = APPLICATION_JSON_VALUE)
@@ -133,50 +126,6 @@ final class FilialeWriteController {
         return noContent().build();
     }
 
-    /**
-     * Einen vorhandenen filiale-Datensatz durch PATCH aktualisieren.
-     *
-     * @param id         ID des zu aktualisierenden filialen.
-     * @param operations Die Collection der Patch-Operationen
-     * @return Response mit Statuscode 204 oder 422, falls Constraints verletzt sind oder
-     * der JSON-Datensatz syntaktisch nicht korrekt ist oder falls die Emailadresse bereits existiert oder 400
-     * falls syntaktische Fehler vorliegen.
-     */
-    /*
-    @PatchMapping(path = "{id:" + ID_PATTERN + "}", consumes = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Eine Filiale mit einzelnen neuen Werten aktualisieren", tags = "Aktualisieren")
-    @ApiResponse(responseCode = "204", description = "Aktualisiert")
-    @ApiResponse(responseCode = "400", description = "Syntaktische Fehler im Request-Body")
-    @ApiResponse(responseCode = "404", description = "filiale nicht vorhanden")
-    @ApiResponse(responseCode = "422", description = "Constraints verletzt oder Email vorhanden")
-    ResponseEntity<Void> patch(
-        @PathVariable final UUID id,
-        @RequestBody final Collection<PatchOperation> operations
-    ) {
-        log.debug("patch: id={}, operations={}", id, operations);
-        final var filiale = readService.findById(id);
-        patcher.patch(filiale, operations);
-        log.debug("patch: {}", filiale);
-        writeService.update(filiale, id);
-        return noContent().build();
-    }
-    */
-    /**
-     * Einen vorhandene Filiale anhand seiner ID löschen.
-     *
-     * @param id ID des zu löschenden Filiale.
-     * @return Response mit Statuscode 204.
-     */
-    /*
-    @DeleteMapping(path = "{id:" + ID_PATTERN + "}")
-    @Operation(summary = "Eine Filiale anhand der ID löschen", tags = "Löschen")
-    @ApiResponse(responseCode = "204", description = "Gelöscht")
-    ResponseEntity<Void> deleteById(@PathVariable final UUID id) {
-        log.debug("deleteById: id={}", id);
-        writeService.deleteById(id);
-        return noContent().build();
-    }
-*/
     @ExceptionHandler(ConstraintViolationsException.class)
     @SuppressWarnings("unused")
     ResponseEntity<ProblemDetail> handleConstraintViolations(

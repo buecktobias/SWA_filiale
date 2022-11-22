@@ -26,14 +26,14 @@ type Filiale {
     homepage: String
     "ID der Filiale"
     id: ID
-    kategorie: Int!
     "Name der Filiale"
     name: String!
+    umsatz: Umsatz
 }
 
 type Mutation {
     "Einen neuen Kundendatensatz anlegen"
-    create(input: FIlialeInput!): CreatePayload
+    create(input: FilialeInput!): CreatePayload
 }
 
 "Suche nach Filialendaten"
@@ -58,13 +58,12 @@ input AdresseInput {
 }
 
 "Eingabedaten für einen neue Filiale"
-input FIlialeInput {
+input FilialeInput {
     "Adresse der neuen Filiale"
     adresse: AdresseInput!
     "Emailadresse der neuen Filiale"
     email: String!
     homepage: String
-    kategorie: Int!
     "Name der Filiale"
     name: String!
     "Umsatzangabe zur neuen Filiale"

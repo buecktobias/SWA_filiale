@@ -23,7 +23,6 @@ query {
   filiale(id: "00000000-0000-0000-0000-000000000001") {
     name
     email
-    kategorie
     homepage
     umsatz {
       betrag
@@ -40,7 +39,7 @@ query {
 GRAPHQL {{baseUrl}}/graphql
 
 query {
-  kunden {
+  filialen {
     id
     name
     homepage
@@ -59,7 +58,7 @@ query {
 GRAPHQL {{baseUrl}}/graphql
 
 query {
-  kunden(input: {email: "admin@acme.com"}) {
+  filialen(input: {email: "admin@acme.com"}) {
     id
     name
     homepage
@@ -78,7 +77,7 @@ query {
 GRAPHQL {{baseUrl}}/graphql
 
 query {
-  kunden(input: {email: "nicht.vorhanden@acme.com"}) {
+  filialen(input: {email: "nicht.vorhanden@acme.com"}) {
     id
   }
 }
@@ -90,7 +89,6 @@ query {
   filialen(input: {name: "a"}) {
     id
     name
-    kategorie
     homepage
     umsatz {
       betrag
