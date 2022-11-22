@@ -1,15 +1,33 @@
 @file:Suppress("MissingPackageDeclaration", "SpellCheckingInspection", "GrazieInspection")
 
+/*
+* Copyright (C) 2016 - present Juergen Zimmermann, Hochschule Karlsruhe
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
 //  Aufrufe
 //  1) Microservice uebersetzen und starten
 //        .\gradlew bootRun [-Dport=8081] [--args='--debug'] [--continuous]
 //        .\gradlew compileKotlin
 //        .\gradlew compileTestKotlin
+//
 //  2) Microservice als selbstausfuehrendes JAR erstellen und ausfuehren
 //        .\gradlew bootJar
 //        java -jar build/libs/....jar --spring.profiles.active=dev
 //        .\gradlew bootBuildImage [-Dtag='2.0.0']
+//
 //  3) Tests und QS
 //        .\gradlew test [--rerun-tasks]
 //        .\gradlew allureServe
@@ -68,6 +86,7 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.asciidoctor.gradle.jvm.AsciidoctorTask
 import org.asciidoctor.gradle.jvm.pdf.AsciidoctorPdfTask
+import org.gradle.internal.component.model.Exclude
 import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 import org.springframework.boot.gradle.tasks.run.BootRun
@@ -99,6 +118,10 @@ plugins {
 
     // https://github.com/boxheed/gradle-sweeney-plugin
     alias(libs.plugins.sweeney)
+
+    // https://github.com/policeman-tools/forbidden-apis
+    // TODO Java 19
+    alias(libs.plugins.forbiddenapis)
 
     // https://github.com/jeremylong/dependency-check-gradle
     alias(libs.plugins.owaspDependencycheck)
@@ -145,7 +168,7 @@ repositories {
     maven("https://repo.spring.io/milestone") { mavenContent { releasesOnly() } }
 
     // Snapshots von Spring (auch erforderlich fuer Snapshots von springdoc-openapi)
-    //maven("https://repo.spring.io/snapshot") { mavenContent { snapshotsOnly() } }
+    // maven("https://repo.spring.io/snapshot") { mavenContent { snapshotsOnly() } }
 
     // Snapshots von springdoc-openapi
     // maven("https://s01.oss.sonatype.org/content/repositories/snapshots") { mavenContent { snapshotsOnly() } }
@@ -164,7 +187,6 @@ repositories {
 dependencies {
     //implementation(platform(libs.micrometerBom))
     implementation(platform(libs.jacksonBom))
-    implementation("org.springframework.boot:spring-boot-starter-graphql")
     //implementation(platform(libs.nettyBom))
     //implementation(platform(libs.reactorBom))
     //implementation(platform(libs.springBom))
@@ -176,11 +198,7 @@ dependencies {
     implementation(platform(libs.springBootBom))
     // spring-boot-starter-parent als "Parent POM"
     implementation(platform(libs.springdocOpenapiBom))
-    compileOnly("org.projectlombok:lombok:1.18.24");
-    annotationProcessor("org.projectlombok:lombok:1.18.24");
 
-    testCompileOnly("org.projectlombok:lombok:1.18.24");
-    testAnnotationProcessor("org.projectlombok:lombok:1.18.24")
     // "Starters" enthalten sinnvolle Abhaengigkeiten, die man i.a. benoetigt
     // spring-boot-starter beinhaltet Spring Boot mit Actuator sowie spring-boot-starter-logging mit Logback
     implementation("org.springframework.boot:spring-boot-starter")
@@ -188,6 +206,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-tomcat")
     implementation("org.springframework.boot:spring-boot-starter-json")
+    implementation("org.springframework.boot:spring-boot-starter-graphql")
     implementation("org.springframework.boot:spring-boot-starter-hateoas")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     // Auskommentieren fuer Beispiel 1
@@ -236,6 +255,7 @@ dependencies {
 
     constraints {
         implementation(libs.annotations)
+        //implementation(libs.springGraphQL)
         //implementation(libs.springHateoas)
         implementation(libs.jakartaPersistence)
         implementation(libs.hibernate)
@@ -266,10 +286,10 @@ dependencies {
 // }
 
 sweeney {
-    enforce(mapOf("type" to "gradle", "expect" to "[7.5,7.7]"))
+    enforce(mapOf("type" to "gradle", "expect" to "[7.2,8.6]"))
     // https://www.java.com/releases
     // https://devcenter.heroku.com/articles/java-support#specifying-a-java-version
-    enforce(mapOf("type" to "jdk", "expect" to "[17,20]"))
+    enforce(mapOf("type" to "jdk", "expect" to "[16.0.2,20.0.1]"))
     validate()
 }
 
@@ -277,9 +297,9 @@ tasks.compileJava {
     // https://docs.gradle.org/current/dsl/org.gradle.api.tasks.compile.JavaCompile.html
     // https://docs.gradle.org/current/dsl/org.gradle.api.tasks.compile.CompileOptions.html
     // https://dzone.com/articles/gradle-goodness-enabling-preview-features-for-java
-//    options.isDeprecation = true
-//    options.compilerArgs.add("-Xlint:unchecked")
-//    options.compilerArgs.add("--enable-preview")
+    options.isDeprecation = true
+    options.compilerArgs.add("-Xlint:unchecked")
+    options.compilerArgs.add("--enable-preview")
     //options.compilerArgs.add("-Xlint:preview")
     // ohne sourceCompatiblity und targetCompatibility:
     //options.release.set(18)
@@ -334,8 +354,8 @@ tasks.named<BootBuildImage>("bootBuildImage") {
         mapOf(
             // https://github.com/paketo-buildpacks/bellsoft-liberica/releases
             // https://paketo.io/docs/howto/java/#use-an-alternative-jvm
-            "BP_JVM_TYPE" to "JRE",
-            "BP_JVM_VERSION" to "19.0.1",
+            // default: 11
+            "BP_JVM_VERSION" to "19.0.1+11",
             // https://github.com/paketo-buildpacks/bellsoft-liberica#configuration
             // https://github.com/paketo-buildpacks/spring-boot: Default=50 bei WebFlux statt 250
             // "BPL_JVM_THREAD_COUNT" to "250",
@@ -422,7 +442,7 @@ tasks.test {
         // includeTags = setOf("rest")
         // includeTags = setOf("rest_get")
         // includeTags = setOf("rest_write")
-        includeTags = setOf("graphql")
+        // includeTags = setOf("graphql")
         // includeTags = setOf("query")
         // includeTags = setOf("mutation")
 
