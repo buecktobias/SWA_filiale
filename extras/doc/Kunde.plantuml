@@ -1,18 +1,5 @@
-' Copyright (C) 2019 - present Juergen Zimmermann, Hochschule Karlsruhe
-'
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-'
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-'
-' You should have received a copy of the GNU General Public License
-' along with this program.  If not, see <https://www.gnu.org/licenses/>.
-@startuml Kunde
+
+@startuml Filiale
 
 skinparam classAttributeIconSize 0
 ' skinparam monochrome true
@@ -29,15 +16,10 @@ package java {
         class BigDecimal
     }
 
-    package time {
-        class LocalDate
-    }
-
     BigDecimal .up[hidden].> UUID
-    UUID .[hidden].> LocalDate
 }
 
-package com.acme.filiale.entity #DDDDDD {
+package com.acme.filiale #DDDDDD {
     class Umsatz {
         betrag: BigDecimal
         waehrung: Currency
@@ -48,48 +30,20 @@ package com.acme.filiale.entity #DDDDDD {
         ort: String
     }
 
-    enum GeschlechtType {
-        MAENNLICH
-        WEIBLICH
-        DIVERS
-    }
-
-    enum FamilienstandType {
-        LEDIG
-        VERHEIRATET
-        GESCHIEDEN
-        VERWITWET
-    }
-
-    enum InteresseType {
-        SPORT
-        LESEN
-        REISEN
-    }
-
-    class Kunde << entity >> {
+    class Filiale << entity >> {
         id : UUID
-        nachname : String
+        name : String
         email : String
-        kategorie: Int
-        hasNewsletter : Boolean
-        geburtsdatum: LocalDate
         homepage: URL
-        geschlecht: GeschlechtType
-        familienstand: FamilienstandType
-        interessen: List<InteresseType>
+        umsatz: Umsatz
     }
 
-    Kunde *--> "0..1" Umsatz : umsatz
-    Kunde *--> "1" Adresse : adresse
-    Kunde .up.> GeschlechtType
-    Kunde .up.> FamilienstandType
-    Kunde .up.> InteresseType
+    Filiale *--> "0..1" Umsatz : umsatz
+    Filiale *--> "1" Adresse : adresse
 
-    Kunde ..> UUID
-    Kunde ..> LocalDate
-    Kunde ..> List
-    Kunde ..> URL
+    Filiale ..> UUID
+    Filiale ..> List
+    Filiale ..> URL
 
     Umsatz ..> Currency
     Umsatz ..> BigDecimal
@@ -97,6 +51,6 @@ package com.acme.filiale.entity #DDDDDD {
 
 hide empty members
 
-footer (c) Jürgen Zimmermann
+footer (c) Tobias Bück
 
 @enduml
