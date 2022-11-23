@@ -6,13 +6,7 @@ mutation {
     input: {
       name: "Graphql"
       email: "graphql@graphql.de"
-      kategorie: 1
-      hasNewsletter: true
-      geburtsdatum: "2022-02-01"
       homepage: "https://graphql.de"
-      geschlecht: WEIBLICH
-      familienstand: LEDIG
-      interessen: [SPORT, REISEN]
       umsatz: {
         betrag: "200"
         waehrung: "EUR"
@@ -33,15 +27,9 @@ GRAPHQL {{baseUrl}}/graphql
 mutation {
   create(
     input: {
-      nachname: "?!:"
+      name: "?!:"
       email: "email@"
-      kategorie: 11
-      hasNewsletter: true
-      geburtsdatum: "2022-02-01"
       homepage: "https://graphql.de"
-      geschlecht: WEIBLICH
-      familienstand: LEDIG
-      interessen: [SPORT, SPORT]
       umsatz: {
         betrag: "1"
         waehrung: "EUR"

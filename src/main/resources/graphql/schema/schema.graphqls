@@ -1,5 +1,4 @@
-# This file was generated based on ".graphqlconfig". Do not edit manually.
-
+# This file was generated based on ".graphql-config". Do not edit manually.
 schema {
   query: Query
   mutation: Mutation
@@ -19,36 +18,30 @@ type CreatePayload {
 }
 
 "Eigenschaften eines Kunde-Datensatzes mit untergeordneten Eigenschaften"
-type Kunde {
+type Filiale {
   adresse: Adresse!
   " https://www.graphql-scalars.dev/docs/scalars/email-address"
   email: String!
-  familienstand: String
   " https://www.graphql-scalars.dev/docs/scalars/local-date"
-  geburtsdatum: String
-  geschlecht: String
-  hasNewsletter: Boolean!
   homepage: String
   "ID des Kunden"
   id: ID
-  interessen: [String!]
-  kategorie: Int!
   "Nachname des Kunden"
-  nachname: String!
+  name: String!
   umsatz: Umsatz
 }
 
 type Mutation {
   "Einen neuen Kundendatensatz anlegen"
-  create(input: KundeInput!): CreatePayload
+  create(input: FilialeInput!): CreatePayload
 }
 
 "Suche nach Kundendaten"
 type Query {
   "Suche Kundendaten anhand der ID"
-  kunde(id: ID!): Kunde
+  filiale(id: ID!): Filiale
   "Suche Kundendaten anhand des Nachnamens oder der Emailadresse"
-  kunden(input: Suchkriterien): [Kunde!]
+  filialen(input: Suchkriterien): [Filiale!]
 }
 
 type Umsatz {
@@ -58,27 +51,6 @@ type Umsatz {
   waehrung: String!
 }
 
-"Aufzählungstyp für den Familienstand eines Kunden"
-enum Familienstand {
-  GESCHIEDEN
-  LEDIG
-  VERHEIRATET
-  VERWITWET
-}
-
-"Aufzählungstyp für das Geschlecht eines Kunden"
-enum Geschlecht {
-  DIVERS
-  MAENNLICH
-  WEIBLICH
-}
-
-"Aufzählungstyp für die Interessen eines Kunden"
-enum Interesse {
-  LESEN
-  REISEN
-  SPORT
-}
 
 "Neue oder geänderte Adresse"
 input AdresseInput {
@@ -87,25 +59,14 @@ input AdresseInput {
 }
 
 "Eingabedaten für einen neuen Kunden"
-input KundeInput {
+input FilialeInput {
   "Adresse des neuen Kunden"
   adresse: AdresseInput!
   "Emailadresse des neuen Kunden"
   email: String!
-  "Familienstand des neuen Kunden: LEDIG, VERHEIRATET, GESCHIEDEN, VERWITWET"
-  familienstand: Familienstand
-  "Geburtsdatum des neuen Kunden"
-  geburtsdatum: String
-  "Geschlecht des neuen Kunden: MAENNLICH, WEIBLICH, DIVERS"
-  geschlecht: Geschlecht
-  "Newsletter-Abo: true / false"
-  hasNewsletter: Boolean!
   homepage: String
-  "InteressEN des neuen Kunden: SPORT, LESEN, REISEN"
-  interessen: [Interesse!]
-  kategorie: Int!
-  "Nachname des neuen Kunden"
-  nachname: String!
+  "Name des neuen Kunden"
+  name: String!
   "Umsatzangabe zum neuen Kunden"
   umsatz: UmsatzInput
 }
@@ -115,7 +76,7 @@ input Suchkriterien {
   "Emailadresse der gesuchten Kunden"
   email: String
   "Nachname der gesuchten Kunden"
-  nachname: String
+  name: String
 }
 
 "Umsatzeingabe für einen Kunden: Neuanlegen oder Ändern"

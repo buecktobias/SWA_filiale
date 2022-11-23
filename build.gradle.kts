@@ -249,7 +249,7 @@ dependencies {
         implementation(libs.tomcatEl)
         //implementation(libs.bundles.graphqlJavaBundle)
         //implementation(libs.graphqlJava)
-        //implementation(libs.graphqlJavaDataloader)
+        //implementation(libs.//graphqlJavaDataloader)
         //implementation(libs.bundles.slf4jBundle)
         //implementation(libs.logback)
         //implementation(libs.springSecurityRsa)
@@ -424,7 +424,7 @@ tasks.test {
         // includeTags = setOf("rest")
         // includeTags = setOf("rest_get")
         // includeTags = setOf("rest_write")
-        // includeTags = setOf("graphql")
+        includeTags = setOf("graphql")
         // includeTags = setOf("query")
         // includeTags = setOf("mutation")
 
@@ -450,7 +450,7 @@ tasks.test {
 
     // Umgebungsvariable, z.B. fuer Spring Properties, slf4j oder WebClient
     systemProperty("LOG_PATH", "./build/log")
-    systemProperty("APPLICATION_LOGLEVEL", "TRACE")
+    systemProperty("APPLICATION_LOGLEVEL", "INFO")
     systemProperty("HIBERNATE_LOGLEVEL", "DEBUG")
     // systemProperty("HIBERNATE_LOGLEVEL", "TRACE")
 

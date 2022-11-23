@@ -1,6 +1,6 @@
 {
-  "name": "kunde",
-  "schemaPath": "schema.graphql",
+  "name": "filiale",
+  "schemaPath": "schema.graphqls",
   "extensions": {
     "endpoints": {
       "HTTPS localhost": {

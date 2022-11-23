@@ -1,18 +1,18 @@
 ### Suche mit vorhandener Kunde-ID als admin
 GRAPHQL {{baseUrl}}/graphql
 
-query {
+query getFiliale{
   filiale(id: "00000000-0000-0000-0000-000000000001") {
-    nachname
+    name
   }
 }
 
 ### Suche mit nicht-vorhandener Kunde-ID als admin
 GRAPHQL {{baseUrl}}/graphql
 
-query {
+query getFiliale{
   filiale(id: "ffffffff-ffff-ffff-ffff-ffffffffffff") {
-    nachname
+    name
   }
 }
 
@@ -21,15 +21,9 @@ GRAPHQL {{baseUrl}}/graphql
 
 query {
   filiale(id: "00000000-0000-0000-0000-000000000001") {
-    nachname
+    name
     email
-    kategorie
-    hasNewsletter
-    geburtsdatum
     homepage
-    geschlecht
-    familienstand
-    interessen
     umsatz {
       betrag
       waehrung
@@ -45,16 +39,10 @@ query {
 GRAPHQL {{baseUrl}}/graphql
 
 query {
-  kunden {
+  filialen {
     id
-    nachname
-    kategorie
-    hasNewsletter
-    geburtsdatum
+    name
     homepage
-    geschlecht
-    familienstand
-    interessen
     umsatz {
       betrag
       waehrung
@@ -70,16 +58,10 @@ query {
 GRAPHQL {{baseUrl}}/graphql
 
 query {
-  kunden(input: {email: "admin@acme.com"}) {
+  filialen(input: {email: "admin@acme.com"}) {
     id
-    nachname
-    kategorie
-    hasNewsletter
-    geburtsdatum
+    name
     homepage
-    geschlecht
-    familienstand
-    interessen
     umsatz {
       betrag
       waehrung
@@ -95,7 +77,7 @@ query {
 GRAPHQL {{baseUrl}}/graphql
 
 query {
-  kunden(input: {email: "nicht.vorhanden@acme.com"}) {
+  filialen(input: {email: "nicht.vorhanden@acme.com"}) {
     id
   }
 }
@@ -104,17 +86,11 @@ query {
 GRAPHQL {{baseUrl}}/graphql
 
 query {
-  kunden(input: {nachname: "a"}) {
+  filialen(input: {name: "a"}) {
     id
-    nachname
+    name
     email
-    kategorie
-    hasNewsletter
-    geburtsdatum
     homepage
-    geschlecht
-    familienstand
-    interessen
     umsatz {
       betrag
       waehrung
@@ -129,7 +105,7 @@ query {
 GRAPHQL {{baseUrl}}/graphql
 
 query {
-  kunden(input: {nachname: "Nichtvorhanden"}) {
+  filialen(input: {name: "Nichtvorhanden"}) {
     id
   }
 }
