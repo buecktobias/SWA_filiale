@@ -19,7 +19,7 @@ query getFiliale{
 ### Suche mit vorhandener Kunde-ID als admin
 GRAPHQL {{baseUrl}}/graphql
 
-query {
+query getFilialen{
   filiale(id: "00000000-0000-0000-0000-000000000001") {
     name
     email
@@ -38,7 +38,7 @@ query {
 ### Suche alle Kunden als admin
 GRAPHQL {{baseUrl}}/graphql
 
-query {
+query getFilialen{
   filialen {
     id
     name
@@ -57,7 +57,7 @@ query {
 ### Suche Kunde mit der Emailadresse als admin
 GRAPHQL {{baseUrl}}/graphql
 
-query {
+query getFilialen{
   filialen(input: {email: "admin@acme.com"}) {
     id
     name
@@ -76,7 +76,7 @@ query {
 ### Suche Kunde mit nicht-vorhandener Emailadresse als admin
 GRAPHQL {{baseUrl}}/graphql
 
-query {
+query getFilialeById{
   filialen(input: {email: "nicht.vorhanden@acme.com"}) {
     id
   }
@@ -85,7 +85,7 @@ query {
 ### Suche Kunden mit dem Nachnamen als admin
 GRAPHQL {{baseUrl}}/graphql
 
-query {
+query getFilialeByName{
   filialen(input: {name: "a"}) {
     id
     name
@@ -104,7 +104,7 @@ query {
 ### Suche Kunden mit nicht-vorhandenem Nachnamen als admin
 GRAPHQL {{baseUrl}}/graphql
 
-query {
+query getFilialeByNameNotFound {
   filialen(input: {name: "Nichtvorhanden"}) {
     id
   }
