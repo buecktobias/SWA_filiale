@@ -25,22 +25,16 @@ import java.net.URL;
 /**
  * Eine Value-Klasse für Eingabedaten passend zu KundeInput aus dem GraphQL-Schema.
  *
- * @param nachname      Nachname
+ * @param name      name
  * @param email         Emailadresse
- * @param kategorie     Kategorie
- * @param hasNewsletter Newsletter-Abonnement
- * @param geburtsdatum  Geburtsdatum
  * @param homepage      URL der Homepage
  * @param umsatz        Umsatz
  * @param adresse       Adresse
  */
 @SuppressWarnings("RecordComponentNumber")
 record FilialeInput(
-    String nachname,
+    String name,
     String email,
-    int kategorie,
-    boolean hasNewsletter,
-    String geburtsdatum,
     URL homepage,
     UmsatzInput umsatz,
     AdresseInput adresse
@@ -60,7 +54,7 @@ record FilialeInput(
         return Filiale
             .builder()
             .id(null)
-            .name(nachname)
+            .name(name)
             .email(email)
             .homepage(homepage)
             .umsatz(umsatzTmp)

@@ -1,4 +1,5 @@
-# This file was generated based on ".graphql-config". Do not edit manually.
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
 schema {
   query: Query
   mutation: Mutation
@@ -26,21 +27,21 @@ type Filiale {
   homepage: String
   "ID des Kunden"
   id: ID
-  "Nachname des Kunden"
+  "Name des Kunden"
   name: String!
   umsatz: Umsatz
 }
 
 type Mutation {
-  "Einen neuen Kundendatensatz anlegen"
+  "Einen neuen Filiadatensatz anlegen"
   create(input: FilialeInput!): CreatePayload
 }
 
-"Suche nach Kundendaten"
+"Suche nach Filialendaten"
 type Query {
   "Suche Kundendaten anhand der ID"
   filiale(id: ID!): Filiale
-  "Suche Kundendaten anhand des Nachnamens oder der Emailadresse"
+  "Suche Kundendaten anhand des Namens oder der Emailadresse"
   filialen(input: Suchkriterien): [Filiale!]
 }
 
@@ -51,35 +52,34 @@ type Umsatz {
   waehrung: String!
 }
 
-
 "Neue oder geänderte Adresse"
 input AdresseInput {
   ort: String!
   plz: String!
 }
 
-"Eingabedaten für einen neuen Kunden"
+"Eingabedaten für einen neue Filiale"
 input FilialeInput {
-  "Adresse des neuen Kunden"
+  "Adresse der neuen Filiale"
   adresse: AdresseInput!
-  "Emailadresse des neuen Kunden"
+  "Emailadresse der neuen Filiale"
   email: String!
   homepage: String
-  "Name des neuen Kunden"
+  "Name der neuen Filiale"
   name: String!
-  "Umsatzangabe zum neuen Kunden"
+  "Umsatzangabe zur neuen Filiale"
   umsatz: UmsatzInput
 }
 
-"Suchkriterien für die Query 'kunden'"
+"Suchkriterien für die Query 'filialen'"
 input Suchkriterien {
-  "Emailadresse der gesuchten Kunden"
+  "Emailadresse der gesuchten Filialen"
   email: String
-  "Nachname der gesuchten Kunden"
+  "Namen der gesuchten Filialen"
   name: String
 }
 
-"Umsatzeingabe für einen Kunden: Neuanlegen oder Ändern"
+"Umsatzeingabe für eine Filiale: Neuanlegen oder Ändern"
 input UmsatzInput {
   "Betrag"
   betrag: String!

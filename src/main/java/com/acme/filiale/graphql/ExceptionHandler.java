@@ -46,8 +46,6 @@ final class ExceptionHandler extends DataFetcherExceptionResolverAdapter {
         final Throwable ex,
         @SuppressWarnings("NullableProblems") final DataFetchingEnvironment env
     ) {
-        // "Pattern Matching for instanceof" ab Java 14
-        //noinspection ChainOfInstanceofChecks
         if (ex instanceof final NotFoundException notFound) {
             return new NotFoundError(notFound.getId(), notFound.getSuchkriterien());
         } else if (ex instanceof EmailExistsException emailExists) {
@@ -57,21 +55,6 @@ final class ExceptionHandler extends DataFetcherExceptionResolverAdapter {
         }
         return super.resolveToSingleError(ex, env);
 
-        // Pattern matching ab Java 18 (Preview) https://openjdk.org/jeps/433
-        // switch (ex) {
-        //     case final NotFoundException notFound -> {
-        //         return new NotFoundError(notFound.getId(), notFound.getSuchkriterien());
-        //     }
-        //     case final EmailExistsException emailExists -> {
-        //         return new EmailExistsError(emailExists.getEmail());
-        //     }
-        //     case final DateTimeParseException dateTimeParse -> {
-        //         return new DateTimeParseError(dateTimeParse.getParsedString());
-        //     }
-        //     default -> {
-        //         return super.resolveToSingleError(ex, env);
-        //     }
-        // }
     }
 
     /**

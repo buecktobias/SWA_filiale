@@ -24,11 +24,11 @@ import java.util.Map;
  *
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  *
- * @param nachname Nachname
+ * @param name Name
  * @param email Emailadresse
  */
 record Suchkriterien(
-    String nachname,
+    String name,
     String email
 ) {
     /**
@@ -39,8 +39,8 @@ record Suchkriterien(
     Map<String, String> toMap() {
         @SuppressWarnings("TypeMayBeWeakened")
         final var map = new HashMap<String, String>(2, 1);
-        if (nachname != null) {
-            map.put("nachname", nachname);
+        if (name != null) {
+            map.put("name", name);
         }
         if (email != null) {
             map.put("email", email);

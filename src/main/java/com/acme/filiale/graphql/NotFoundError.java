@@ -54,8 +54,8 @@ class NotFoundError implements GraphQLError {
     @Override
     public String getMessage() {
         return id == null
-            ? "Kein Kunde gefunden: suchkriterien=" + suchkriterien
-            : "Kein Kunde mit der ID " + id + " gefunden";
+            ? "Keine Filiale gefunden: suchkriterien=" + suchkriterien
+            : "Keine Filiale mit der ID " + id + " gefunden";
     }
 
     /**

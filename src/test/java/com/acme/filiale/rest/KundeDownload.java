@@ -24,7 +24,7 @@ import java.util.List;
 
 @SuppressWarnings({"RecordComponentNumber", "WriteTag"})
 record KundeDownload(
-    String nachname,
+    String name,
     String email,
     URL homepage,
     Umsatz umsatz,

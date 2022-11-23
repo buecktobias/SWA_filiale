@@ -48,7 +48,7 @@ package com.acme.filiale {
 
     package rest #DDDDDD {
         class KundeModel << entity >> {
-            nachname : String
+            name : String
             email : String
             kategorie: Int
             hasNewsletter: Boolean

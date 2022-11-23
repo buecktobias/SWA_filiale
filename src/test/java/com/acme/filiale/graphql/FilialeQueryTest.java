@@ -115,7 +115,7 @@ class FilialeQueryTest {
         // given
         final var query = """
             {
-                kunden(input: {nachname: "Alpha"}) {
+                kunden(input: {name: "Alpha"}) {
                     id
                     email
                 }
@@ -150,7 +150,7 @@ class FilialeQueryTest {
         // given
         final var query = """
             {
-                kunden(input: {nachname: "Nichtvorhanden"}) {
+                kunden(input: {name: "Nichtvorhanden"}) {
                     id
                 }
             }
@@ -182,7 +182,7 @@ class FilialeQueryTest {
             {
                 kunden(input: {email: "admin@acme.com"}) {
                     id
-                    nachname
+                    name
                 }
             }
             """;
@@ -204,7 +204,7 @@ class FilialeQueryTest {
         for (int i = 0; i < anzahl; i++) {
             final var id = response.field("kunden[%d].id".formatted(i)).toEntity(String.class);
             softly.assertThat(id).matches(ID_PATTERN);
-            final var nachname = response.field("kunden[%d].nachname".formatted(i)).toEntity(String.class);
+            final var nachname = response.field("kunden[%d].name".formatted(i)).toEntity(String.class);
             softly.assertThat(nachname).matches(NACHNAME_PATTERN);
         }
     }
@@ -249,7 +249,7 @@ class FilialeQueryTest {
             final var query = """
                 {
                     filiale(id: "00000000-0000-0000-0000-000000000001") {
-                        nachname
+                        name
                         email
                         adresse {
                             plz
@@ -269,7 +269,7 @@ class FilialeQueryTest {
             softly.assertThat(response.isValid()).isTrue();
             softly.assertThat(response.getErrors()).isEmpty();
 
-            final var nachname = response.field("filiale.nachname").toEntity(String.class);
+            final var nachname = response.field("filiale.name").toEntity(String.class);
             softly.assertThat(nachname)
                 .isNotEmpty()
                 .matches(NACHNAME_PATTERN);
@@ -292,7 +292,7 @@ class FilialeQueryTest {
             final var query = """
                 {
                     filiale(id: "ffffffff-ffff-ffff-ffff-ffffffffffff") {
-                        nachname
+                        name
                     }
                 }
                 """;

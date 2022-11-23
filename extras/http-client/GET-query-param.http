@@ -28,18 +28,18 @@ Authorization: Basic {{userAdmin}} {{password}}
     });
 %}
 
-### Suche mit nicht-vorhandenem Nachnamen
+### Suche mit nicht-vorhandenem namen
 GET {{baseUrl}}?name=Nichtvorhanden
 Accept: application/json
 Authorization: Basic {{userAdmin}} {{password}}
 
 > {%
-    client.test('GET mit nicht-vorhandenem Nachnamen: Not Found', () => {
+    client.test('GET mit nicht-vorhandenem namen: Not Found', () => {
         const status = response.status;
         client.assert(status === 404, `Falscher Statuscode: ${status}`);
     });
 
-    client.test('GET mit nicht-vorhandenem Nachnamen: leerer Body', () => {
+    client.test('GET mit nicht-vorhandenem namen: leerer Body', () => {
         const body = response.body;
         client.assert(body === null, `body: ${JSON.stringify(body)}`);
     });
@@ -89,23 +89,23 @@ Authorization: Basic {{userAdmin}} {{password}}
     });
 %}
 
-### Suche Nachnamen mit Praefix
+### Suche namen mit Praefix
 GET {{baseUrl}}/name/A
 Accept: application/json
 Authorization: Basic {{userAdmin}} {{password}}
 
 > {%
-    client.test('Suche Nachnamen mit Praefix und admin: OK', () => {
+    client.test('Suche namen mit Praefix und admin: OK', () => {
       const status = response.status;
         client.assert(status === 200, `Falscher Statuscode: ${status}`);
     });
 
-    client.test('Suche Nachnamen mit Praefix und admin: application/json', () => {
+    client.test('Suche namen mit Praefix und admin: application/json', () => {
         const mimeType = response.contentType.mimeType;
         client.assert(mimeType === 'application/json', `Falscher MIME-Typ: ${mimeType}`);
     });
 
-    client.test('Suche Nachnamen mit Praefix und admin: body mit Daten', () => {
+    client.test('Suche namen mit Praefix und admin: body mit Daten', () => {
         const body = response.body;
         client.assert(typeof body === 'string', `Falscher body: ${typeof body}`);
         const nachnamen = body.slice(1, body.length - 2).split(', ');

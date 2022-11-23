@@ -82,7 +82,7 @@ query getFilialeById{
   }
 }
 
-### Suche Kunden mit dem Nachnamen als admin
+### Suche Kunden mit dem namen als admin
 GRAPHQL {{baseUrl}}/graphql
 
 query getFilialeByName{
@@ -101,7 +101,7 @@ query getFilialeByName{
     }
   }
 }
-### Suche Kunden mit nicht-vorhandenem Nachnamen als admin
+### Suche Kunden mit nicht-vorhandenem namen als admin
 GRAPHQL {{baseUrl}}/graphql
 
 query getFilialeByNameNotFound {
