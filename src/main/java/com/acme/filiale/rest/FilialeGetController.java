@@ -118,11 +118,11 @@ final class FilialeGetController {
      * @return Die passenden Namen oder Statuscode 404, falls es keine gibt.
      */
     @GetMapping(path = NAMEN_PATH + "/{prefix}", produces = APPLICATION_JSON_VALUE)
-    ResponseEntity<String> findNameByPrefix(@PathVariable final String prefix) {
+    String findNameByPrefix(@PathVariable final String prefix) {
         log.debug("findNameByPrefix: {}", prefix);
         final var name = service.findNameByPrefix(prefix);
         log.debug("findNameByPrefix: {}", name);
-        return ok(name.toString());
+        return name.toString();
     }
 
     @ExceptionHandler(NotFoundException.class)

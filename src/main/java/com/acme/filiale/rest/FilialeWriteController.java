@@ -16,9 +16,11 @@
  */
 package com.acme.filiale.rest;
 
-import com.acme.filiale.rest.patch.FilialePatcher;
 import com.acme.filiale.rest.patch.InvalidPatchOperationException;
-import com.acme.filiale.service.*;
+import com.acme.filiale.service.ConstraintViolationsException;
+import com.acme.filiale.service.EmailExistsException;
+import com.acme.filiale.service.FilialeWriteService;
+import com.acme.filiale.service.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,7 +30,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -41,7 +49,9 @@ import static com.acme.filiale.rest.UriHelper.getRequestUri;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.ResponseEntity.*;
+import static org.springframework.http.ResponseEntity.created;
+import static org.springframework.http.ResponseEntity.noContent;
+import static org.springframework.http.ResponseEntity.notFound;
 
 /**
  * Eine `@RestController`-Klasse bildet die REST-Schnittstelle, wobei die HTTP-Methoden, Pfade und MIME-Typen auf die
@@ -68,8 +78,8 @@ final class FilialeWriteController {
      * @param filialeDTO Das filialenobjekt aus dem eingegangenen Request-Body.
      * @param request    Das Request-Objekt, um `Location` im Response-Header zu erstellen.
      * @return Response mit Statuscode 201 einschließlich Location-Header oder Statuscode 422 falls Constraints verletzt
-     * sind oder die Emailadresse bereits existiert oder Statuscode 400 falls syntaktische Fehler im Request-Body
-     * vorliegen.
+     *      sind oder die Emailadresse bereits existiert oder Statuscode 400 falls syntaktische Fehler im Request-Body
+     *      vorliegen.
      * @throws URISyntaxException falls die URI im Request-Objekt nicht korrekt wäre
      */
     @PostMapping(path = "/create", consumes = APPLICATION_JSON_VALUE)
@@ -97,8 +107,8 @@ final class FilialeWriteController {
      * @param id         ID des zu aktualisierenden filialen.
      * @param filialeDTO Das filialenobjekt aus dem eingegangenen Request-Body.
      * @return Response mit Statuscode 204 oder Statuscode 422, falls Constraints verletzt sind oder
-     * der JSON-Datensatz syntaktisch nicht korrekt ist oder falls die Emailadresse bereits existiert oder
-     * Statuscode 400 falls syntaktische Fehler im Request-Body vorliegen.
+     *      der JSON-Datensatz syntaktisch nicht korrekt ist oder falls die Emailadresse bereits existiert oder
+     *      Statuscode 400 falls syntaktische Fehler im Request-Body vorliegen.
      */
     @PutMapping(path = "{id:" + ID_PATTERN + "}", consumes = APPLICATION_JSON_VALUE)
     @Operation(summary = "Eine Filiale mit neuen Werten aktualisieren", tags = "Aktualisieren")

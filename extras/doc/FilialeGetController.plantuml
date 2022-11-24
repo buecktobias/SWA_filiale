@@ -12,7 +12,7 @@
 '
 ' You should have received a copy of the GNU General Public License
 ' along with this program.  If not, see <https://www.gnu.org/licenses/>.
-@startuml KundeGetController
+@startuml FilialeGetController
 
 skinparam classAttributeIconSize 0
 
@@ -25,9 +25,6 @@ package org.springframework {
         interface "@RequestBody" as RequestBody
     }
 
-    package http {
-        class ResponseEntity<T>
-    }
     package hateoas {
         class CollectionModel<E>
     }
@@ -44,35 +41,33 @@ package java.util {
 
 package com.acme.filiale {
     package service {
-        class KundeReadService << control >> << @Service >>
+        class FilialeReadService << control >> << @Service >>
     }
 
     package rest #DDDDDD {
-        class KundeModel <<entity>>
+        class FilialeModel <<entity>>
 
-        class KundeGetController << boundary >> << @RestController >> << @RequestMapping >> {
-            + @GetMapping findById(@PathVariable id: UUID, request: HttpServletRequest): ResponseEntity<KundeModel>
-            + @GetMapping find(@RequestParam queryParams: Map<String, String>, request: HttpServletRequest): ResponseEntity<CollectionModel<KundeModel>>
+        class FilialeGetController << boundary >> << @RestController >> << @RequestMapping >> {
+            + @GetMapping findById(@PathVariable id: UUID, request: HttpServletRequest): FilialeModel
+            + @GetMapping find(@RequestParam queryParams: Map<String, String>, request: HttpServletRequest): Collection<FilialeModel>
         }
 
-        KundeGetController o-right-> "1" KundeReadService : service
-        KundeGetController ..> KundeModel
+        FilialeGetController o-right-> "1" FilialeReadService : service
+        FilialeGetController ..> FilialeModel
 
-        KundeGetController .up.> ResponseEntity
-        KundeGetController .up.> CollectionModel
-        KundeGetController .up.> HttpServletRequest
-        KundeGetController .up.> PathVariable
-        KundeGetController .up.> RequestParam
+        FilialeGetController .up.> HttpServletRequest
+        FilialeGetController .up.> PathVariable
+        FilialeGetController .up.> RequestParam
 
-        KundeGetController .up.> UUID
-        KundeGetController .up.> Map
+        FilialeGetController .up.> UUID
+        FilialeGetController .up.> Map
 
-        KundeModel .[hidden].> KundeReadService
+        FilialeModel .[hidden].> FilialeReadService
     }
 }
 
 hide empty members
 
-footer (c) Juergen Zimmermann
+footer (c) Tobias Bück
 
 @enduml

@@ -60,7 +60,7 @@ bla bla
 ."KundeGetController" für Lesezugriffe an der REST-Schnittstelle
 [plantuml,KundeGetController,svg]
 ----
-include::./KundeGetController.plantuml[]
+include::./FilialeGetController.plantuml[]
 ----
 
 .Die Klasse "KundeModel" für den Datenaustausch bei GET
@@ -82,7 +82,7 @@ bla bla
 .Die Service-Klasse "KundeReadService" im Anwendungskern
 [plantuml,KundeReadService,svg]
 ----
-include::./KundeReadService.plantuml[]
+include::./FilialeReadService.plantuml[]
 ----
 
 bla bla
@@ -100,7 +100,7 @@ bla bla
 .Die Entity-Klasse "Filiale" für Filialedaten
 [plantuml,Kunde,svg]
 ----
-include::./Kunde.plantuml[]
+include::./Filiale.plantuml[]
 ----
 
 == Programmierrichtlinien

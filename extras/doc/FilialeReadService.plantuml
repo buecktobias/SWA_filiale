@@ -1,0 +1,40 @@
+@startuml FilialeReadService
+
+skinparam classAttributeIconSize 0
+
+package java.util {
+    interface List<T>
+    interface Map<K,V>
+    class UUID
+}
+
+package com.acme.filiale {
+    package entity {
+        class Filiale << entity >>
+
+        Filiale .up[hidden].> List
+    }
+
+    package repository {
+        class FilialeRepository << control >> << @Repository >>
+    }
+
+    package service #DDDDDD {
+        class FilialeReadService << control >> << @Service >> {
+            + findById(id: UUID): Filiale
+            + find(queryParams: Map<String, String>): List<Filiale>
+        }
+
+        FilialeReadService o--> FilialeRepository : repo
+        FilialeReadService .up.> Filiale
+        FilialeReadService .up.> UUID
+        FilialeReadService .up> List
+        FilialeReadService .up.> Map
+    }
+}
+
+hide empty members
+
+footer (c) Tobias Bück
+
+@enduml
