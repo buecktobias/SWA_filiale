@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import static com.acme.filiale.rest.UriHelper.getBaseUri;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.ResponseEntity.notFound;
 import static org.springframework.http.ResponseEntity.ok;
@@ -38,7 +40,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/")
 @RequiredArgsConstructor
 @Slf4j
-final class FilialeGetController {
+class FilialeGetController {
     /**
      * Muster für eine UUID. `$HEX_PATTERN{8}-($HEX_PATTERN{4}-){3}$HEX_PATTERN{12}` enthält eine _capturing group_
      * und ist nicht zulässig.
@@ -81,7 +83,7 @@ final class FilialeGetController {
         final var idUri = baseUri + "/" + filiale.getId();
 
         final var selfLink = Link.of(idUri);
-        final var listLink = Link.of(baseUri, LinkRelation.of("list"));
+        final var listLink = linkTo(methodOn(FilialeGetController.class).find(null, null)).withRel("list");
         final var addLink = Link.of(baseUri, LinkRelation.of("add"));
         final var updateLink = Link.of(idUri, LinkRelation.of("update"));
         final var removeLink = Link.of(idUri, LinkRelation.of("remove"));
