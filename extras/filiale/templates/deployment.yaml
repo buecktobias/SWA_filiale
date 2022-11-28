@@ -6,6 +6,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "filiale.fullname" . }}
+  namespace: acme
   # Kennzeichen bzw. Markierung
   # https://kubernetes.io/docs/concepts/overview/working-with-objects/labels
   # https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels

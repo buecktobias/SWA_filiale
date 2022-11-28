@@ -6,6 +6,7 @@ apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: {{ include "filiale.fullname" . }}
+  namespace: acme
   labels:
     {{- include "filiale.labels" . | nindent 4 }}
 spec:

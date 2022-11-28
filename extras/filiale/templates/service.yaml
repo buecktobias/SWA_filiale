@@ -23,6 +23,7 @@ metadata:
   # https://godoc.org/text/template
   # https://masterminds.github.io/sprig
   name: {{ include "filiale.fullname" . }}
+  namespace: acme
   labels:
     # https://helm.sh/docs/chart_template_guide/function_list
     # nindent rueckt um eine bestimmte Anzahl ("n") Zeichen ein

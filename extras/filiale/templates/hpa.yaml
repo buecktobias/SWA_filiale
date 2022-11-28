@@ -21,6 +21,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ include "filiale.fullname" . }}
+  namespace: acme
   labels:
     {{- include "filiale.labels" . | nindent 4 }}
 spec:
