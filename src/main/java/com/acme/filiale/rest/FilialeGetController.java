@@ -91,7 +91,7 @@ class FilialeGetController {
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
-        final var updateLink = linkTo(methodOn(FilialeWriteController.class).update(null, null)).withRel("update");
+        final var updateLink = linkTo(methodOn(FilialeWriteController.class).update(id, null)).withRel("update");
         model.add(selfLink, listLink, addLink, updateLink);
 
         return model;
