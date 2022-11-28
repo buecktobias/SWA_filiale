@@ -1,8 +1,7 @@
 package com.acme.filiale.rest;
 
-import com.acme.filiale.entity.Filiale;
 import com.acme.filiale.service.FilialeReadService;
-import com.acme.filiale.service.HATEOASLinkService;
+import com.acme.filiale.service.HateoasLinkService;
 import com.acme.filiale.service.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,8 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.LinkRelation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,18 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URISyntaxException;
-import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 
 import static com.acme.filiale.rest.UriHelper.getBaseUri;
 import static org.springframework.hateoas.MediaTypes.HAL_JSON_VALUE;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.ResponseEntity.notFound;
-import static org.springframework.http.ResponseEntity.ok;
 
 /**
  * Eine @RestController-Klasse bildet die REST-Schnittstelle, wobei die HTTP-Methoden, Pfade und MIME-Typen auf die
@@ -44,8 +36,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/")
 @RequiredArgsConstructor
 @Slf4j
-public
-class FilialeGetController {
+public class FilialeGetController {
     /**
      * Muster für eine UUID. `$HEX_PATTERN{8}-($HEX_PATTERN{4}-){3}$HEX_PATTERN{12}` enthält eine _capturing group_
      * und ist nicht zulässig.
@@ -60,7 +51,7 @@ class FilialeGetController {
     static final String NAMEN_PATH = "/name";
 
     private final FilialeReadService service;
-    private final HATEOASLinkService linkService;
+    private final HateoasLinkService linkService;
 
     // https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-ann-methods
     // https://localhost:8080/swagger-ui.html
@@ -105,7 +96,7 @@ class FilialeGetController {
     ) {
         log.debug("find: suchkriterien={}", suchkriterien);
 
-        final var baseUri = getBaseUri(request).toString();
+        final var baseUri = getBaseUri(request);
 
         final var models = service.find(suchkriterien)
             .stream()

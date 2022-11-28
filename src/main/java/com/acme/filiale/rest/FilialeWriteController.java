@@ -66,8 +66,7 @@ import static org.springframework.http.ResponseEntity.notFound;
 @RequiredArgsConstructor
 @Slf4j
 @SuppressWarnings("ClassFanOutComplexity")
-public
-class FilialeWriteController {
+public class FilialeWriteController {
     @SuppressWarnings("TrailingComment")
     private static final String PROBLEM_PATH = "/problem/";
 

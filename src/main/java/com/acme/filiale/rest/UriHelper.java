@@ -17,11 +17,11 @@
 package com.acme.filiale.rest;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.UUID;
-import lombok.extern.slf4j.Slf4j;
-import static java.lang.Character.getNumericValue;
 
 /**
  * Hilfsklasse um URIs für HATEOAS oder für URIs in ProblemDetail zu ermitteln, falls ein API-Gateway verwendet wird.
@@ -50,7 +50,7 @@ final class UriHelper {
      * Basis-URI ermitteln, d.h. ohne angehängten Pfad-Parameter für die ID und ohne Query-Parameter.
      *
      * @param request Servlet-Request
-     * @param id Eine filiale-ID oder null als Defaultwert
+     * @param id      Eine filiale-ID oder null als Defaultwert
      * @return Die Basis-URI als String
      */
     @SuppressWarnings({"ReturnCount", "NPathComplexity", "CyclomaticComplexity", "ExecutableStatementCount"})

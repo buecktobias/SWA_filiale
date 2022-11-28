@@ -12,9 +12,19 @@ import java.net.URISyntaxException;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+/**
+ * HATEOAS Link Helper Klasse.
+ */
 @Service
-public class HATEOASLinkService {
-    public FilialenModel getFilialenModelFromFiliale(Filiale filiale, String baseUri){
+public class HateoasLinkService {
+    /**
+     * Erstellt ein Filialenmodell.
+     *
+     * @param filiale Filiale.
+     * @param baseUri BaseUri.
+     * @return ein Filialenmodel.
+     */
+    public FilialenModel getFilialenModelFromFiliale(final Filiale filiale, final String baseUri) {
         final var model = new FilialenModel(filiale);
         final var idUri = baseUri + "/" + filiale.getId();
         final var id = filiale.getId();

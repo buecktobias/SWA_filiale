@@ -36,9 +36,7 @@ import java.net.URL;
  *
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
-@JsonPropertyOrder({
-    "name", "email", "homepage", "umsatz", "adresse"
-})
+@JsonPropertyOrder({"name", "email", "homepage", "umsatz", "adresse"})
 @Relation(collectionRelation = "filialen", itemRelation = "filiale")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Getter
@@ -54,6 +52,11 @@ public final class FilialenModel extends RepresentationModel<FilialenModel> {
     private final Umsatz umsatz;
     private final Adresse adresse;
 
+    /**
+     * Erstellen eines neuen FilialenModells aus einer Filiale.
+     *
+     * @param filiale Filiale
+     */
     public FilialenModel(final Filiale filiale) {
         name = filiale.getName();
         email = filiale.getEmail();
