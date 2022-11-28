@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.LinkRelation;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static com.acme.filiale.rest.UriHelper.getBaseUri;
+import static org.springframework.hateoas.MediaTypes.HAL_JSON_VALUE;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -67,7 +69,7 @@ class FilialeGetController {
      * @param request Das Request-Objekt, um Links für HATEOAS zu erstellen.
      * @return Ein Response mit dem Statuscode 200 und dem gefundenen filialen mit Atom-Links oder Statuscode 404.
      */
-    @GetMapping(path = "{id:" + ID_PATTERN + "}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path = "{id:" + ID_PATTERN + "}", produces = HAL_JSON_VALUE)
     @Operation(summary = "Suche mit der Filialen-ID", tags = "Suchen")
     @ApiResponse(responseCode = "200", description = "filiale gefunden")
     @ApiResponse(responseCode = "404", description = "filiale nicht gefunden")
@@ -104,18 +106,29 @@ class FilialeGetController {
      * @param request       Das Request-Objekt, um Links für HATEOAS zu erstellen.
      * @return Ein Response mit dem Statuscode 200 und den gefundenen filialen als CollectionModel oder Statuscode 404.
      */
-    @GetMapping(produces = APPLICATION_JSON_VALUE)
+    @GetMapping(produces = HAL_JSON_VALUE)
     @Operation(summary = "Suche mit Suchkriterien", tags = "Suchen")
-    @ApiResponse(responseCode = "200", description = "CollectionModel mid den filialen")
-    @ApiResponse(responseCode = "404", description = "Keine filialen gefunden")
-    Collection<Filiale> find(
+    @ApiResponse(responseCode = "200", description = "CollectionModel mid den Kunden")
+    @ApiResponse(responseCode = "404", description = "Keine Kunden gefunden")
+    CollectionModel<? extends FilialenModel> find(
         @RequestParam final Map<String, String> suchkriterien,
         final HttpServletRequest request
     ) {
         log.debug("find: suchkriterien={}", suchkriterien);
-        final var models = service.find(suchkriterien);
+
+        final var baseUri = getBaseUri(request).toString();
+
+        final var models = service.find(suchkriterien)
+            .stream()
+            .map(kunde -> {
+                final var model = new FilialenModel(kunde);
+                model.add(Link.of(baseUri + '/' + kunde.getId()));
+                return model;
+            })
+            .toList();
+
         log.debug("find: {}", models);
-        return models;
+        return CollectionModel.of(models);
     }
 
     /**

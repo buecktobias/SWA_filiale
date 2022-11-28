@@ -3,7 +3,7 @@
 
 ### Suche alle Filialen (<Strg><Click> fuer Web Browser)
 GET {{baseUrl}}
-Accept: application/json
+Accept: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}
 
 > {%
@@ -12,9 +12,9 @@ Authorization: Basic {{userAdmin}} {{password}}
         client.assert(status === 200, `Falscher Statuscode: ${status}`);
     });
 
-    client.test('GET: application/json', () => {
+    client.test('GET: application/hal+json', () => {
         const mimeType = response.contentType.mimeType;
-        client.assert(mimeType === 'application/json', `Falscher MIME-Typ: ${mimeType}`);
+        client.assert(mimeType === 'application/hal+json', `Falscher MIME-Typ: ${mimeType}`);
     });
 
     client.test('GET: body mit Daten', () => {

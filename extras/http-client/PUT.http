@@ -1,6 +1,6 @@
 ### Einen Kunden mittels PUT aktualisieren
 PUT {{baseUrl}}/00000000-0000-0000-0000-000000000030
-Content-Type: application/json
+Content-Type: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}
 
 < data/filiale-30-put.json
@@ -19,7 +19,7 @@ Authorization: Basic {{userAdmin}} {{password}}
 
 ### Einen nicht-vorhandenen Kunden mittels PUT aktualisieren: 404 (Not Found)
 PUT {{baseUrl}}/ffffffff-ffff-ffff-ffff-ffffffffffff
-Content-Type: application/json
+Content-Type: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}
 
 < data/filiale-30-put.json
@@ -38,7 +38,7 @@ Authorization: Basic {{userAdmin}} {{password}}
 
 ### Einen Kunden mittels PUT aktualisieren und Email existiert: 422 (Unprocessable Entity)
 PUT {{baseUrl}}/00000000-0000-0000-0000-000000000030
-Content-Type: application/json
+Content-Type: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}
 
 < data/filiale-30-put-email-exists.json
@@ -65,7 +65,7 @@ Authorization: Basic {{userAdmin}} {{password}}
 
 ### Einen Kunden mittels PUT und ungueltigen Daten aktualisieren: 422 (Unprocessable Entity)
 PUT {{baseUrl}}/00000000-0000-0000-0000-000000000030
-Content-Type: application/json
+Content-Type: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}
 
 < data/filiale-30-put-invalid.json

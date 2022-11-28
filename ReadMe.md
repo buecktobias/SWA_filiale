@@ -644,7 +644,7 @@ in Kubernetes verfügbar ist.
     # GraphQL mit Invoke-WebRequest:
     $response = Invoke-WebRequest https://kubernetes.docker.internal/filialen/graphql `
         -Method Post -Body '{"query": "query { filiale(id: \"00000000-0000-0000-0000-000000000001\") { name } }"}' `
-        -ContentType 'application/json' `
+        -ContentType 'application/hal+json' `
         -SslProtocol Tls13 -HttpVersion 2 -SkipCertificateCheck `
         -Authentication Basic -Credential $credential
     Write-Output $response.RawContent
@@ -654,7 +654,7 @@ in Kubernetes verfügbar ist.
 
     # GraphQL mit cURL:
     curl --verbose --data '{"query": "query { filiale(id: \"00000000-0000-0000-0000-000000000001\") { name } }"}' `
-        --header 'Content-Type: application/json' `
+        --header 'Content-Type: application/hal+json' `
         --tlsv1.3 --insecure `
         --user admin:p `
         https://kubernetes.docker.internal/filialen/graphql

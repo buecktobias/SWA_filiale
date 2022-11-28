@@ -1,7 +1,7 @@
 
 ### Suche mit vorhandenem Namen
 GET {{baseUrl}}?name=Alpha
-Accept: application/json
+Accept: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}
 
 > {%
@@ -10,9 +10,9 @@ Authorization: Basic {{userAdmin}} {{password}}
         client.assert(status === 200, `Falscher Statuscode: ${status}`);
     });
 
-    client.test('GET mit vorhandenem Namen: application/json', () => {
+    client.test('GET mit vorhandenem Namen: application/hal+json', () => {
         const mimeType = response.contentType.mimeType;
-        client.assert(mimeType === 'application/json', `Falscher MIME-Typ: ${mimeType}`);
+        client.assert(mimeType === 'application/hal+json', `Falscher MIME-Typ: ${mimeType}`);
     });
 
     client.test('GET mit vorhandenem Namen: body mit Daten', () => {
@@ -30,7 +30,7 @@ Authorization: Basic {{userAdmin}} {{password}}
 
 ### Suche mit nicht-vorhandenem namen
 GET {{baseUrl}}?name=Nichtvorhanden
-Accept: application/json
+Accept: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}
 
 > {%
@@ -47,7 +47,7 @@ Authorization: Basic {{userAdmin}} {{password}}
 
 ### Suche mit vorhandener Email (mit URL Encoding)
 GET {{baseUrl}}?email=admin%40acme.com
-Accept: application/json
+Accept: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}
 
 > {%
@@ -56,9 +56,9 @@ Authorization: Basic {{userAdmin}} {{password}}
         client.assert(status === 200, `Falscher Statuscode: ${status}`);
     });
 
-    client.test('GET mit vorhandener Email: application/json', () => {
+    client.test('GET mit vorhandener Email: application/hal+json', () => {
         const mimeType = response.contentType.mimeType;
-        client.assert(mimeType === 'application/json', `Falscher MIME-Typ: ${mimeType}`);
+        client.assert(mimeType === 'application/hal+json', `Falscher MIME-Typ: ${mimeType}`);
     });
 
     client.test('GET mit vorhandener Email: body mit Daten', () => {
@@ -74,7 +74,7 @@ Authorization: Basic {{userAdmin}} {{password}}
 
 ### Suche mit nicht-vorhandener Email
 GET {{baseUrl}}?email=nicht%40vorhanden.com
-Accept: application/json
+Accept: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}
 
 > {%
@@ -91,7 +91,7 @@ Authorization: Basic {{userAdmin}} {{password}}
 
 ### Suche namen mit Praefix
 GET {{baseUrl}}/name/A
-Accept: application/json
+Accept: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}
 
 > {%
@@ -100,9 +100,9 @@ Authorization: Basic {{userAdmin}} {{password}}
         client.assert(status === 200, `Falscher Statuscode: ${status}`);
     });
 
-    client.test('Suche namen mit Praefix und admin: application/json', () => {
+    client.test('Suche namen mit Praefix und admin: application/hal+json', () => {
         const mimeType = response.contentType.mimeType;
-        client.assert(mimeType === 'application/json', `Falscher MIME-Typ: ${mimeType}`);
+        client.assert(mimeType === 'application/hal+json', `Falscher MIME-Typ: ${mimeType}`);
     });
 
     client.test('Suche namen mit Praefix und admin: body mit Daten', () => {

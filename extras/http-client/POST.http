@@ -1,6 +1,6 @@
 ### Einen neuen Kunden anlegen
 POST {{baseUrl}}/create
-Content-Type: application/json
+Content-Type: application/hal+json
 
 < data/filiale-neu.json
 
@@ -27,7 +27,7 @@ Content-Type: application/json
 
 ### Einen neuen Kunden mit bereits existierender Emailadresse anlegen: 422 (Unprocessable Entity)
 POST {{baseUrl}}/create
-Content-Type: application/json
+Content-Type: application/hal+json
 
 < data/filiale-neu-email-exists.json
 
@@ -52,7 +52,7 @@ Content-Type: application/json
 
 ### Einen neuen Kunden mit ungueltigen Daten anlegen: 422 (Unprocessable Entity)
 POST {{baseUrl}}/create
-Content-Type: application/json
+Content-Type: application/hal+json
 
 < data/filiale-neu-invalid.json
 
@@ -80,7 +80,7 @@ Content-Type: application/json
 
 ### Einen neuen Kunden mit fehlerhaften Datentypen anlegen: 400 (Bad Request)
 POST {{baseUrl}}/create
-Content-Type: application/json
+Content-Type: application/hal+json
 
 < data/filiale-neu-invalid-types.json
 
@@ -98,7 +98,7 @@ Content-Type: application/json
 
 ### Syntaktisch falscher JSON-Datensatz: 400 (Bad Request) mit DecodingException
 POST {{baseUrl}}/create
-Content-Type: application/json
+Content-Type: application/hal+json
 
 < data/invalid-json.txt
 

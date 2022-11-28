@@ -34,6 +34,6 @@ Authorization: Basic {{userAdmin}} {{password}}
 ### Shutdown
 POST {{baseUrl}}/actuator/shutdown
 Authorization: Basic {{userAdmin}} {{password}}
-Content-Type: application/json
+Content-Type: application/hal+json
 
 ###

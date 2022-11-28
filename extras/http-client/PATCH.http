@@ -1,6 +1,6 @@
 ### Einen Kunden mittels PATCH aktualisieren
 PATCH {{baseUrl}}/00000000-0000-0000-0000-000000000040
-Content-Type: application/json
+Content-Type: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}
 
 [
@@ -24,7 +24,7 @@ Authorization: Basic {{userAdmin}} {{password}}
 
 ### Einen Kunden mit fehlerhaften Daten mittels PATCH aktualisieren
 PATCH {{baseUrl}}/00000000-0000-0000-0000-000000000040
-Content-Type: application/json
+Content-Type: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}
 
 [
@@ -56,7 +56,7 @@ Authorization: Basic {{userAdmin}} {{password}}
 
 ### Einen Kunden mit fehlerhaften Interessen mittels PATCH aktualisieren: 400 (Bad Request)
 PATCH {{baseUrl}}/00000000-0000-0000-0000-000000000040
-Content-Type: application/json
+Content-Type: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}
 
 [
