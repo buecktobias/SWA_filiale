@@ -20,7 +20,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.UUID;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import static java.lang.Character.getNumericValue;
 
@@ -70,7 +69,7 @@ final class UriHelper {
 
         // KEIN Forwarding von einem API-Gateway
         var baseUri = request.getRequestURL().toString();
-        final var indexQuestionMark = baseUri.indexOf(getNumericValue('?'));
+        final var indexQuestionMark = baseUri.indexOf('?');
         if (indexQuestionMark != -1) {
             baseUri = baseUri.substring(0, indexQuestionMark);
         }
@@ -101,7 +100,7 @@ final class UriHelper {
             throw new IllegalStateException("Kein \"" + X_FORWARDED_PROTO + "\" im Header");
         }
         var basePath = envoyOriginalPath;
-        final var indexQuestionMark = basePath.indexOf(getNumericValue('?'));
+        final var indexQuestionMark = basePath.indexOf('?');
         if (indexQuestionMark != -1) {
             basePath = basePath.substring(0, indexQuestionMark);
         }
@@ -135,11 +134,14 @@ final class UriHelper {
      * @param request Servlet-Request
      * @return Original-URI
      */
-    @SneakyThrows(URISyntaxException.class)
     static URI getRequestUri(final HttpServletRequest request) {
         final var envoyOriginalPath = request.getHeader("x-envoy-original-path");
         if (envoyOriginalPath == null) {
-            return new URI(request.getRequestURL().toString());
+            try {
+                return new URI(request.getRequestURL().toString());
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
         }
         final var host = request.getHeader("Host");
         final var forwardedProto = request.getHeader(X_FORWARDED_PROTO);

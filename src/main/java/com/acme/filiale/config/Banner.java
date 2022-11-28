@@ -20,11 +20,9 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Locale;
 
-import lombok.SneakyThrows;
 import org.apache.catalina.util.ServerInfo;
 import org.springframework.boot.SpringBootVersion;
 import org.springframework.core.SpringVersion;
-import org.springframework.security.core.SpringSecurityCoreVersion;
 
 /**
  * Banner als String-Konstante für den Start des Servers.
@@ -41,7 +39,16 @@ import org.springframework.security.core.SpringSecurityCoreVersion;
 public final class Banner {
     private static final String JAVA = Runtime.version().toString() + " - " + System.getProperty("java.vendor");
     private static final String OS_VERSION = System.getProperty("os.name");
-    private static final InetAddress LOCALHOST = getLocalhost();
+    private static final InetAddress LOCALHOST;
+
+    static {
+        try {
+            LOCALHOST = getLocalhost();
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private static final long MEGABYTE = 1024L * 1024L;
     private static final Runtime RUNTIME = Runtime.getRuntime();
     private static final String SERVICE_HOST = System.getenv("KUNDE_SERVICE_HOST");
@@ -81,7 +88,7 @@ public final class Banner {
         """
         .formatted(
             SpringBootVersion.getVersion(),
-            SpringSecurityCoreVersion.getVersion(),
+            "",
             SpringVersion.getVersion(),
             ServerInfo.getServerInfo(),
             JAVA,
@@ -99,8 +106,7 @@ public final class Banner {
     private Banner() {
     }
 
-    @SneakyThrows(UnknownHostException.class)
-    private static InetAddress getLocalhost() {
+    private static InetAddress getLocalhost() throws UnknownHostException {
         return InetAddress.getLocalHost();
     }
 }

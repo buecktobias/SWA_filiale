@@ -21,8 +21,11 @@ import com.acme.filiale.config.dev.DevConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
+import org.springframework.hateoas.config.EnableHypermediaSupport;
 
 import static com.acme.filiale.config.Banner.TEXT;
+import static org.springframework.hateoas.config.EnableHypermediaSupport.HypermediaType.HAL;
+import static org.springframework.hateoas.support.WebStack.WEBMVC;
 
 /**
  * Klasse mit der main-Methode für die Anwendung auf Basis von Spring Boot.
@@ -31,7 +34,7 @@ import static com.acme.filiale.config.Banner.TEXT;
  */
 @SpringBootApplication(proxyBeanMethods = false)
 @Import({AppConfig.class, DevConfig.class})
-//@EnableHypermediaSupport(type = HAL, stacks = WEBMVC)
+@EnableHypermediaSupport(type = HAL, stacks = WEBMVC)
 //@EnableWebSecurity
 //@EnableMethodSecurity
 @SuppressWarnings({"ImplicitSubclassInspection", "ClassUnconnectedToPackage"})

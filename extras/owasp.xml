@@ -25,8 +25,33 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="https://jeremylong.github.io/DependencyCheck/dependency-suppression.2.5 https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd ">
     <suppress>
-        <notes><![CDATA[file name: snakeyaml-1.32.jar]]></notes>
+        <notes><![CDATA[file name: jakarta.mail-1.0.0.jar (shaded: org.eclipse.angus:angus-mail:1.0.0)]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.eclipse\.angus/angus\-mail@.*$</packageUrl>
+        <cpe>cpe:/a:eclipse:eclipse_ide</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[file name: jakarta.mail-1.0.0.jar (shaded: org.eclipse.angus:imap:1.0.0)]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.eclipse\.angus/imap@.*$</packageUrl>
+        <cpe>cpe:/a:eclipse:eclipse_ide</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[file name: jakarta.mail-1.0.0.jar (shaded: org.eclipse.angus:pop3:1.0.0)]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.eclipse\.angus/pop3@.*$</packageUrl>
+        <cpe>cpe:/a:eclipse:eclipse_ide</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[file name: jakarta.mail-1.0.0.jar (shaded: org.eclipse.angus:smtp:1.0.0)]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.eclipse\.angus/smtp@.*$</packageUrl>
+        <cpe>cpe:/a:eclipse:eclipse_ide</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[file name: jakarta.mail-1.0.0.jar]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.eclipse\.angus/jakarta\.mail@.*$</packageUrl>
+        <cpe>cpe:/a:eclipse:eclipse_ide</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[file name: snakeyaml-1.33.jar]]></notes>
         <packageUrl regex="true">^pkg:maven/org\.yaml/snakeyaml@.*$</packageUrl>
-        <vulnerabilityName>CVE-2022-38752</vulnerabilityName>
+        <vulnerabilityName>CVE-2022-41854</vulnerabilityName>
     </suppress>
 </suppressions>

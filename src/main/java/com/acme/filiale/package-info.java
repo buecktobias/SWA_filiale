@@ -16,6 +16,6 @@
  */
 
 /**
- * Microservice "kunde".
+ * Microservice "filiale".
  */
 package com.acme.filiale;

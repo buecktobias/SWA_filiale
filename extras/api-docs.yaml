@@ -26,9 +26,9 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/KundeModel'
+                $ref: '#/components/schemas/FilialeModel'
         "404":
-          description: Kunde nicht gefunden
+          description: Filiale nicht gefunden
           content:
             application/hal+json:
               schema:

@@ -1,4 +1,4 @@
-@file:Suppress("MissingPackageDeclaration")
+@file:Suppress("MissingPackageDeclaration", "UnstableApiUsage")
 
 pluginManagement {
     repositories {
@@ -12,6 +12,17 @@ pluginManagement {
         // maven("https://repo.spring.io/plugins-release")
     }
 }
+
+// https://docs.gradle.org/8.0-milestone-3/userguide/toolchains.html#sub:download_repositories
+// toolchainManagement {
+//     jvm {
+//         javaRepositories {
+//             repository("adoptium") {
+//                 resolverClass.set(AdoptiumResolver::class.java)
+//             }
+//         }
+//     }
+// }
 
 // buildCache {
 //    local {

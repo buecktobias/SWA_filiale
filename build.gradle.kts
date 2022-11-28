@@ -1,15 +1,33 @@
 @file:Suppress("MissingPackageDeclaration", "SpellCheckingInspection", "GrazieInspection")
 
+/*
+* Copyright (C) 2016 - present Juergen Zimmermann, Hochschule Karlsruhe
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
 //  Aufrufe
 //  1) Microservice uebersetzen und starten
-//        .\gradlew bootRun [-Dport=8081] [--args='--debug'] [--continuous]
-//        .\gradlew compileKotlin
-//        .\gradlew compileTestKotlin
+//        .\gradlew bootRun [-Dport=8081] [tls=false] [-Ddb=mysql] [-Ddb=oracle] [--args='--debug'] [--continuous]
+//        .\gradlew compileJava
+//        .\gradlew compileTestJava
+//
 //  2) Microservice als selbstausfuehrendes JAR erstellen und ausfuehren
 //        .\gradlew bootJar
 //        java -jar build/libs/....jar --spring.profiles.active=dev
 //        .\gradlew bootBuildImage [-Dtag='2.0.0']
+//
 //  3) Tests und QS
 //        .\gradlew test [--rerun-tasks]
 //        .\gradlew allureServe
@@ -17,7 +35,6 @@
 //        .\gradlew jacocoTestReport
 //        .\gradlew jacocoTestCoverageVerification
 //        .\gradlew checkstyleMain checkstyleTest spotbugsMain spotbugsTest
-//        .\gradlew forbiddenApis
 //        .\gradlew buildHealth
 //        .\gradlew reason --id com.fasterxml.jackson.core:jackson-annotations:2.13.3
 //
@@ -58,7 +75,7 @@
 //
 //  13) Initialisierung des Gradle Wrappers in der richtigen Version
 //      dazu ist ggf. eine Internetverbindung erforderlich
-//        gradle wrapper --gradle-version=7.6-rc-1 --distribution-type=bin
+//        gradle wrapper --gradle-version=8.0-milestone-3 --distribution-type=bin
 
 // https://github.com/gradle/kotlin-dsl/tree/master/samples
 // https://docs.gradle.org/current/userguide/kotlin_dsl.html
@@ -66,9 +83,9 @@
 // https://guides.gradle.org/migrating-build-logic-from-groovy-to-kotlin
 
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import net.ltgt.gradle.errorprone.errorprone
 import org.asciidoctor.gradle.jvm.AsciidoctorTask
 import org.asciidoctor.gradle.jvm.pdf.AsciidoctorPdfTask
-import org.gradle.internal.component.model.Exclude
 import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 import org.springframework.boot.gradle.tasks.run.BootRun
@@ -83,10 +100,14 @@ plugins {
     `project-report`
 
     alias(libs.plugins.springBoot)
-    // alias(libs.plugins.springAot)
 
-    // https://docs.freefair.io/gradle-plugins/6.5.1/reference
-    alias(libs.plugins.lombokPlugin)
+    // https://spring.io/blog/2022/09/26/native-support-in-spring-boot-3-0-0-m5
+    // Kommentar entfernen fuer Spring AOT
+    //alias(libs.plugins.graalvmPlugin)
+
+    // https://github.com/tbroyer/gradle-errorprone-plugin
+    // https://errorprone.info/docs/installation
+    alias(libs.plugins.errorpronePlugin)
 
     // https://spotbugs.readthedocs.io/en/latest/gradle.html
     alias(libs.plugins.spotbugs)
@@ -133,9 +154,26 @@ plugins {
     // https://github.com/hierynomus/license-gradle-plugin
 }
 
-defaultTasks = mutableListOf("compileTestKotlin")
+defaultTasks = mutableListOf("compileTestJava")
 group = "com.acme"
 version = "1.0.0"
+
+sweeney {
+    enforce(mapOf("type" to "gradle", "expect" to "[7.0,8.0]"))
+    // https://www.java.com/releases
+    // https://devcenter.heroku.com/articles/java-support#specifying-a-java-version
+    enforce(mapOf("type" to "jdk", "expect" to "[17.0.1,20]"))
+    validate()
+}
+
+java {
+    // https://docs.gradle.org/current/userguide/java_plugin.html#sec:java-extension
+    // https://docs.gradle.org/current/dsl/org.gradle.api.plugins.JavaPluginExtension.html
+    toolchain {
+        // einschl. sourceCompatibility und targetCompatibility
+        languageVersion.set(JavaLanguageVersion.of(libs.versions.javaVersion.get()))
+    }
+}
 
 repositories {
     mavenCentral()
@@ -145,8 +183,8 @@ repositories {
     maven("https://repo.spring.io/release") { mavenContent { releasesOnly() } }
     maven("https://repo.spring.io/milestone") { mavenContent { releasesOnly() } }
 
-    // Snapshots von Spring (auch erforderlich fuer Snapshots von springdoc-openapi)
-    //maven("https://repo.spring.io/snapshot") { mavenContent { snapshotsOnly() } }
+    // Snapshots von Spring (auch fuer Snapshots von springdoc-openapi)
+    // maven("https://repo.spring.io/snapshot") { mavenContent { snapshotsOnly() } }
 
     // Snapshots von springdoc-openapi
     // maven("https://s01.oss.sonatype.org/content/repositories/snapshots") { mavenContent { snapshotsOnly() } }
@@ -159,55 +197,63 @@ repositories {
     // }
 }
 
+configurations {
+    compileOnly {
+        extendsFrom(configurations.annotationProcessor.get())
+    }
+}
+
 /* ktlint-disable comment-spacing */
 @Suppress("CommentSpacing")
 // https://docs.gradle.org/current/userguide/java_library_plugin.html#sec:java_library_separation
 dependencies {
     //implementation(platform(libs.micrometerBom))
-    implementation(platform(libs.jacksonBom))
+    //implementation(platform(libs.jacksonBom))
     //implementation(platform(libs.nettyBom))
     //implementation(platform(libs.reactorBom))
     //implementation(platform(libs.springBom))
+    // Auskommentieren fuer Beispiel 1
     //implementation(platform(libs.springDataBom))
     //implementation(platform(libs.springSecurityBom))
-    //implementation(platform(libs.mockitoBom))
+    implementation(platform(libs.mockitoBom))
     //implementation(platform(libs.junitBom))
     implementation(platform(libs.allureBom))
     implementation(platform(libs.springBootBom))
     // spring-boot-starter-parent als "Parent POM"
     implementation(platform(libs.springdocOpenapiBom))
-    compileOnly("org.projectlombok:lombok:1.18.24");
-    annotationProcessor("org.projectlombok:lombok:1.18.24");
 
-    testCompileOnly("org.projectlombok:lombok:1.18.24");
-    testAnnotationProcessor("org.projectlombok:lombok:1.18.24");
     // "Starters" enthalten sinnvolle Abhaengigkeiten, die man i.a. benoetigt
     // spring-boot-starter beinhaltet Spring Boot mit Actuator sowie spring-boot-starter-logging mit Logback
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-tomcat")
+    implementation(libs.tomcatJakartaeeMigration)
     implementation("org.springframework.boot:spring-boot-starter-json")
     implementation("org.springframework.boot:spring-boot-starter-graphql")
     implementation("org.springframework.boot:spring-boot-starter-hateoas")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     // Auskommentieren fuer Beispiel 1
-    //implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-security")
+    /*
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    */implementation("org.springframework.boot:spring-boot-starter-security")
+    /*
     implementation("org.springframework.security:spring-security-crypto")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("io.micrometer:micrometer-registry-prometheus")
-
-    //compileOnly(libs.lombok)
-    //annotationProcessor(libs.lombok)
+    implementation(libs.jfiglet)
+    */
+    compileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
 
     // https://docs.jboss.org/hibernate/orm/6.1/userguide/html_single/Hibernate_User_Guide.html#tooling-gradle-modelgen
     // QueryDSL unterstutzt nur JPA 2.2 und Hibernate 5.6
-    annotationProcessor("org.hibernate:hibernate-jpamodelgen:6.1.5.Final")
+    annotationProcessor(libs.hibernateJpamodelgen)
 
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("mysql:mysql-connector-java")
+    runtimeOnly("com.oracle.database.jdbc:ojdbc11")
     runtimeOnly(libs.jansi)
     runtimeOnly(libs.bouncycastle) // Argon2
 
@@ -234,28 +280,34 @@ dependencies {
     testImplementation(libs.junitPlatformSuiteApi)
     testRuntimeOnly(libs.junitPlatformSuiteEngine)
     //testImplementation("org.springframework.security:spring-security-test")
+    // Mocking fuer record
+    testImplementation("org.mockito:mockito-inline")
+
+    // https://github.com/tbroyer/gradle-errorprone-plugin
+    errorprone(libs.errorprone)
 
     constraints {
         implementation(libs.annotations)
         //implementation(libs.springGraphQL)
         //implementation(libs.springHateoas)
-        implementation(libs.jakartaPersistence)
-        implementation(libs.hibernate)
-        //implementation(libs.postgres)
-        //implementation(libs.mysql)
-        implementation(libs.hibernateValidator)
+        //implementation(libs.jakartaPersistence)
+        //implementation(libs.hibernate)
+        //runtimeOnly(libs.postgres)
+        //runtimeOnly(libs.mysql)
+        //runtimeOnly(libs.oracle)
+        //implementation(libs.hibernateValidator)
         //implementation(libs.bundles.tomcat)
         implementation(libs.tomcatCore)
         implementation(libs.tomcatEl)
         //implementation(libs.bundles.graphqlJavaBundle)
         //implementation(libs.graphqlJava)
-        //implementation(libs.//graphqlJavaDataloader)
+        //implementation(libs.graphqlJavaDataloader)
         //implementation(libs.bundles.slf4jBundle)
+        implementation(libs.slf4jApi)
+        implementation(libs.slf4jJul)
         //implementation(libs.logback)
         //implementation(libs.springSecurityRsa)
         //implementation(libs.bundles.log4j)
-        //implementation(libs.log4jApi)
-        //implementation(libs.log4j2Slf4j)
 
         //testImplementation(libs.assertj)
     }
@@ -267,44 +319,42 @@ dependencies {
 //    resolutionStrategy { cacheChangingModulesFor(0, "seconds") }
 // }
 
-sweeney {
-    enforce(mapOf("type" to "gradle", "expect" to "[7.5,7.7]"))
-    // https://www.java.com/releases
-    // https://devcenter.heroku.com/articles/java-support#specifying-a-java-version
-    enforce(mapOf("type" to "jdk", "expect" to "[17,20]"))
-    validate()
-}
-
 tasks.compileJava {
     // https://docs.gradle.org/current/dsl/org.gradle.api.tasks.compile.JavaCompile.html
     // https://docs.gradle.org/current/dsl/org.gradle.api.tasks.compile.CompileOptions.html
     // https://dzone.com/articles/gradle-goodness-enabling-preview-features-for-java
-//    options.isDeprecation = true
-//    options.compilerArgs.add("-Xlint:unchecked")
-//    options.compilerArgs.add("--enable-preview")
-    //options.compilerArgs.add("-Xlint:preview")
+    options.isDeprecation = true
+    with(options.compilerArgs) {
+        add("-Xlint:unchecked")
+        add("--enable-preview")
+        //add("-Xlint:preview")
+
+        // https://github.com/tbroyer/gradle-errorprone-plugin#jdk-16-support
+        add("--add-opens")
+        add("--add-exports")
+    }
+
+    // https://uber.github.io/AutoDispose/error-prone
+    // https://errorprone.info/docs/flags
+    // TODO https://github.com/google/error-prone/issues/2321
+    with(options.errorprone.errorproneArgs) {
+        add("-Xep:InvalidParam:OFF")
+        add("-Xep:MissingSummary:OFF")
+    }
+
     // ohne sourceCompatiblity und targetCompatibility:
-    //options.release.set(18)
+    //options.release.set(libs.versions.javaVersion.get())
     // https://blog.gradle.org/incremental-compiler-avoidance#about-annotation-processors
 }
 
 tasks.compileTestJava {
     options.isDeprecation = true
-    options.compilerArgs.add("-Xlint:unchecked")
-    options.compilerArgs.add("--enable-preview")
-}
-
-java {
-    // https://docs.gradle.org/current/userguide/java_plugin.html#sec:java-extension
-    // https://docs.gradle.org/current/dsl/org.gradle.api.plugins.JavaPluginExtension.html
-    toolchain {
-        // einschl. sourceCompatibility und targetCompatibility
-        languageVersion.set(JavaLanguageVersion.of(libs.versions.javaVersion.get()))
+    with(options.compilerArgs) {
+        add("-Xlint:unchecked")
+        add("--enable-preview")
     }
-}
-
-lombok {
-    version.set(libs.versions.lombok.get())
+    // Spring HATEOAS: _embedded.List
+    options.errorprone.errorproneArgs.add("-Xep:VariableNameSameAsType:OFF")
 }
 
 tasks.named<BootJar>("bootJar") {
@@ -321,6 +371,10 @@ tasks.named<BootJar>("bootJar") {
 
 // https://github.com/paketo-buildpacks/spring-boot
 tasks.named<BootBuildImage>("bootBuildImage") {
+    // paketobuildpacks/builder:tiny als Builder fuer "Native Image"
+    // https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html
+    // https://github.com/spring-projects/spring-framework/blob/main/framework-docs/src/docs/asciidoc/core/core-aot.adoc
+
     // "created 42 years ago" wegen Reproducability: https://medium.com/buildpacks/time-travel-with-pack-e0efd8bf05db
 
     // default:   imageName = "docker.io/${project.name}:${project.version}"
@@ -335,15 +389,23 @@ tasks.named<BootBuildImage>("bootBuildImage") {
     environment.set(
         mapOf(
             // https://github.com/paketo-buildpacks/bellsoft-liberica/releases
-            // https://paketo.io/docs/howto/java/#use-an-alternative-jvm
-            "BP_JVM_TYPE" to "JRE",
             "BP_JVM_VERSION" to "19.0.1",
+            // Kommentar entfernen fuer Spring AOT
+            //"BP_NATIVE_IMAGE" to "true",
+            //"BP_BOOT_NATIVE_IMAGE_BUILD_ARGUMENTS" to "-H:+ReportExceptionStackTraces",
             // https://github.com/paketo-buildpacks/bellsoft-liberica#configuration
-            // https://github.com/paketo-buildpacks/spring-boot: Default=50 bei WebFlux statt 250
-            // "BPL_JVM_THREAD_COUNT" to "250",
             // https://github.com/paketo-buildpacks/spring-boot
-            "BP_SPRING_CLOUD_BINDINGS_ENABLED" to "false",
-            "BPL_SPRING_CLOUD_BINDINGS_DISABLED" to "true",
+            // "BPL_JVM_THREAD_COUNT" to "250", // default
+            "BPL_JVM_THREAD_COUNT" to "20",
+            // https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/#build-image.examples.runtime-jvm-configuration
+            "BPE_DELIM_JAVA_TOOL_OPTIONS" to " ",
+            "BPE_APPEND_JAVA_TOOL_OPTIONS" to "--enable-preview",
+            // https://github.com/paketo-buildpacks/spring-boot/blob/main/buildpack.toml
+            //"BP_SPRING_CLOUD_BINDINGS_DISABLED" to "true",
+            //"BPL_SPRING_CLOUD_BINDINGS_DISABLED" to "true",
+            //"BPL_SPRING_CLOUD_BINDINGS_ENABLED" to "false", // deprecated
+            // https://paketo.io/docs/howto/configuration/#enabling-debug-logging
+            //"BP_LOG_LEVEL" to "DEBUG",
         )
     )
 
@@ -366,18 +428,25 @@ tasks.named<BootBuildImage>("bootBuildImage") {
     // }
 }
 
-// Fuer Spring Native und logback.xml:
-// https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/#_starters_requiring_no_special_build_configuration
-// https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/#aot
-// https://github.com/spring-projects-experimental/spring-native/issues/625
-// https://github.com/spring-projects/spring-boot/issues/25847
-// springAot {
+// https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#core.aot
+// https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#native-image
+// Kommentar entfernen fuer Spring AOT
+//tasks.named<org.springframework.boot.gradle.tasks.aot.ProcessAot>("processAot") {
+//    jvmArgs = listOf("--enable-preview")
+//}
+//tasks.named<JavaCompile>("compileAotJava") {
+//    options.compilerArgs.add("--enable-preview")
+//}
+//tasks.named<org.graalvm.buildtools.gradle.tasks.BuildNativeImageTask>("nativeCompile") {
+//    options.get().jvmArgs("--enable-preview")
+//}
+
+//tasks.??? {
 //    removeXmlSupport.set(false)
-// }
+//}
 
 tasks.named<BootRun>("bootRun") {
-    // java.util.Collections$EmptyList
-    jvmArgs = (jvmArgs?.toMutableList() ?: mutableListOf()).also { it.add("--enable-preview") }
+    jvmArgs("--enable-preview")
 
     // "System Properties", z.B. fuer Spring Properties oder fuer logback
     // https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties
@@ -386,8 +455,8 @@ tasks.named<BootRun>("bootRun") {
         systemProperty("server.port", port)
     }
 
-    val noTls = System.getProperty("noTls")?.equals("true", ignoreCase = true) ?: false
-    if (noTls) {
+    val tls = System.getProperty("tls")
+    if (tls == "false" || tls == "FALSE") {
         @Suppress("StringLiteralDuplication")
         systemProperty("server.ssl.enabled", "false")
         @Suppress("StringLiteralDuplication")
@@ -414,6 +483,20 @@ tasks.named<BootRun>("bootRun") {
     systemProperty("HIBERNATE_LOGLEVEL", "DEBUG")
 
     systemProperty("spring.datasource.password", "p")
+    val persistenceProp = "spring.jpa.properties.jakarta.persistence"
+    val schemaGenProp = "$persistenceProp.schema-generation"
+    val db = System.getProperty("db")
+    if (db == "mysql" || db == "oracle") {
+        val dbUrl = when (db) {
+            "mysql" -> "jdbc:mysql://localhost/filiale"
+            "oracle" -> "jdbc:oracle:thin:@localhost/XEPDB1"
+            else -> throw IllegalStateException("Fehler bei der Gradle-Option -Ddb=mysql oder -Ddb=oracle")
+        }
+        systemProperty("spring.datasource.url", dbUrl)
+        systemProperty("$schemaGenProp.drop-script-source", "$db/drop.sql")
+        systemProperty("$schemaGenProp.create-script-source", "$db/create.sql")
+        systemProperty("$persistenceProp.sql-load-script-source", "$db/insert.sql")
+    }
 }
 
 tasks.test {
@@ -424,7 +507,7 @@ tasks.test {
         // includeTags = setOf("rest")
         // includeTags = setOf("rest_get")
         // includeTags = setOf("rest_write")
-        includeTags = setOf("graphql")
+        // includeTags = setOf("graphql")
         // includeTags = setOf("query")
         // includeTags = setOf("mutation")
 
@@ -450,11 +533,27 @@ tasks.test {
 
     // Umgebungsvariable, z.B. fuer Spring Properties, slf4j oder WebClient
     systemProperty("LOG_PATH", "./build/log")
-    systemProperty("APPLICATION_LOGLEVEL", "INFO")
+    systemProperty("APPLICATION_LOGLEVEL", "TRACE")
     systemProperty("HIBERNATE_LOGLEVEL", "DEBUG")
     // systemProperty("HIBERNATE_LOGLEVEL", "TRACE")
 
     systemProperty("spring.datasource.password", "p")
+    val persistenceProp = "spring.jpa.properties.jakarta.persistence"
+    val schemaGenProp = "$persistenceProp.schema-generation"
+    val db = System.getProperty("db")
+    if (db == "mysql" || db == "oracle") {
+        val dbUrl = when (db) {
+            "mysql" -> "jdbc:mysql://localhost/filiale"
+            "oracle" -> "jdbc:oracle:thin:@localhost/XEPDB1"
+            else -> throw IllegalStateException("Fehler bei der Gradle-Option -Ddb=mysql oder -Ddb=oracle")
+        }
+        systemProperty("spring.datasource.url", dbUrl)
+        systemProperty("$schemaGenProp.drop-script-source", "$db/drop.sql")
+        systemProperty("$schemaGenProp.create-script-source", "$db/create.sql")
+        systemProperty("$persistenceProp.sql-load-script-source", "$db/insert.sql")
+    }
+
+    jvmArgs("--enable-preview")
 
     // https://docs.gradle.org/current/userguide/java_testing.html#sec:debugging_java_tests
     // https://www.jetbrains.com/help/idea/run-debug-configuration-junit.html
@@ -520,7 +619,7 @@ tasks.getByName<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
     violationRules {
         rule {
             limit {
-                minimum = BigDecimal("0.75")
+                minimum = BigDecimal("0.7")
             }
         }
     }
@@ -603,19 +702,6 @@ snyk {
     setApi("40df2078-e1a3-4f28-b913-e2babbe427fd")
 }
 
-// forbiddenApis {
-//    // https://github.com/policeman-tools/forbidden-apis/wiki/BundledSignatures
-//    // https://github.com/policeman-tools/forbidden-apis/blob/main/src/main/docs/bundled-signatures.html
-//    bundledSignatures = setOf(
-//        "jdk-unsafe",
-//        "jdk-deprecated",
-//        "jdk-internal",
-//        "jdk-non-portable",
-//        "jdk-system-out",
-//        "jdk-reflection",
-//    )
-// }
-
 tasks.javadoc {
     options {
         showFromPackage()
@@ -625,6 +711,9 @@ tasks.javadoc {
         // Keine bzw. nur elementare Warnings anzeigen wegen Lombok
         // https://stackoverflow.com/questions/52205209/configure-gradle-build-to-suppress-javadoc-console-warnings
         addStringOption("Xdoclint:none", "-quiet")
+        // https://stackoverflow.com/questions/59485464/javadoc-and-enable-preview
+        addBooleanOption("-enable-preview", true)
+        addStringOption("-release", "19")
     }
 }
 
