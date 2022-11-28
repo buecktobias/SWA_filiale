@@ -2,6 +2,7 @@ package com.acme.filiale.rest;
 
 import com.acme.filiale.entity.Filiale;
 import com.acme.filiale.service.FilialeReadService;
+import com.acme.filiale.service.HATEOASLinkService;
 import com.acme.filiale.service.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -43,6 +44,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/")
 @RequiredArgsConstructor
 @Slf4j
+public
 class FilialeGetController {
     /**
      * Muster für eine UUID. `$HEX_PATTERN{8}-($HEX_PATTERN{4}-){3}$HEX_PATTERN{12}` enthält eine _capturing group_
@@ -58,6 +60,7 @@ class FilialeGetController {
     static final String NAMEN_PATH = "/name";
 
     private final FilialeReadService service;
+    private final HATEOASLinkService linkService;
 
     // https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-ann-methods
     // https://localhost:8080/swagger-ui.html
@@ -80,23 +83,9 @@ class FilialeGetController {
         final var filiale = service.findById(id);
         log.debug("findById: {}", filiale);
 
-        // HATEOAS
-        final var model = new FilialenModel(filiale);
         final var baseUri = getBaseUri(request, id);
-        final var idUri = baseUri + "/" + filiale.getId();
 
-        final var selfLink = Link.of(idUri);
-        final var listLink = linkTo(methodOn(FilialeGetController.class).find(null, null)).withRel("list");
-        final Link addLink;
-        try {
-            addLink = linkTo(methodOn(FilialeWriteController.class).create(null, null)).withRel("add");
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-        final var updateLink = linkTo(methodOn(FilialeWriteController.class).update(id, null)).withRel("update");
-        model.add(selfLink, listLink, addLink, updateLink);
-
-        return model;
+        return linkService.getFilialenModelFromFiliale(filiale, baseUri);
     }
 
     /**
@@ -110,7 +99,7 @@ class FilialeGetController {
     @Operation(summary = "Suche mit Suchkriterien", tags = "Suchen")
     @ApiResponse(responseCode = "200", description = "CollectionModel mid den Kunden")
     @ApiResponse(responseCode = "404", description = "Keine Kunden gefunden")
-    CollectionModel<? extends FilialenModel> find(
+    public CollectionModel<? extends FilialenModel> find(
         @RequestParam final Map<String, String> suchkriterien,
         final HttpServletRequest request
     ) {
@@ -121,9 +110,7 @@ class FilialeGetController {
         final var models = service.find(suchkriterien)
             .stream()
             .map(kunde -> {
-                final var model = new FilialenModel(kunde);
-                model.add(Link.of(baseUri + '/' + kunde.getId()));
-                return model;
+                return linkService.getFilialenModelFromFiliale(kunde, baseUri);
             })
             .toList();
 

@@ -66,6 +66,7 @@ import static org.springframework.http.ResponseEntity.notFound;
 @RequiredArgsConstructor
 @Slf4j
 @SuppressWarnings("ClassFanOutComplexity")
+public
 class FilialeWriteController {
     @SuppressWarnings("TrailingComment")
     private static final String PROBLEM_PATH = "/problem/";
@@ -88,7 +89,7 @@ class FilialeWriteController {
     @ApiResponse(responseCode = "400", description = "Syntaktische Fehler im Request-Body")
     @ApiResponse(responseCode = "422", description = "Ungültige Werte oder Email vorhanden")
     @SuppressWarnings("TrailingComment")
-    ResponseEntity<String> create(
+    public ResponseEntity<String> create(
         @RequestBody final FilialeDTO filialeDTO,
         final HttpServletRequest request
     ) throws URISyntaxException {
@@ -116,7 +117,7 @@ class FilialeWriteController {
     @ApiResponse(responseCode = "400", description = "Syntaktische Fehler im Request-Body")
     @ApiResponse(responseCode = "404", description = "filiale nicht vorhanden")
     @ApiResponse(responseCode = "422", description = "Ungültige Werte oder Email vorhanden")
-    ResponseEntity<Void> update(
+    public ResponseEntity<Void> update(
         @PathVariable final UUID id,
         @RequestBody final FilialeDTO filialeDTO
     ) {

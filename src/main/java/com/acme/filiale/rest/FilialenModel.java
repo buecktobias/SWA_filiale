@@ -44,7 +44,7 @@ import java.net.URL;
 @Getter
 @Setter
 @ToString(callSuper = true)
-final class FilialenModel extends RepresentationModel<FilialenModel> {
+public final class FilialenModel extends RepresentationModel<FilialenModel> {
     private final String name;
 
     @EqualsAndHashCode.Include
@@ -54,7 +54,7 @@ final class FilialenModel extends RepresentationModel<FilialenModel> {
     private final Umsatz umsatz;
     private final Adresse adresse;
 
-    FilialenModel(final Filiale filiale) {
+    public FilialenModel(final Filiale filiale) {
         name = filiale.getName();
         email = filiale.getEmail();
         homepage = filiale.getHomepage();
