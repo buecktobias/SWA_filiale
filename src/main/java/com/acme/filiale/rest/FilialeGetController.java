@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
@@ -84,10 +85,14 @@ class FilialeGetController {
 
         final var selfLink = Link.of(idUri);
         final var listLink = linkTo(methodOn(FilialeGetController.class).find(null, null)).withRel("list");
-        final var addLink = Link.of(baseUri, LinkRelation.of("add"));
-        final var updateLink = Link.of(idUri, LinkRelation.of("update"));
-        final var removeLink = Link.of(idUri, LinkRelation.of("remove"));
-        model.add(selfLink, listLink, addLink, updateLink, removeLink);
+        final Link addLink;
+        try {
+            addLink = linkTo(methodOn(FilialeWriteController.class).create(null, null)).withRel("add");
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+        final var updateLink = linkTo(methodOn(FilialeWriteController.class).update(null, null)).withRel("update");
+        model.add(selfLink, listLink, addLink, updateLink);
 
         return model;
     }
