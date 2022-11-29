@@ -477,7 +477,7 @@ tasks.named<BootRun>("bootRun") {
     // systemProperty("spring.devtools.restart.enabled", "true")
     // systemProperty("spring.devtools.restart.trigger-file", ".reloadtrigger")
 
-    systemProperty("APPLICATION_LOGLEVEL", "TRACE")
+    systemProperty("APPLICATION_LOGLEVEL", "DEBUG")
     // Logging der Header-Daten
     systemProperty("REQUEST_RESPONSE_LOGLEVEL", "TRACE")
     systemProperty("HIBERNATE_LOGLEVEL", "DEBUG")
@@ -533,7 +533,7 @@ tasks.test {
 
     // Umgebungsvariable, z.B. fuer Spring Properties, slf4j oder WebClient
     systemProperty("LOG_PATH", "./build/log")
-    systemProperty("APPLICATION_LOGLEVEL", "TRACE")
+    systemProperty("APPLICATION_LOGLEVEL", "DEBUG")
     systemProperty("HIBERNATE_LOGLEVEL", "DEBUG")
     // systemProperty("HIBERNATE_LOGLEVEL", "TRACE")
 

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -91,9 +92,12 @@ public class FilialeGetController {
     @ApiResponse(responseCode = "200", description = "CollectionModel mid den Kunden")
     @ApiResponse(responseCode = "404", description = "Keine Kunden gefunden")
     public CollectionModel<? extends FilialenModel> find(
-        @RequestParam final Map<String, String> suchkriterien,
+        @RequestParam Map<String, String> suchkriterien,
         final HttpServletRequest request
     ) {
+        if(suchkriterien == null){
+            suchkriterien = new HashMap<>();
+        }
         log.debug("find: suchkriterien={}", suchkriterien);
 
         final var baseUri = getBaseUri(request);

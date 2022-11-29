@@ -25,6 +25,7 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.UUID;
 
 /**
@@ -60,6 +61,9 @@ final class KundeQueryController {
      */
     @QueryMapping
     Collection<Filiale> filialen(@Argument final Suchkriterien input) {
+        if(input == null){
+            return service.find(new HashMap<>());
+        }
         log.debug("kunden: suchkriterien={}", input);
         final var kunden = service.find(input.toMap());
         log.debug("kunden: {}", kunden);

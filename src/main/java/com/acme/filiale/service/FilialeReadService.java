@@ -48,7 +48,7 @@ public final class FilialeReadService {
     public Collection<Filiale> find(final Map<String, String> suchkriterien) {
         log.debug("find: suchkriterien={}", suchkriterien);
 
-        if (suchkriterien.isEmpty()) {
+        if (suchkriterien == null || suchkriterien.isEmpty()) {
             return repo.findAll();
         }
 
