@@ -14,6 +14,7 @@ import java.util.UUID;
 
 /**
  * FialialeReadService liest Filialen.
+ * <img src="../../../../../extras/doc/FilialeReadServiceUML-0.png" alt="Klassendiagramm">
  */
 @Service
 @RequiredArgsConstructor

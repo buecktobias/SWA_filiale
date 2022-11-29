@@ -31,7 +31,7 @@ import java.util.UUID;
 
 /**
  * Daten einer Filiale. In DDD ist Kunde ist ein Aggregate Root.
- * <img src="../../../../../asciidoc/Kunde.svg" alt="Klassendiagramm">
+ * <img src="../../../../../extras/doc/FilialeUML-0.png" alt="Klassendiagramm">
  *
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */

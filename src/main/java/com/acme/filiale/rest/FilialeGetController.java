@@ -28,7 +28,7 @@ import static org.springframework.http.ResponseEntity.notFound;
 /**
  * Eine @RestController-Klasse bildet die REST-Schnittstelle, wobei die HTTP-Methoden, Pfade und MIME-Typen auf die
  * Methoden der Klasse abgebildet werden.
- * <img src="../../../../../asciidoc/KundeGetController.svg" alt="Klassendiagramm">
+ * <img src="../../../../../extras/doc/FilialeGetControllerUML-0.png" alt="Klassendiagramm">
  *
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */

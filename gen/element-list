@@ -1,0 +1,9 @@
+com.acme.filiale
+com.acme.filiale.config
+com.acme.filiale.config.dev
+com.acme.filiale.entity
+com.acme.filiale.repository
+com.acme.filiale.rest
+com.acme.filiale.rest.patch
+com.acme.filiale.security
+com.acme.filiale.service
