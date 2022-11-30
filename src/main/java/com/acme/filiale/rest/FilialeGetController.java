@@ -119,7 +119,7 @@ public class FilialeGetController {
      * @param prefix Namen-Präfix als Pfadvariable.
      * @return Die passenden Namen oder Statuscode 404, falls es keine gibt.
      */
-    @GetMapping(path = NAMEN_PATH + "/{prefix}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path = NAMEN_PATH + "/{prefix}", produces = HAL_JSON_VALUE)
     String findNameByPrefix(@PathVariable final String prefix) {
         log.debug("findNameByPrefix: {}", prefix);
         final var name = service.findNameByPrefix(prefix);
