@@ -16,7 +16,7 @@ import java.net.URL;
  * @param adresse Die Adresse der Filiale.
  */
 @SuppressWarnings("RecordComponentNumber")
-record FilialeDTO(
+public record FilialeDTO(
     String name,
     String email,
     URL homepage,

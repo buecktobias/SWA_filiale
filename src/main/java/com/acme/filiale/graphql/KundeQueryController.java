@@ -61,7 +61,7 @@ final class KundeQueryController {
      */
     @QueryMapping
     Collection<Filiale> filialen(@Argument final Suchkriterien input) {
-        if(input == null){
+        if (input == null) {
             return service.find(new HashMap<>());
         }
         log.debug("kunden: suchkriterien={}", input);

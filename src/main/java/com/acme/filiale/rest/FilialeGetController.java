@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import static com.acme.filiale.rest.UriHelper.getBaseUri;
 import static org.springframework.hateoas.MediaTypes.HAL_JSON_VALUE;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.ResponseEntity.notFound;
 
 /**
@@ -92,17 +92,15 @@ public class FilialeGetController {
     @ApiResponse(responseCode = "200", description = "CollectionModel mid den Kunden")
     @ApiResponse(responseCode = "404", description = "Keine Kunden gefunden")
     public CollectionModel<? extends FilialenModel> find(
-        @RequestParam Map<String, String> suchkriterien,
+        final @RequestParam Map<String, String> suchkriterien,
         final HttpServletRequest request
     ) {
-        if(suchkriterien == null){
-            suchkriterien = new HashMap<>();
-        }
-        log.debug("find: suchkriterien={}", suchkriterien);
+        final Map<String, String> suchkriterienMap = Objects.requireNonNullElseGet(suchkriterien, HashMap::new);
+        log.debug("find: suchkriterien={}", suchkriterienMap);
 
         final var baseUri = getBaseUri(request);
 
-        final var models = service.find(suchkriterien)
+        final var models = service.find(suchkriterienMap)
             .stream()
             .map(kunde -> {
                 return linkService.getFilialenModelFromFiliale(kunde, baseUri);

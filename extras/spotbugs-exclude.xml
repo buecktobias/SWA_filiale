@@ -22,6 +22,9 @@
         <Class name="com.acme.bestellung.entity.Bestellung_" />
     </Match>
     <Match>
+        <Class name="com.acme.filiale.service.HateoasLinkService" />
+    </Match>
+    <Match>
         <Class name="com.acme.bestellung.entity.Bestellposition_" />
     </Match>
 </FindBugsFilter>
