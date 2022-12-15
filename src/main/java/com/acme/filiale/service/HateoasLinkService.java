@@ -46,7 +46,7 @@ public class HateoasLinkService {
         final var adresse = Adresse.builder().plz("55122").ort("Mainz").build();
         final URL homepage;
         try {
-            homepage = new URL("");
+            homepage = new URL("http://localhost:8080");
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
