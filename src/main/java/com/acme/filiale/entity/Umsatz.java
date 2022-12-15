@@ -18,10 +18,17 @@ package com.acme.filiale.entity;
 
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.*;
+import jakarta.persistence.Column;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Geldbetrag und Währungseinheit für eine Umsatzangabe.
@@ -39,7 +46,7 @@ import lombok.*;
 public class Umsatz {
 
     @Id
-    private Integer id;
+    private Long id;
 
 
     /**

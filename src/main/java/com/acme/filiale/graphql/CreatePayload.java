@@ -25,5 +25,5 @@ import java.util.UUID;
  *
  * @param id ID des neu angelegten Kunden
  */
-record CreatePayload(UUID id) {
+record CreatePayload(Long id) {
 }

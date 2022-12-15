@@ -54,7 +54,7 @@ final class UriHelper {
      * @return Die Basis-URI als String
      */
     @SuppressWarnings({"ReturnCount", "NPathComplexity", "CyclomaticComplexity", "ExecutableStatementCount"})
-    static String getBaseUri(final HttpServletRequest request, final UUID id) {
+    static String getBaseUri(final HttpServletRequest request, final Long id) {
         final var envoyOriginalPath = request.getHeader("x-envoy-original-path");
         if (envoyOriginalPath != null) {
             // Forwarding durch Envoy-Proxy, z.B. bei Istio

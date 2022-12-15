@@ -16,9 +16,12 @@
  */
 package com.acme.filiale.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.*;
 import nonapi.io.github.classgraph.json.Id;
+
+import java.util.UUID;
 
 /**
  * Adressdaten für die Anwendungslogik und zum Abspeichern in der DB.
@@ -36,7 +39,7 @@ import nonapi.io.github.classgraph.json.Id;
 public class Adresse {
     @jakarta.persistence.Id
     @Id
-    private Integer id;
+    private Long id;
     /**
      * Konstante für den regulären Ausdruck einer Postleitzahl als 5-stellige Zahl mit führender Null.
      */

@@ -21,18 +21,10 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.acme.filiale.repository.DB.FILIALEN;
 import static java.util.UUID.randomUUID;
 
 /**
@@ -44,15 +36,25 @@ import static java.util.UUID.randomUUID;
 @Slf4j
 @SuppressWarnings("PublicConstructor")
 public class FilialenRepository {
+    public final FilialenDBRepository filialenDBRepository;
+
+    public FilialenRepository(FilialenDBRepository filialenDBRepository) {
+        this.filialenDBRepository = filialenDBRepository;
+    }
+    public List<Filiale> getAllFromDB(){
+        return this.filialenDBRepository.findAll();
+    }
+
+
     /**
      * Eine Filiale anhand seiner ID suchen.
      *
      * @param id Die Id der gesuchten Filiale
      * @return Optional mit der gefundenen Filiale oder leeres Optional
      */
-    public Optional<Filiale> findById(final UUID id) {
+    public Optional<Filiale> findById(final Long id) {
         log.debug("findById: id={}", id);
-        final var result = FILIALEN.stream()
+        final var result = this.getAllFromDB().stream()
             .filter(filiale -> Objects.equals(filiale.getId(), id))
             .findFirst();
         log.debug("findById: {}", result);
@@ -97,7 +99,7 @@ public class FilialenRepository {
      * @return Alle Filialen
      */
     public @NonNull Collection<Filiale> findAll() {
-        return FILIALEN;
+        return this.getAllFromDB();
     }
 
     /**
@@ -108,7 +110,7 @@ public class FilialenRepository {
      */
     public Optional<Filiale> findByEmail(final String email) {
         log.debug("findByEmail: {}", email);
-        final var result = FILIALEN.stream()
+        final var result = this.getAllFromDB().stream()
             .filter(filiale -> Objects.equals(filiale.getEmail(), email))
             .findFirst();
         log.debug("findByEmail: {}", result);
@@ -123,7 +125,7 @@ public class FilialenRepository {
      */
     public boolean isEmailExisting(final String email) {
         log.debug("isEmailExisting: email={}", email);
-        final var count = FILIALEN.stream()
+        final var count = this.getAllFromDB().stream()
             .filter(kunde -> Objects.equals(kunde.getEmail(), email))
             .count();
         log.debug("isEmailExisting: count={}", count);
@@ -138,7 +140,7 @@ public class FilialenRepository {
      */
     public @NonNull Collection<Filiale> findByName(final CharSequence name) {
         log.debug("findByName: name={}", name);
-        final var filialen = FILIALEN.stream()
+        final var filialen = this.getAllFromDB().stream()
             .filter(kunde -> kunde.getName().contains(name))
             .collect(Collectors.toList());
         log.debug("findByNamen: filialen={}", filialen);
@@ -153,7 +155,7 @@ public class FilialenRepository {
      */
     public @NonNull Collection<String> findNamenByPrefix(final @NonNull String prefix) {
         log.debug("findByName: prefix={}", prefix);
-        final var namen = FILIALEN.stream()
+        final var namen = this.getAllFromDB().stream()
             .map(Filiale::getName)
             .filter(name -> name.startsWith(prefix))
             .distinct()
@@ -170,8 +172,9 @@ public class FilialenRepository {
      */
     public @NonNull Filiale create(final @NonNull Filiale filiale) {
         log.debug("create: {}", filiale);
-        filiale.setId(randomUUID());
-        FILIALEN.add(filiale);
+        final var randomLong = new Random().nextLong();
+        filiale.setId(randomLong);
+        this.getAllFromDB().add(filiale);
         log.debug("create: {}", filiale);
         return filiale;
     }
@@ -184,14 +187,14 @@ public class FilialenRepository {
     public void update(final @NonNull Filiale filiale) {
         log.debug("update: {}", filiale);
         final OptionalInt index = IntStream
-            .range(0, FILIALEN.size())
-            .filter(i -> Objects.equals(FILIALEN.get(i).getId(), filiale.getId()))
+            .range(0, this.getAllFromDB().size())
+            .filter(i -> Objects.equals(this.getAllFromDB().get(i).getId(), filiale.getId()))
             .findFirst();
         log.trace("update: index={}", index);
         if (index.isEmpty()) {
             return;
         }
-        FILIALEN.set(index.getAsInt(), filiale);
+        this.getAllFromDB().set(index.getAsInt(), filiale);
         log.debug("update: {}", filiale);
     }
 
@@ -200,14 +203,14 @@ public class FilialenRepository {
      *
      * @param id Die ID des zu löschenden Filiale.
      */
-    public void deleteById(final UUID id) {
+    public void deleteById(final Long id) {
         log.debug("deleteById: id={}", id);
         final OptionalInt index = IntStream
-            .range(0, FILIALEN.size())
-            .filter(i -> Objects.equals(FILIALEN.get(i).getId(), id))
+            .range(0, this.getAllFromDB().size())
+            .filter(i -> Objects.equals(this.getAllFromDB().get(i).getId(), id))
             .findFirst();
         log.trace("deleteById: index={}", index);
-        index.ifPresent(FILIALEN::remove);
-        log.debug("deleteById: #Filiale={}", FILIALEN.size());
+        index.ifPresent(this.getAllFromDB()::remove);
+        log.debug("deleteById: #Filiale={}", this.getAllFromDB().size());
     }
 }

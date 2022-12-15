@@ -68,7 +68,7 @@ public class FilialeGetController {
     @Operation(summary = "Suche mit der Filialen-ID", tags = "Suchen")
     @ApiResponse(responseCode = "200", description = "filiale gefunden")
     @ApiResponse(responseCode = "404", description = "filiale nicht gefunden")
-    FilialenModel findById(@PathVariable final UUID id, final HttpServletRequest request) {
+    FilialenModel findById(@PathVariable final Long id, final HttpServletRequest request) {
         log.debug("findById: id={}", id);
 
         // Anwendungskern

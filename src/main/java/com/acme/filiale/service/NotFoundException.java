@@ -29,14 +29,14 @@ public final class NotFoundException extends RuntimeException {
     /**
      * Nicht-vorhandene ID.
      */
-    private final UUID id;
+    private final Long id;
 
     /**
      * Suchkriterien, zu denen nichts gefunden wurde.
      */
     private final Map<String, String> suchkriterien;
 
-    NotFoundException(final UUID id) {
+    NotFoundException(final Long id) {
         super("Kein filiale mit der ID " + id + " gefunden.");
         this.id = id;
         //noinspection AssignmentToNull

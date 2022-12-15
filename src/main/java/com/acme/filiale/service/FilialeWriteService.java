@@ -76,7 +76,7 @@ public final class FilialeWriteService {
      * @throws NotFoundException Keine Filiale zur ID vorhanden.
      * @throws EmailExistsException Es gibt bereits eine Filiale mit der Emailadresse.
      */
-    public void update(final Filiale filiale, final UUID id) {
+    public void update(final Filiale filiale, final Long id) {
         log.debug("update: {}", filiale);
         log.debug("update: id={}", id);
 
@@ -108,7 +108,7 @@ public final class FilialeWriteService {
      *
      * @param id Die ID des zu löschenden Filiale.
      */
-    public void deleteById(final UUID id) {
+    public void deleteById(final Long id) {
         log.debug("deleteById: id={}", id);
         repo.deleteById(id);
     }

@@ -52,7 +52,7 @@ class FilialeReadServiceTest {
     private static final String ID_NICHT_VORHANDEN = "ffffffff-ffff-ffff-ffff-ffffffffffff";
     private static final String Name = "Alpha";
 
-    private final FilialenRepository repo = new FilialenRepository();
+    private final FilialenRepository repo = new FilialenRepository(filialenDBRepository);
     private final FilialeReadService service = new FilialeReadService(repo);
 
     @InjectSoftAssertions
@@ -107,7 +107,7 @@ class FilialeReadServiceTest {
         @DisplayName("Suche mit vorhandener ID")
         void findById(final String id) {
             // given
-            final var kundeId = UUID.fromString(id);
+            final Long kundeId = UUID.fromString(id);
 
             // when
             final var kunde = service.findById(kundeId);
@@ -122,7 +122,7 @@ class FilialeReadServiceTest {
         @DisplayName("Suche mit nicht-vorhandener ID")
         void findByIdNichtVorhanden(final String id) {
             // given
-            final var kundeId = UUID.fromString(id);
+            final Long kundeId = UUID.fromString(id);
 
             // when
             final var notFoundException = catchThrowableOfType(

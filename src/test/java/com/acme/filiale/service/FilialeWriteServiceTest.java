@@ -68,7 +68,7 @@ class FilialeWriteServiceTest {
     private static final String ID_UPDATE = "00000000-0000-0000-0000-000000000030";
     private static final String ID_DELETE = "00000000-0000-0000-0000-000000000050";
 
-    private final FilialenRepository repo = new FilialenRepository();
+    private final FilialenRepository repo = new FilialenRepository(filialenDBRepository);
 
     // https://hibernate.org/validator/documentation/getting-started
     @SuppressWarnings("resource")
@@ -126,7 +126,7 @@ class FilialeWriteServiceTest {
     @DisplayName("Aendern eines vorhandenen Kunden")
     void update(final String id) {
         // given
-        final var kundeId = UUID.fromString(id);
+        final Long kundeId = UUID.fromString(id);
         final var kundeOpt = repo.findById(kundeId);
         assertThat(kundeOpt).isNotEmpty();
         final var kunde = kundeOpt.get();
@@ -146,7 +146,7 @@ class FilialeWriteServiceTest {
     @DisplayName("Loeschen eines vorhandenen Kunden")
     void deleteById(final String id) {
         // given
-        final var kundeId = UUID.fromString(id);
+        final Long kundeId = UUID.fromString(id);
 
         // when
         service.deleteById(kundeId);

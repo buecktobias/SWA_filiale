@@ -46,7 +46,7 @@ final class KundeQueryController {
      * @return Der gefundene Kunde
      */
     @QueryMapping
-    Filiale filiale(@Argument final UUID id) {
+    Filiale filiale(@Argument final Long id) {
         log.debug("kunde: id={}", id);
         final var kunde = service.findById(id);
         log.debug("kunde: {}", kunde);

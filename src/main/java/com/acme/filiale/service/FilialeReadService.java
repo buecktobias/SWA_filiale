@@ -29,7 +29,7 @@ public class FilialeReadService {
      * @return Der gefundene Kunde
      * @throws NotFoundException Falls kein Kunde gefunden wurde
      */
-    public @NonNull Filiale findById(final UUID id) {
+    public @NonNull Filiale findById(final Long id) {
         log.debug("findById: id={}", id);
         final var filiale = repo.findById(id)
             .orElseThrow(() -> new NotFoundException(id));

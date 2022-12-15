@@ -117,7 +117,7 @@ public class FilialeWriteController {
     @ApiResponse(responseCode = "404", description = "filiale nicht vorhanden")
     @ApiResponse(responseCode = "422", description = "Ungültige Werte oder Email vorhanden")
     public ResponseEntity<Void> update(
-        @PathVariable final UUID id,
+        @PathVariable final Long id,
         @RequestBody final FilialeDTO filialeDTO
     ) {
         log.debug("update: id={}, {}", id, filialeDTO);

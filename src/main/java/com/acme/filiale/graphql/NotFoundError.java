@@ -33,7 +33,7 @@ import static org.springframework.graphql.execution.ErrorType.NOT_FOUND;
 @RequiredArgsConstructor
 @SuppressWarnings("SerializableDeserializableClassInSecureContext")
 class NotFoundError implements GraphQLError {
-    private final UUID id;
+    private final Long id;
     private final Map<String, String> suchkriterien;
 
     /**
