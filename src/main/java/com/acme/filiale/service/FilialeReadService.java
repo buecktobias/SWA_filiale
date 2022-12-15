@@ -19,7 +19,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public final class FilialeReadService {
+public class FilialeReadService {
     private final FilialenRepository repo;
 
     /**

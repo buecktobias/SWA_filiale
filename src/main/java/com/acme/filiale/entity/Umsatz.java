@@ -18,22 +18,30 @@ package com.acme.filiale.entity;
 
 import java.math.BigDecimal;
 import java.util.Currency;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.*;
 
 /**
  * Geldbetrag und Währungseinheit für eine Umsatzangabe.
  *
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
-@Builder
 @Getter
 @Setter
+@NoArgsConstructor
 @ToString
+@Entity
+@Builder
+@AllArgsConstructor
 @SuppressWarnings({"JavadocDeclaration", "RequireEmptyLineBeforeBlockTagGroup"})
 public class Umsatz {
+
+    @Id
+    private Integer id;
+
+
     /**
      * Der Betrag beim Umsatz.
      * @param betrag Der Betrag.
@@ -47,4 +55,5 @@ public class Umsatz {
      * @return Die Währung.
      */
     private Currency waehrung;
+
 }

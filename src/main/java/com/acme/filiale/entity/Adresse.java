@@ -16,10 +16,9 @@
  */
 package com.acme.filiale.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import jakarta.persistence.Entity;
+import lombok.*;
+import nonapi.io.github.classgraph.json.Id;
 
 /**
  * Adressdaten für die Anwendungslogik und zum Abspeichern in der DB.
@@ -27,11 +26,17 @@ import lombok.ToString;
  *  @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
 @Builder
+@Entity
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @SuppressWarnings({"JavadocDeclaration", "RequireEmptyLineBeforeBlockTagGroup"})
 public class Adresse {
+    @jakarta.persistence.Id
+    @Id
+    private Integer id;
     /**
      * Konstante für den regulären Ausdruck einer Postleitzahl als 5-stellige Zahl mit führender Null.
      */
@@ -50,4 +55,5 @@ public class Adresse {
      * @return Der Ort als String
      */
     private String ort;
+
 }

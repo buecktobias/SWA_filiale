@@ -16,18 +16,19 @@
  */
 package com.acme.filiale.entity;
 
+import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.net.URL;
 import java.util.UUID;
+
+import static jakarta.persistence.CascadeType.PERSIST;
+import static jakarta.persistence.CascadeType.REMOVE;
+import static jakarta.persistence.FetchType.LAZY;
 
 /**
  * Daten einer Filiale. In DDD ist Kunde ist ein Aggregate Root.
@@ -37,10 +38,14 @@ import java.util.UUID;
  */
 // https://thorben-janssen.com/java-records-hibernate-jpa
 @Builder
+@Entity
+@Table(name="filiale")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @SuppressWarnings({"ClassFanOutComplexity", "JavadocDeclaration", "RequireEmptyLineBeforeBlockTagGroup"})
 public class Filiale {
     /**
@@ -50,6 +55,7 @@ public class Filiale {
      * @return Die ID.
      */
     @EqualsAndHashCode.Include
+    @Id
     private UUID id;
 
     /**
@@ -84,6 +90,8 @@ public class Filiale {
      * @return Der Umsatz.
      */
     @ToString.Exclude
+    @OneToOne(cascade = {PERSIST, REMOVE}, fetch = LAZY)
+    @JoinColumn(updatable = false)
     private Umsatz umsatz;
 
     /**
@@ -94,5 +102,7 @@ public class Filiale {
      */
     @Valid
     @ToString.Exclude
+    @OneToOne(cascade = {PERSIST, REMOVE}, fetch = LAZY)
+    @JoinColumn(updatable = false)
     private Adresse adresse;
 }

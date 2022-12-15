@@ -43,7 +43,7 @@ import static java.util.UUID.randomUUID;
 @Repository
 @Slf4j
 @SuppressWarnings("PublicConstructor")
-public final class FilialenRepository {
+public class FilialenRepository {
     /**
      * Eine Filiale anhand seiner ID suchen.
      *

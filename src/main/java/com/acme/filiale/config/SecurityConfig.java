@@ -1,19 +1,4 @@
-/*
- * Copyright (C) 2022 - present Juergen Zimmermann, Hochschule Karlsruhe
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+
 package com.acme.filiale.config;
 
 import org.springframework.context.annotation.Bean;
@@ -26,16 +11,13 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.List;
 
-import static com.acme.filiale.security.Rolle.ACTUATOR;
-import static com.acme.filiale.security.Rolle.ADMIN;
-import static com.acme.filiale.security.Rolle.FILIALE;
+import static com.acme.filiale.security.Rolle.*;
 import static org.springframework.security.crypto.factory.PasswordEncoderFactories.createDelegatingPasswordEncoder;
 
 /**
  * Security-Konfiguration.
  *
  */
-// https://github.com/spring-projects/spring-security/tree/master/samples
 interface SecurityConfig {
     /**
      * Bean-Definition, um den Zugriffsschutz an der REST-Schnittstelle zu konfigurieren.
@@ -83,9 +65,11 @@ interface SecurityConfig {
             User.withUsername("admin")
                 .password(password)
                 .roles(ADMIN.name(), FILIALE.name(), ACTUATOR.name())
+                .roles(ADMIN.name(), FILIALE.name(), ACTUATOR.name())
                 .build(),
             User.withUsername("alpha")
                 .password(password)
+                .roles(FILIALE.name())
                 .roles(FILIALE.name())
                 .build()
         );
@@ -93,3 +77,4 @@ interface SecurityConfig {
         return new InMemoryUserDetailsManager(users);
     }
 }
+
