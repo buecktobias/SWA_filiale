@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -92,10 +94,10 @@ public class FilialeGetController {
     @ApiResponse(responseCode = "200", description = "CollectionModel mid den Kunden")
     @ApiResponse(responseCode = "404", description = "Keine Kunden gefunden")
     public CollectionModel<? extends FilialenModel> find(
-        final @RequestParam Map<String, String> suchkriterien,
+        final @RequestParam MultiValueMap<String, String> suchkriterien,
         final HttpServletRequest request
     ) {
-        final Map<String, String> suchkriterienMap = Objects.requireNonNullElseGet(suchkriterien, HashMap::new);
+        final MultiValueMap<String, String> suchkriterienMap = Objects.requireNonNullElseGet(suchkriterien, LinkedMultiValueMap::new);
         log.debug("find: suchkriterien={}", suchkriterienMap);
 
         final var baseUri = getBaseUri(request);

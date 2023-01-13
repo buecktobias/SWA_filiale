@@ -16,7 +16,11 @@
  */
 package com.acme.filiale.graphql;
 
+import org.springframework.util.LinkedMultiValueMap;
+
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,14 +40,14 @@ record Suchkriterien(
      *
      * @return Das konvertierte Map-Objekt
      */
-    Map<String, String> toMap() {
+    Map<String, List<String>> toMap() {
         @SuppressWarnings("TypeMayBeWeakened")
-        final var map = new HashMap<String, String>(2, 1);
+        Map<String, List<String>> map = new HashMap<>(2, 1);
         if (name != null) {
-            map.put("name", name);
+            map.put("name", List.of(name));
         }
         if (email != null) {
-            map.put("email", email);
+            map.put("email", List.of(email));
         }
         return map;
     }

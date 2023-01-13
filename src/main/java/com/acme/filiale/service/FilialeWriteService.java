@@ -17,6 +17,7 @@
 package com.acme.filiale.service;
 
 import com.acme.filiale.entity.Filiale;
+import com.acme.filiale.repository.FilialenDBRepository;
 import com.acme.filiale.repository.FilialenRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.Validator;
@@ -37,7 +38,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public final class FilialeWriteService {
-    private final FilialenRepository repo;
+    private final FilialenDBRepository repo;
 
     private final Validator validator;
 
@@ -58,11 +59,11 @@ public final class FilialeWriteService {
             throw new ConstraintViolationsException(violations);
         }
 
-        if (repo.isEmailExisting(filiale.getEmail())) {
+        if (repo.existsByEmail(filiale.getEmail())) {
             throw new EmailExistsException(filiale.getEmail());
         }
 
-        final var filialeDb = repo.create(filiale);
+        final var filialeDb = repo.save(filiale);
         log.debug("create: {}", filialeDb);
         return filialeDb;
     }
@@ -94,13 +95,13 @@ public final class FilialeWriteService {
         final var email = filiale.getEmail();
         final var kundeDb = kundeDbOptional.get();
         // Ist die neue Email bei einer *ANDEREN* Filiale  vorhanden?
-        if (!Objects.equals(email, kundeDb.getEmail()) && repo.isEmailExisting(email)) {
+        if (!Objects.equals(email, kundeDb.getEmail()) && repo.existsByEmail(email)) {
             log.debug("update: email {} existiert", email);
             throw new EmailExistsException(email);
         }
 
         filiale.setId(id);
-        repo.update(filiale);
+        repo.save(filiale);
     }
 
     /**

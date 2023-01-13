@@ -9,6 +9,7 @@ import com.acme.filiale.rest.FilialeWriteController;
 import com.acme.filiale.rest.FilialenModel;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
 
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
@@ -38,7 +39,7 @@ public class HateoasLinkService {
         final var idUri = baseUri + "/" + filiale.getId();
         final var id = filiale.getId();
         final var selfLink = Link.of(idUri);
-        final var listLink = linkTo(methodOn(FilialeGetController.class).find(new HashMap<>(), null)).withRel("list");
+        final var listLink = linkTo(methodOn(FilialeGetController.class).find(new LinkedMultiValueMap<>(), null)).withRel("list");
         final Link addLink;
         final var umsatz = Umsatz.builder()
             .betrag(new BigDecimal("0.0"))

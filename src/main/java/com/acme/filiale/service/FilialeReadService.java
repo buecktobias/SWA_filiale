@@ -1,7 +1,9 @@
 package com.acme.filiale.service;
 
 import com.acme.filiale.entity.Filiale;
+import com.acme.filiale.repository.FilialenDBRepository;
 import com.acme.filiale.repository.FilialenRepository;
+import com.acme.filiale.repository.SpecBuilder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +22,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class FilialeReadService {
-    private final FilialenRepository repo;
+    private final FilialenDBRepository repo;
+    private final SpecBuilder specBuilder;
 
     /**
      * Eine Filiale anhand seiner ID suchen.
@@ -45,37 +48,15 @@ public class FilialeReadService {
      * @throws NotFoundException Falls keine Filiale gefunden wurden
      */
     @SuppressWarnings({"ReturnCount", "NestedIfDepth"})
-    public Collection<Filiale> find(final Map<String, String> suchkriterien) {
+    public Collection<Filiale> find(final Map<String, List<String>> suchkriterien) {
         log.debug("find: suchkriterien={}", suchkriterien);
 
         if (suchkriterien == null || suchkriterien.isEmpty()) {
             return repo.findAll();
         }
-
-        if (suchkriterien.size() == 1) {
-            final var name = suchkriterien.get("name");
-            if (name != null) {
-                final var filiale = repo.findByName(name);
-                if (filiale.isEmpty()) {
-                    throw new NotFoundException(suchkriterien);
-                }
-                log.debug("find (name): {}", filiale);
-                return filiale;
-            }
-
-            final var email = suchkriterien.get("email");
-            if (email != null) {
-                final var kunde = repo.findByEmail(email);
-                if (kunde.isEmpty()) {
-                    throw new NotFoundException(suchkriterien);
-                }
-                final var filialen = List.of(kunde.get());
-                log.debug("find (email): {}", filialen);
-                return filialen;
-            }
-        }
-
-        final var filialen = repo.find(suchkriterien);
+        final var specs = specBuilder.build(suchkriterien)
+            .orElseThrow(() -> new NotFoundException(suchkriterien));
+        final var filialen = repo.findAll(specs);
         if (filialen.isEmpty()) {
             throw new NotFoundException(suchkriterien);
         }
@@ -91,7 +72,7 @@ public class FilialeReadService {
      * @throws NotFoundException Falls kein Name gefunden wurden.
      */
     public Collection<String> findNameByPrefix(final String prefix) {
-        final var name = repo.findNamenByPrefix(prefix);
+        final var name = repo.findNameByPrefix(prefix);
         if (name.isEmpty()) {
             throw new NotFoundException();
         }

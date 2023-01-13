@@ -10,9 +10,10 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+
 @Repository
 public interface FilialenDBRepository extends JpaRepository<Filiale, Long>, JpaSpecificationExecutor<Filiale> {
+
     @EntityGraph(attributePaths = {"adresse"})
     @Override
     List<Filiale> findAll();
@@ -21,31 +22,23 @@ public interface FilialenDBRepository extends JpaRepository<Filiale, Long>, JpaS
     @Override
     Optional<Filiale> findById(Long id);
 
-    @Query("""
-        SELECT f
+    @Query(value = """
+        SELECT *
         FROM   Filiale f
         WHERE  lower(f.email) LIKE concat(lower(:email), '%')
-        """)
-    @EntityGraph(attributePaths = {"adresse"})
-    Optional<Filiale> findByEmail(String email);
+        """, nativeQuery = true)
+
     @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     boolean existsByEmail(String email);
 
-    @Query("""
-        SELECT   f
-        FROM     Filiale f
-        WHERE    lower(f.name) LIKE concat('%', lower(:name), '%')
-        ORDER BY f.id
-        """)
-    @EntityGraph(attributePaths = {"adresse", "interessen"})
-    Collection<Filiale> findByNachname(CharSequence name);
 
-    @Query("""
+    @Query(value = """
         SELECT DISTINCT f.name
         FROM     Filiale f
         WHERE    lower(f.name) LIKE concat(lower(:prefix), '%')
         ORDER BY f.name
-        """)
-    Collection<String> findNachnamenByPrefix(String prefix);
+        """, nativeQuery = true)
+    Collection<String> findNameByPrefix(String prefix);
+
 
 }

@@ -18,6 +18,7 @@ package com.acme.filiale.service;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.List;
 import lombok.Getter;
 
 /**
@@ -34,7 +35,7 @@ public final class NotFoundException extends RuntimeException {
     /**
      * Suchkriterien, zu denen nichts gefunden wurde.
      */
-    private final Map<String, String> suchkriterien;
+    private final Map<String, List<String>> suchkriterien;
 
     NotFoundException(final Long id) {
         super("Kein filiale mit der ID " + id + " gefunden.");
@@ -43,7 +44,7 @@ public final class NotFoundException extends RuntimeException {
         suchkriterien = null;
     }
 
-    NotFoundException(final Map<String, String> suchkriterien) {
+    NotFoundException(final Map<String, List<String>> suchkriterien) {
         super("Keine filialen gefunden.");
         //noinspection AssignmentToNull
         id = null;
