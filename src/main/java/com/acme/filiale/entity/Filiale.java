@@ -16,20 +16,16 @@
  */
 package com.acme.filiale.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.Hibernate;
 
 import java.net.URL;
-import java.util.UUID;
+import java.util.Objects;
 
 import static jakarta.persistence.CascadeType.PERSIST;
 import static jakarta.persistence.CascadeType.REMOVE;
@@ -38,14 +34,10 @@ import static jakarta.persistence.FetchType.LAZY;
 /**
  * Daten einer Filiale. In DDD ist Kunde ist ein Aggregate Root.
  * <img src="../../../../../extras/doc/FilialeUML-0.png" alt="Klassendiagramm">
- *
- * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
-// https://thorben-janssen.com/java-records-hibernate-jpa
 @Builder
 @Entity
 @Table(name="filiale")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Getter
 @Setter
 @ToString
@@ -59,7 +51,6 @@ public class Filiale {
      * @param id Die ID.
      * @return Die ID.
      */
-    @EqualsAndHashCode.Include
     @Id
     private Long id;
 
@@ -110,4 +101,17 @@ public class Filiale {
     @OneToOne(cascade = {PERSIST, REMOVE}, fetch = LAZY)
     @JoinColumn(updatable = false)
     private Adresse adresse;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Filiale filiale = (Filiale) o;
+        return id != null && Objects.equals(id, filiale.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

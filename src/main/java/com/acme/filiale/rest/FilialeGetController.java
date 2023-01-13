@@ -18,11 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
+
 
 import static com.acme.filiale.rest.UriHelper.getBaseUri;
 import static org.springframework.hateoas.MediaTypes.HAL_JSON_VALUE;
@@ -33,20 +30,12 @@ import static org.springframework.http.ResponseEntity.notFound;
  * Methoden der Klasse abgebildet werden.
  * <img src="../../../../../extras/doc/FilialeGetControllerUML-0.png" alt="Klassendiagramm">
  *
- * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
 @RestController
 @RequestMapping("/")
 @RequiredArgsConstructor
 @Slf4j
 public class FilialeGetController {
-    /**
-     * Muster für eine UUID. `$HEX_PATTERN{8}-($HEX_PATTERN{4}-){3}$HEX_PATTERN{12}` enthält eine _capturing group_
-     * und ist nicht zulässig.
-     */
-    static final String ID_PATTERN =
-        "[\\dA-Fa-f]{8}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{12}";
-
     /**
      * Pfad, um Namen abzufragen.
      */
@@ -56,8 +45,6 @@ public class FilialeGetController {
     private final FilialeReadService service;
     private final HateoasLinkService linkService;
 
-    // https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-ann-methods
-    // https://localhost:8080/swagger-ui.html
 
     /**
      * Suche anhand der filiale-ID als Pfad-Parameter.
@@ -66,14 +53,13 @@ public class FilialeGetController {
      * @param request Das Request-Objekt, um Links für HATEOAS zu erstellen.
      * @return Ein Response mit dem Statuscode 200 und dem gefundenen filialen mit Atom-Links oder Statuscode 404.
      */
-    @GetMapping(path = "{id:" + ID_PATTERN + "}", produces = HAL_JSON_VALUE)
+    @GetMapping(path = "{id}", produces = HAL_JSON_VALUE)
     @Operation(summary = "Suche mit der Filialen-ID", tags = "Suchen")
     @ApiResponse(responseCode = "200", description = "filiale gefunden")
     @ApiResponse(responseCode = "404", description = "filiale nicht gefunden")
     FilialenModel findById(@PathVariable final Long id, final HttpServletRequest request) {
         log.debug("findById: id={}", id);
 
-        // Anwendungskern
         final var filiale = service.findById(id);
         log.debug("findById: {}", filiale);
 
@@ -92,7 +78,7 @@ public class FilialeGetController {
     @GetMapping(produces = HAL_JSON_VALUE)
     @Operation(summary = "Suche mit Suchkriterien", tags = "Suchen")
     @ApiResponse(responseCode = "200", description = "CollectionModel mid den Kunden")
-    @ApiResponse(responseCode = "404", description = "Keine Kunden gefunden")
+    @ApiResponse(responseCode = "404", description = "Keine FIlialen gefunden")
     public CollectionModel<? extends FilialenModel> find(
         final @RequestParam MultiValueMap<String, String> suchkriterien,
         final HttpServletRequest request
@@ -104,9 +90,7 @@ public class FilialeGetController {
 
         final var models = service.find(suchkriterienMap)
             .stream()
-            .map(kunde -> {
-                return linkService.getFilialenModelFromFiliale(kunde, baseUri);
-            })
+            .map(kunde -> linkService.getFilialenModelFromFiliale(kunde, baseUri))
             .toList();
 
         log.debug("find: {}", models);

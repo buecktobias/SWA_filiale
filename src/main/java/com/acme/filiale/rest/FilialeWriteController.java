@@ -40,10 +40,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.acme.filiale.rest.FilialeGetController.ID_PATTERN;
+
 import static com.acme.filiale.rest.UriHelper.getBaseUri;
 import static com.acme.filiale.rest.UriHelper.getRequestUri;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -110,7 +109,7 @@ public class FilialeWriteController {
      *      der JSON-Datensatz syntaktisch nicht korrekt ist oder falls die Emailadresse bereits existiert oder
      *      Statuscode 400 falls syntaktische Fehler im Request-Body vorliegen.
      */
-    @PutMapping(path = "{id:" + ID_PATTERN + "}", consumes = APPLICATION_JSON_VALUE)
+    @PutMapping(path = "{id}", consumes = APPLICATION_JSON_VALUE)
     @Operation(summary = "Eine Filiale mit neuen Werten aktualisieren", tags = "Aktualisieren")
     @ApiResponse(responseCode = "204", description = "Aktualisiert")
     @ApiResponse(responseCode = "400", description = "Syntaktische Fehler im Request-Body")
@@ -144,7 +143,6 @@ public class FilialeWriteController {
         if (kundeViolations.isEmpty()) {
             detail = "N/A";
         } else {
-            // [ und ] aus dem String der Liste entfernen
             final var violationsStr = kundeViolations.toString();
             detail = violationsStr.substring(1, violationsStr.length() - 2);
         }

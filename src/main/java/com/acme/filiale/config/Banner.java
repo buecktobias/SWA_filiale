@@ -27,7 +27,6 @@ import org.springframework.core.SpringVersion;
 /**
  * Banner als String-Konstante für den Start des Servers.
  *
- * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
 @SuppressWarnings({
     "AccessOfSystemProperties",
