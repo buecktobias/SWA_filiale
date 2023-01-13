@@ -34,6 +34,7 @@ import static java.util.UUID.randomUUID;
  */
 @Repository
 @Slf4j
+@Deprecated
 @SuppressWarnings("PublicConstructor")
 public class FilialenRepository {
     public final FilialenDBRepository filialenDBRepository;
