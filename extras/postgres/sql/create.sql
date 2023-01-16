@@ -4,8 +4,8 @@ CREATE TABLE IF NOT EXISTS filiale.filiale (
     name VARCHAR(20) UNIQUE NOT NULL,
     email VARCHAR(50) NOT NULL ,
     homepage VARCHAR(50),
-    umsatz bigint,
-    adresse bigint
+    umsatz_id bigint,
+    adresse_id bigint
 );
 
 CREATE TABLE filiale.umsatz (
@@ -20,6 +20,6 @@ CREATE TABLE IF NOT EXISTS filiale.adresse (
     ort   VARCHAR(40) NOT NULL
 );
 
-ALTER TABLE filiale.filiale ADD FOREIGN KEY (umsatz) REFERENCES filiale.umsatz(id);
-ALTER TABLE filiale.filiale ADD FOREIGN KEY (adresse) REFERENCES filiale.adresse(id);
+ALTER TABLE filiale.filiale ADD FOREIGN KEY (umsatz_id) REFERENCES filiale.umsatz(id);
+ALTER TABLE filiale.filiale ADD FOREIGN KEY (adresse_id) REFERENCES filiale.adresse(id);
 

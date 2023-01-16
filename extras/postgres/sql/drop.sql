@@ -1,7 +1,3 @@
-DROP TABLE IF EXISTS kunde_interessen;
-DROP TABLE IF EXISTS kunde;
-DROP TABLE IF EXISTS umsatz;
-DROP TABLE IF EXISTS adresse;
-
-DROP TABLE IF EXISTS login_rollen;
-DROP TABLE IF EXISTS login;
+DROP TABLE IF EXISTS filiale.filiale;
+DROP TABLE IF EXISTS filiale.umsatz;
+DROP TABLE IF EXISTS filiale.adresse;
