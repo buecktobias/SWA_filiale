@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Column;
@@ -42,6 +43,7 @@ import lombok.ToString;
 @Entity
 @Builder
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @SuppressWarnings({"JavadocDeclaration", "RequireEmptyLineBeforeBlockTagGroup"})
 public class Umsatz {
 

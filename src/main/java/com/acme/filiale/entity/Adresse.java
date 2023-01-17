@@ -1,5 +1,6 @@
 package com.acme.filiale.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import lombok.*;
 import nonapi.io.github.classgraph.json.Id;
@@ -15,6 +16,7 @@ import nonapi.io.github.classgraph.json.Id;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @SuppressWarnings({"JavadocDeclaration", "RequireEmptyLineBeforeBlockTagGroup"})
 public class Adresse {
     @jakarta.persistence.Id

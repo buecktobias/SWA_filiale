@@ -10,10 +10,8 @@
 # docker compose exec pgadmin ash
 
 ---
-# https://docs.docker.com/compose/compose-file
-# https://docs.docker.com/compose/compose-file/compose-file-v3
 services:
-  postgres:
+  postgres_container:
     image: postgres:15.1-bullseye
     ports:
       - published: 5432
@@ -40,31 +38,26 @@ services:
     security_opt:
       - label:user:postgres
       - no-new-privileges:true
-    container_name: postgres
-    # gleicher Name wie der Kubernetes-Service
-    hostname: postgres
+    container_name: postgres_container
     deploy:
       resources:
         limits:
-          cpus: "1.0"
-          memory: 848M
+          cpus: "0.5"
+          memory: 448M
     healthcheck:
       test: ["CMD", "pg_isready", "--dbname", "postgres", "--username", "postgres"]
       interval: 5s
       timeout: 2s
       start_period: 5s
 
-  # http://localhost:8888 mit Emailadresse "pgadmin@acme.com" und Passwort "p"
   pgadmin:
     image: dpage/pgadmin4:6.18
     ports:
-      # Gunicorn ("Green Unicorn") ist ein Webserver in Python fuer UNIX (hier: BusyBox)
       - published: 8008
         target: 80
     volumes:
       - type: bind
         source: C:/Zimmermann/volumes/postgres/pgadmin
-        # https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html
         target: /var/lib/pgadmin
       - type: bind
         source: C:/Zimmermann/volumes/postgres/pgadmin4
@@ -76,5 +69,29 @@ services:
     deploy:
       resources:
         limits:
+          cpus: "0.5"
+          memory: 448M
+  filiale:
+    image: juergenzimmermann/filiale
+    ports:
+      - published: 8080
+        target: 8080
+    volumes:
+      - type: bind
+        source: C:\Zimmermann\volumes\filiale-v1
+        target: /tmp
+    environment:
+      TZ: Europe/Berlin
+      SPRING_PROFILES_ACTIVE: dev
+      SERVER_TOMCAT_BASEDIR: /tmp
+      REQUEST_RESPONSE_LOGLEVEL: debug
+      APPLICATION_LOGLEVEL: trace
+      JAVA_OPTS: "--enable-preview"
+    container_name: filiale
+    hostname: filiale
+    deploy:
+      resources:
+        limits:
           cpus: "1.0"
-          memory: 848M
+          memory: 1024M
+

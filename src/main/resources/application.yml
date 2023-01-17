@@ -1,21 +1,6 @@
-# Copyright (C) 2016 - present Juergen Zimmermann, Hochschule Karlsruhe
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ---
 server:
-  #port: 8080
   compression:
     enabled: true
     mime-types: application/hal+json
@@ -40,6 +25,15 @@ spring:
   aop.proxy-target-class: false
   application.name: filiale
   # siehe org.springframework.boot.autoconfigure.jackson.JacksonProperties
+  datasource:
+    url: jdbc:postgresql://postgres_container:5432/postgres
+    username: postgres
+    password: p
+  jpa:
+    database: postgresql
+    properties:
+      hibernate:
+        default_schema: filiale
   jackson:
     default-property-inclusion: non_null
     # siehe com.fasterxml.jackson.databind.DeserializationFeature
@@ -87,7 +81,6 @@ spring:
     graphiql.enabled: true
     # Pfad für Schema:   /graphql/schema
     schema.printer.enabled: true
-  jackson.serialization.indent-output: true
   #devtools:
   #  livereload.enabled: false
   #  restart.trigger-file: /restart.txt
